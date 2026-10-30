@@ -1,0 +1,43 @@
+{
+ "startedAt": "2026-10-30T19:45:34.972Z",
+ "command": "node test/run.js BR-01=20 BR-02=20",
+ "commit": "dbb8197235ed1eadc90e3d00f3b619f09466a7aa",
+ "dirty": false,
+ "env": {
+  "node": "v22.23.4",
+  "platform": "linux x64",
+  "database": "m0_test",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "packages": {
+   "yjs": "13.6.33",
+   "ws": "8.22.0",
+   "pg": "8.23.1",
+   "@blocknote/core": "0.56.0",
+   "esbuild": null,
+   "playwright": "1.63.0"
+  },
+  "chromium": "153.0.8010.12"
+ },
+ "cases": [
+  {
+   "id": "BR-01",
+   "requested": 20,
+   "status": "pass",
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "durationMs": 127729
+  },
+  {
+   "id": "BR-02",
+   "requested": 20,
+   "status": "pass",
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "durationMs": 142729
+  }
+ ],
+ "finishedAt": "2026-10-30T19:50:06.855Z",
+ "exitCode": 0
+}
