@@ -13,11 +13,28 @@ const selftests = {
   'SELFTEST-FAIL': async n => { const r = new Recorder('SELFTEST-FAIL', '刻意失敗'); for (let i = 0; i < n; i++) r.add(i, i, i === 0 ? ['intentional failure'] : []); return r.save(); },
   'SELFTEST-THROW': async () => { throw new Error('intentional exception'); },
   'SELFTEST-NORESULT': async n => ({ id: 'SELFTEST-NORESULT', total: n, failed: 0 }), // 回報成功但沒有寫結果檔
+  'SELFTEST-HANG': () => new Promise(() => {}),        // 永遠不完成、也沒有其他待辦工作（Node 預設會以 13 直接結束）
 };
 
 function sh(cmd) { try { return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return null; } }
 
 const started = new Date().toISOString();
+// 保險：程序意外結束（例如未完成的等待使 Node 以 13 結束）時，仍寫出失敗的 summary
+let summaryWritten = false;
+process.on('exit', code => {
+  if (summaryWritten) return;
+  try {
+    summary.finishedAt = new Date().toISOString();
+    summary.exitCode = code || 1;
+    summary.unexpectedExit = true;
+    mkdirSync(ROOT_DIR + 'results', { recursive: true });
+    writeFileSync(ROOT_DIR + 'results/summary.json', JSON.stringify(summary, null, 1));
+    annotate(`unexpected exit ${code}; cases so far: ` + summary.cases.map(c => `${c.id}=${c.status}`).join(' '));
+  } catch { /* ignore */ }
+  if (!code) process.exitCode = 1;
+});
+// 在 GitHub Actions 中以註解輸出失敗摘要（可經 API 讀取，不必下載完整記錄）
+function annotate(msg) { if (process.env.GITHUB_ACTIONS) console.log('::error title=m0::' + String(msg).replace(/\r?\n/g, ' ').slice(0, 900)); }
 const args = process.argv.slice(2);
 const summary = {
   startedAt: started,
@@ -69,21 +86,28 @@ if (!failed) {
     const stale = ROOT_DIR + `results/${id}.json`;
     if (existsSync(stale)) unlinkSync(stale);
     let r;
-    try { r = await fn(n); } catch (e) { entry.status = 'aborted'; entry.error = e.message; failed = true; console.error(`${id} aborted:`, e.message); continue; }
+    // 案例上限時間：計時器同時讓事件迴圈保持運作，未完成的等待會變成明確的 aborted，而不是程序直接結束
+    const limitMs = Number(process.env.CASE_TIMEOUT_MS || 3 * 3600 * 1000);
+    let timer;
+    const limit = new Promise((_, rej) => { timer = setTimeout(() => rej(new Error(`case timeout after ${limitMs} ms`)), limitMs); });
+    try { r = await Promise.race([fn(n), limit]); } catch (e) { entry.status = 'aborted'; entry.error = e.message; failed = true; console.error(`${id} aborted:`, e.message); continue; } finally { clearTimeout(timer); }
     const file = ROOT_DIR + `results/${id}.json`;
     if (!existsSync(file)) { entry.status = 'missing_result_file'; failed = true; continue; }
     const saved = JSON.parse(readFileSync(file, 'utf8'));
     Object.assign(entry, { total: saved.total, passed: saved.passed, failed: saved.failed, durationMs: saved.durationMs });
-    if (saved.failed > 0) { entry.status = 'fail'; failed = true; }
+    if (saved.failed > 0) { entry.status = 'fail'; failed = true; entry.firstFails = saved.iterations.filter(x => !x.pass).slice(0, 2).map(x => `#${x.i}: ${x.fails.slice(0, 3).join('; ')}`); }
     else if (saved.total === 0) { entry.status = 'no_rounds'; failed = true; }
     else if (r && r.total !== saved.total) { entry.status = 'result_mismatch'; failed = true; }
   }
 }
 
 summary.finishedAt = new Date().toISOString();
+summaryWritten = true;
 summary.exitCode = failed ? 1 : 0;
 mkdirSync(ROOT_DIR + 'results', { recursive: true });
 writeFileSync(ROOT_DIR + 'results/summary.json', JSON.stringify(summary, null, 1));
+for (const c of summary.cases) if (c.status !== 'pass') annotate(`${c.id} ${c.status} ${c.passed ?? ''}/${c.total ?? ''} ${c.error || ''} ${(c.firstFails || []).join(' | ')}`);
+if (summary.setupError) annotate('setup: ' + summary.setupError);
 console.log(`exit ${summary.exitCode}: ` + summary.cases.map(c => `${c.id}=${c.status}${c.total !== undefined ? `(${c.passed}/${c.total})` : ''}`).join(' '));
 try { await db.end(); } catch { /* ignore */ }
 process.exit(summary.exitCode);

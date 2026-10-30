@@ -108,5 +108,9 @@ out = os.path.join(ROOT, 'results-feas', 'mutations.json' if not only else 'muta
 json.dump(results, open(out, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 shutil.rmtree(WORK, ignore_errors=True)
 missed = [r['id'] for r in results if not r.get('caught')]
+if os.environ.get('GITHUB_ACTIONS'):
+    for r in results:
+        if not r.get('caught'):
+            print('::error title=m0-mutations::%s %s not caught %s' % (r['id'], r['title'], r.get('error', '')))
 print('mutations caught: %d/%d' % (len(results) - len(missed), len(results)) + (' missed=' + ','.join(missed) if missed else ''))
 sys.exit(1 if missed or not results else 0)

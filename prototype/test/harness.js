@@ -100,16 +100,18 @@ export class ServerProc {
     return new Promise((resolve, reject) => {
       const p = spawn(process.execPath, [ROOT_DIR + 'src/server.js'], {
         env: { ...process.env, PORT: String(this.port), DATABASE_URL: DB_URL + (DB_URL.includes('?') ? '&' : '?') + 'application_name=collab', ...this.env, ...env },
-        stdio: ['ignore', 'pipe', 'inherit'],
+        stdio: ['ignore', 'pipe', 'pipe'],
       });
       this.proc = p;
-      let buf = '';
-      const t = setTimeout(() => reject(new Error('server start timeout')), 8000);
+      let buf = '', err = '', ready = false;
+      const t = setTimeout(() => reject(new Error('server start timeout: ' + err.slice(-500))), 8000);
       p.stdout.on('data', d => {
         buf += d.toString();
-        if (buf.includes('READY')) { clearTimeout(t); resolve(); }
+        if (!ready && buf.includes('READY')) { ready = true; clearTimeout(t); resolve(); }
       });
-      p.on('exit', () => { clearTimeout(t); });
+      p.stderr.on('data', d => { err = (err + d.toString()).slice(-4000); process.stderr.write(d); });
+      // 啟動前就結束（例如連接埠被占用、模組缺失）：明確失敗，而不是讓等待永遠不結束
+      p.on('exit', (code, sig) => { clearTimeout(t); if (!ready) reject(new Error(`server exited before READY (code=${code} signal=${sig}): ${err.slice(-500)}`)); });
     });
   }
   exited() {
