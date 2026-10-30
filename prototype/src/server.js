@@ -12,7 +12,7 @@ import pg from 'pg';
 import * as Y from 'yjs';
 import { replaceFragmentsFrom, docJSON } from './doc.js';
 
-const PORT = Number(process.env.PORT || 47000);
+const PORT = Number(process.env.PORT || 27000);
 const DATABASE_URL = process.env.DATABASE_URL;
 const FAULT_POINT = process.env.FAULT_POINT || '';
 const BATCH_MS = Number(process.env.BATCH_MS || 20);

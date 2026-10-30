@@ -11,7 +11,7 @@ const file = process.argv[2];
 const variant = /mantine/.test(file) ? 'mantine' : 'core';
 const body = readFileSync(file);
 const html = Buffer.concat([Buffer.from('<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>'), body, Buffer.from('</body></html>')]);
-const srv = createServer((q, r) => { r.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); r.end(html); }).listen(47400);
+const srv = createServer((q, r) => { r.writeHead(200, { 'content-type': 'text/html; charset=utf-8' }); r.end(html); }).listen(27400);
 const pw = await loadPlaywright();
 const ctx = await pw.chromium.launchPersistentContext(mkdtempSync(join(tmpdir(), 'm015-')), { headless: true, args: ['--no-sandbox'], viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
 const p = ctx.pages()[0];
@@ -21,7 +21,7 @@ p.on('pageerror', e => errs.push(String(e)));
 p.on('console', m => { if (m.type() === 'error' && !/Failed to load resource/.test(m.text())) errs.push(m.text()); });
 const savedState = () => p.waitForFunction(() => document.getElementById('save').dataset.state === 'saved', null, { timeout: 10000 });
 try {
-  await p.goto('http://127.0.0.1:47400/');
+  await p.goto('http://127.0.0.1:27400/');
   await p.waitForSelector('.ProseMirror', { timeout: 20000 });
   await savedState();
   info.ui = await p.evaluate(() => globalThis.__m015UI);

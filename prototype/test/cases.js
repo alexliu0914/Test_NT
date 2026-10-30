@@ -107,7 +107,7 @@ export async function m0_01(N) {
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
     const mode = modes[i % 3];
-    const srv = new ServerProc(47101, { COMPACT_EVERY: String(between(rnd, 20, 80)) });
+    const srv = new ServerProc(27101, { COMPACT_EVERY: String(between(rnd, 20, 80)) });
     await srv.start(mode === 'kill9' ? {} : { FAULT_POINT: mode, FAULT_AFTER: String(between(rnd, 2, 25)) });
     const docId = randomUUID();
     const A = await mkClient(srv.url, docId, 'ua', 'A', rnd, { trackReceived: true });
@@ -146,7 +146,7 @@ export async function m0_02(N) {
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
     await setDbFault(false);
-    const srv = new ServerProc(47102);
+    const srv = new ServerProc(27102);
     await srv.start();
     const docId = randomUUID();
     const A = await mkClient(srv.url, docId, 'ua', 'A', rnd, { failAfterMs: 300 });
@@ -208,18 +208,18 @@ export async function m0_03(N) {
     const seed = 30300 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
-    const srv = new ServerProc(47103, { COMPACT_EVERY: '1000000' });
+    const srv = new ServerProc(27103, { COMPACT_EVERY: '1000000' });
     await srv.start();
     let chaos = true;
     const hooks = {
       onClient: (m, s, st) => (chaos && m.t === 'update' && rnd() < 0.3 ? (st.replays += 2, [s, s, s]) : [s]),
       onServer: m => (chaos && m.t === 'ack' && rnd() < 0.05 ? 'drop_and_cut' : 'pass'),
     };
-    const pA = startProxy(47203, 47103, hooks);
-    const pB = startProxy(47204, 47103, hooks);
+    const pA = startProxy(27203, 27103, hooks);
+    const pB = startProxy(27204, 27103, hooks);
     const docId = randomUUID();
-    const A = await mkClient('ws://127.0.0.1:47203', docId, 'ua', 'A', rnd, { autoReconnect: false });
-    const B = await mkClient('ws://127.0.0.1:47204', docId, 'ub', 'B', rnd);
+    const A = await mkClient('ws://127.0.0.1:27203', docId, 'ua', 'A', rnd, { autoReconnect: false });
+    const B = await mkClient('ws://127.0.0.1:27204', docId, 'ub', 'B', rnd);
     const created = trackIds([A, B]);
     let merges = 0;
     A.on('disconnected', () => {
@@ -264,7 +264,7 @@ export async function m0_04(N) {
     const seed = 40400 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
-    const srv = new ServerProc(47104, { COMPACT_EVERY: String(between(rnd, 30, 150)) });
+    const srv = new ServerProc(27104, { COMPACT_EVERY: String(between(rnd, 30, 150)) });
     await srv.start();
     const docId = randomUUID();
     let A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
@@ -314,7 +314,7 @@ export async function m0_05(N) {
     const seed = 50500 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
-    const srv = new ServerProc(47105, { COMPACT_EVERY: String(between(rnd, 40, 200)) });
+    const srv = new ServerProc(27105, { COMPACT_EVERY: String(between(rnd, 40, 200)) });
     await srv.start();
     const docId = randomUUID();
     const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
@@ -380,12 +380,12 @@ export async function m0_06(N) {
     const seed = 60600 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
-    const srv = new ServerProc(47106);
+    const srv = new ServerProc(27106);
     await srv.start();
     let dropOnce = rnd() < 0.3;
-    const proxy = startProxy(47206, 47106, { onServer: m => (m.t === 'cc_ack' && dropOnce ? (dropOnce = false, 'drop_and_cut') : 'pass') });
+    const proxy = startProxy(27206, 27106, { onServer: m => (m.t === 'cc_ack' && dropOnce ? (dropOnce = false, 'drop_and_cut') : 'pass') });
     const docId = randomUUID();
-    let A = await mkClient('ws://127.0.0.1:47206', docId, 'ua', 'A', rnd);
+    let A = await mkClient('ws://127.0.0.1:27206', docId, 'ua', 'A', rnd);
     const B = await mkClient(srv.url, docId, 'ub', 'B', rnd);
     A.connect(); B.connect();
     await quiesce([A, B]);
@@ -406,7 +406,7 @@ export async function m0_06(N) {
     await quiesce([B]);
     const localBefore = docJSON(A.ydoc);
     const reopen = rnd() < 0.5;
-    if (reopen) { const st = A.storage; A = NewClient({ url: 'ws://127.0.0.1:47206', docId, token: A.token, userId: 'ua', name: 'A', rnd, storage: st }); }
+    if (reopen) { const st = A.storage; A = NewClient({ url: 'ws://127.0.0.1:27206', docId, token: A.token, userId: 'ua', name: 'A', rnd, storage: st }); }
     const resolved = new Promise(r => A.once('offline_conflict_resolved', r));
     A.connect();
     await within(resolved, 15000, 'conflict copy resolved');
@@ -463,13 +463,13 @@ export async function m0_07(N) {
   const rec = new Recorder('M0-07', '還原後多次 Undo／Redo 不會恢復還原前的內容');
   for (let i = 0; i < N; i++) {
     const seed = 70700 + i;
-    await runIter(rec, i, seed, async () => [await undoScenario(rng(seed), 47107, true), {}]);
+    await runIter(rec, i, seed, async () => [await undoScenario(rng(seed), 27107, true), {}]);
   }
   // 對照組：不清空 Undo 堆疊，證明這項對策是必要的
   let controlFail = 0;
   const C = Math.min(N, 30);
   for (let i = 0; i < C; i++) {
-    try { if ((await undoScenario(rng(70700 + i), 47107, false)).length) controlFail++; } catch { controlFail++; }
+    try { if ((await undoScenario(rng(70700 + i), 27107, false)).length) controlFail++; } catch { controlFail++; }
     await cleanupLive();
   }
   return rec.save({ control: { iterations: C, resurrected: controlFail, note: '不清空 Undo 堆疊時，還原前的內容被 Undo 加回的次數' } });
@@ -482,7 +482,7 @@ export async function m0_08(N) {
     const seed = 80800 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed);
-    const srv = new ServerProc(47108);
+    const srv = new ServerProc(27108);
     await srv.start();
     const docId = randomUUID();
     const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
@@ -547,7 +547,7 @@ export async function m0_09(Nper) {
       const seed = 90900 + i;
       await runIter(rec, i, seed, async () => {
       const rnd = rng(seed);
-      const srv = new ServerProc(47109, { COMPACT_EVERY: '1000000' });
+      const srv = new ServerProc(27109, { COMPACT_EVERY: '1000000' });
       await srv.start();
       const docId = randomUUID();
       const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
@@ -596,7 +596,7 @@ export async function m0_10(Nper) {
       const seed = 101000 + i;
       await runIter(rec, i++, seed, async () => {
       const rnd = rng(seed); const fails = [];
-      const srv = new ServerProc(47110); await srv.start();
+      const srv = new ServerProc(27110); await srv.start();
       const docId = randomUUID();
       const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
       A.connect(); await quiesce([A]);
@@ -611,7 +611,7 @@ export async function m0_10(Nper) {
       const seed = 101000 + i;
       await runIter(rec, i++, seed, async () => {
       const rnd = rng(seed); const fails = [];
-      const srv = new ServerProc(47110); await srv.start();
+      const srv = new ServerProc(27110); await srv.start();
       const docId = randomUUID();
       const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
       A.connect(); await quiesce([A]);
@@ -635,7 +635,7 @@ export async function m0_10(Nper) {
       const seed = 101000 + i;
       await runIter(rec, i++, seed, async () => {
       const rnd = rng(seed); const fails = [];
-      const srv = new ServerProc(47110); await srv.start();
+      const srv = new ServerProc(27110); await srv.start();
       const docId = randomUUID();
       const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
       A.connect(); await quiesce([A]);
@@ -661,7 +661,7 @@ export async function m0_10(Nper) {
       const seed = 101000 + i;
       await runIter(rec, i++, seed, async () => {
       const rnd = rng(seed); const fails = [];
-      const srv = new ServerProc(47110); await srv.start();
+      const srv = new ServerProc(27110); await srv.start();
       const docId = randomUUID();
       const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
       A.connect(); await quiesce([A]);
@@ -693,7 +693,7 @@ export async function m0_11(N) {
     const seed = 111100 + i;
     await runIter(rec, i, seed, async () => {
     const rnd = rng(seed); const fails = [];
-    const srv = new ServerProc(47111);
+    const srv = new ServerProc(27111);
     await srv.start();
     const docId = randomUUID();
     const A = await mkClient(srv.url, docId, 'ua', 'A', rnd);
@@ -730,7 +730,7 @@ export async function m0_17(N) {
     const seed = 117000 + i;
     await runIter(rec, i, seed, async () => {
       const rnd = rng(seed); const fails = [];
-      const srv = new ServerProc(47117, { MAX_INBOX: String(MAX) });
+      const srv = new ServerProc(27117, { MAX_INBOX: String(MAX) });
       await srv.start();
       const health = async () => (await fetch(`http://127.0.0.1:${srv.port}/health`)).json();
       const docId = randomUUID();

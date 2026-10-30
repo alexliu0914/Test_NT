@@ -44,7 +44,7 @@ async function checkConverged(fails, label, A, B, docId) {
 export async function br_01(N) {
   const rec = new Recorder('BR-01', 'GATE-02 瀏覽器端到端：BlockNote 兩人編輯／重啟／版本還原／衝突副本／Undo／離線／匯出');
   const pw = await loadPlaywright();
-  const PORT = 47310, RELAY = 47311;
+  const PORT = 27310, RELAY = 27311;
   const base = `http://127.0.0.1:${PORT}`;
   const srv = new ServerProc(PORT);
   await srv.start();

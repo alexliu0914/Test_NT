@@ -28,7 +28,7 @@ function killBrowser(profileDir) {
 export async function br_02(N) {
   const rec = new Recorder('BR-02', 'GATE-03 IndexedDB：關閉分頁／強制終止瀏覽器／離線重開／登入撤銷／不同帳號／慢速寫入');
   const pw = await loadPlaywright();
-  const PORT = 47330, RELAY = 47331;
+  const PORT = 27330, RELAY = 27331;
   const base = `http://127.0.0.1:${PORT}`;
   const relayWs = `ws://127.0.0.1:${RELAY}`;
   const srv = new ServerProc(PORT);
