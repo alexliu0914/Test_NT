@@ -1,0 +1,139 @@
+<title>M0-15 手機測試台</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* 版面：一欄的測試台。上方固定狀態列（本機保存狀態是測試的一部分），接著是受測的編輯器，再來是檢查表與自動紀錄 */
+:root {
+  --paper: #f4f6f7;
+  --sheet: #ffffff;
+  --ink: #18232c;
+  --muted: #5b6873;
+  --rule: #d6dde2;
+  --accent: #2f6f8f;
+  --accent-ink: #ffffff;
+  --pass: #2e7a4f;
+  --issue: #b0502a;
+  --skip: #6f7b85;
+  --pass-bg: #e3f1e8;
+  --issue-bg: #f8e7de;
+  --skip-bg: #eceff1;
+  --font-body: "Noto Sans TC", -apple-system, "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #12181d; --sheet: #1a2229; --ink: #e3e9ed; --muted: #95a3ae; --rule: #2c3741;
+    --accent: #7db7d3; --accent-ink: #0f1a20; --pass: #7cc79a; --issue: #ec9a73; --skip: #9aa6af;
+    --pass-bg: #1d3227; --issue-bg: #3a261d; --skip-bg: #242d34; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #12181d; --sheet: #1a2229; --ink: #e3e9ed; --muted: #95a3ae; --rule: #2c3741;
+  --accent: #7db7d3; --accent-ink: #0f1a20; --pass: #7cc79a; --issue: #ec9a73; --skip: #9aa6af;
+  --pass-bg: #1d3227; --issue-bg: #3a261d; --skip-bg: #242d34; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--sheet); }
+.wrap { max-width: 720px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--sheet); border-bottom: 1px solid var(--rule); }
+.bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 10px; }
+.bar h1 { margin: 0; font-size: 1rem; font-weight: 700; letter-spacing: 0.02em; }
+.bar h1 small { font-family: var(--font-data); font-weight: 400; color: var(--muted); font-size: 0.75rem; margin-left: 6px; }
+#save { font-size: 0.8125rem; font-weight: 500; padding: 3px 10px; border-radius: 999px; white-space: nowrap; background: var(--skip-bg); color: var(--skip); }
+#save[data-state="saved"] { background: var(--pass-bg); color: var(--pass); }
+#save[data-state="error"], #save[data-state="nostore"] { background: var(--issue-bg); color: var(--issue); }
+main { display: grid; gap: 28px; padding-block: 18px 40px; }
+section { display: grid; gap: 10px; min-width: 0; }
+h2 { margin: 0; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; color: var(--muted); }
+.lede { margin: 0; color: var(--muted); font-size: 0.9375rem; max-width: 60ch; }
+.editor-frame { background: var(--sheet); border: 1px solid var(--rule); border-radius: 10px; padding-block: 12px; min-height: 280px; min-width: 0; }
+#editor { --bn-colors-editor-background: var(--sheet); --bn-colors-editor-text: var(--ink); }
+#editor .bn-editor { background: var(--sheet); color: var(--ink); }
+.app-audio { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-block: 4px; }
+.app-audio audio { max-width: 100%; flex: 1 1 220px; }
+.app-audio select { font: inherit; font-family: var(--font-data); font-size: 0.875rem; padding: 4px 6px; border: 1px solid var(--rule); border-radius: 6px; background: var(--sheet); color: var(--ink); }
+.device { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field label, .note-l { font-size: 0.8125rem; color: var(--muted); }
+input[type="text"], textarea { font: inherit; font-size: 1rem; width: 100%; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); color: var(--ink); }
+textarea { resize: vertical; }
+input:focus-visible, textarea:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.progress-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+#progress { font-family: var(--font-data); font-size: 0.8125rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+#items { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
+.item { display: grid; gap: 6px; padding-block: 14px; border-bottom: 1px solid var(--rule); }
+.item-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.item h3 { margin: 0; font-size: 1rem; font-weight: 700; text-wrap: balance; }
+.pill { font-size: 0.75rem; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: var(--skip-bg); color: var(--skip); white-space: nowrap; }
+.item[data-result="pass"] .pill { background: var(--pass-bg); color: var(--pass); }
+.item[data-result="issue"] .pill { background: var(--issue-bg); color: var(--issue); }
+.how, .expect { margin: 0; font-size: 0.9375rem; max-width: 62ch; }
+.expect { color: var(--muted); }
+.expect span { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; margin-right: 4px; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 4px; }
+.seg button { font: inherit; font-size: 0.9375rem; padding: 9px 4px; border: 1px solid var(--rule); border-radius: 8px; background: var(--sheet); color: var(--ink); cursor: pointer; min-height: 44px; }
+.seg button[aria-pressed="true"][data-r="pass"] { background: var(--pass); border-color: var(--pass); color: var(--sheet); }
+.seg button[aria-pressed="true"][data-r="issue"] { background: var(--issue); border-color: var(--issue); color: var(--sheet); }
+.seg button[aria-pressed="true"][data-r="skip"] { background: var(--skip); border-color: var(--skip); color: var(--sheet); }
+#auto { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; margin: 0; background: var(--rule); border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; }
+.kv { background: var(--sheet); padding: 10px 12px; display: grid; gap: 2px; min-width: 0; }
+.kv dt { font-size: 0.75rem; color: var(--muted); }
+.kv dd { margin: 0; font-family: var(--font-data); font-size: 1.125rem; font-variant-numeric: tabular-nums; }
+.kv.bad dd { color: var(--issue); }
+.send-row { display: grid; gap: 8px; }
+#send { font: inherit; font-weight: 700; font-size: 1rem; padding: 12px 16px; border: 0; border-radius: 10px; background: var(--accent); color: var(--accent-ink); cursor: pointer; min-height: 48px; }
+#sync { margin: 0; font-size: 0.875rem; color: var(--muted); }
+#sync[data-state="ok"] { color: var(--pass); }
+#sync[data-state="bad"], #sync[data-state="local"] { color: var(--issue); }
+.runid { font-family: var(--font-data); font-size: 0.75rem; color: var(--muted); word-break: break-all; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+%%CSS%%
+</style>
+
+<header class="bar">
+  <div class="wrap">
+    <h1>M0-15 手機測試台<small>BlockNote 0.56</small></h1>
+    <span id="save" data-state="unsaved" role="status" aria-live="polite">載入中</span>
+  </div>
+</header>
+
+<div class="wrap">
+  <main>
+    <section aria-labelledby="h-doc">
+      <h2 id="h-doc">受測文件</h2>
+      <p class="lede">這是正式版要用的編輯器。內容只存在這支手機（IndexedDB），右上角顯示是否已存到本機。</p>
+      <div class="editor-frame"><div id="editor"></div></div>
+    </section>
+
+    <section aria-labelledby="h-dev">
+      <h2 id="h-dev">這次測試的手機</h2>
+      <div class="device">
+        <div class="field"><label for="device">手機與瀏覽器</label><input type="text" id="device" placeholder="例如 iPhone 15 · iOS 19 · Safari"></div>
+        <div class="field"><label for="ime">輸入法</label><input type="text" id="ime" placeholder="例如 iOS 注音、Gboard 倉頡"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-items">
+      <div class="progress-row"><h2 id="h-items">檢查項目</h2><span id="progress"></span></div>
+      <ol id="items"></ol>
+    </section>
+
+    <section aria-labelledby="h-auto">
+      <h2 id="h-auto">自動紀錄</h2>
+      <dl id="auto"></dl>
+    </section>
+
+    <section class="send-row" aria-labelledby="h-send">
+      <h2 id="h-send">送出</h2>
+      <p class="lede">勾選結果會自動同步。全部測完後按一次「送出完整結果」，會連同文件內容一起送出，我就能讀到。</p>
+      <button type="button" id="send">送出完整結果</button>
+      <p id="sync" role="status" aria-live="polite">正在連到結果儲存…</p>
+      <p class="runid">測試編號 <span id="runid"></span></p>
+    </section>
+  </main>
+</div>
+
+<script type="text/plain" id="m015-audio">%%AUDIO%%</script>
+<script type="module">%%JS%%</script>

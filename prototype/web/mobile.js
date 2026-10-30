@@ -108,7 +108,8 @@ const editor = BlockNoteEditor.create(withCollaboration({
   schema,
   collaboration: { fragment: ydoc.getXmlFragment(FRAGMENT), user: { name: '手機', color: '#2f6f8f' }, provider: { awareness: new Awareness(ydoc) } },
 }));
-editor.mount($('editor'));
+// 掛載方式由入口決定：mobile-core.js 用核心的 editor.mount；mobile-mantine.js 用正式 UI（斜線選單、格式工具列、拖曳把手）
+await globalThis.__m015Mount(editor, $('editor'));
 
 const fragEmpty = ydoc.getXmlFragment(FRAGMENT).length === 0;
 if (fragEmpty) {
