@@ -16,6 +16,9 @@ jobs:
       run:
         working-directory: prototype
         shell: bash
+    env:
+      # 失敗時把輸出最後一段寫成註解（可經 API 讀取）
+      BASH_ENV: ${{ github.workspace }}/prototype/scripts/ci-annotate.sh
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,19 +26,20 @@ jobs:
           node-version: '22.23.4'
       - name: 安裝套件（lockfile＋固定版本的 UI 套件）
         run: |
-          npm ci
-          npm install --no-save --ignore-scripts @blocknote/react@0.56.0 @blocknote/mantine@0.56.0 react@19.3.1 react-dom@19.3.1 esbuild@0.28.2 playwright@1.63.0
-          npx playwright install --with-deps chromium
+          ann npm ci
+          ann npm install --no-save --ignore-scripts @blocknote/react@0.56.0 @blocknote/mantine@0.56.0 react@19.3.1 react-dom@19.3.1 esbuild@0.28.2 playwright@1.63.0
+          ann npx playwright install --with-deps chromium
           npm ls @blocknote/react @blocknote/mantine @mantine/core @mantine/hooks react react-dom esbuild playwright --depth=1 > results-versions.txt || true
           cat results-versions.txt
       - name: 打包（mantine 與 core）
         run: |
-          ESBUILD=node_modules/.bin/esbuild bash scripts/build-mobile.sh mantine
-          ESBUILD=node_modules/.bin/esbuild bash scripts/build-mobile.sh core
+          export ESBUILD=node_modules/.bin/esbuild
+          ann bash scripts/build-mobile.sh mantine
+          ann bash scripts/build-mobile.sh core
       - name: 冒煙測試
         run: |
-          node test/browser/mobile-smoke.mjs web/dist/m0-15-mantine.html
-          node test/browser/mobile-smoke.mjs web/dist/m0-15-core.html
+          ann node test/browser/mobile-smoke.mjs web/dist/m0-15-mantine.html
+          ann node test/browser/mobile-smoke.mjs web/dist/m0-15-core.html
       - name: 推到 build/m0-15 分支
         if: github.event_name != 'pull_request'
         env:
@@ -49,4 +53,4 @@ jobs:
           git init -q -b build/m0-15
           git add .
           git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -q -m "M0-15 手機測試頁 build from $GITHUB_SHA"
-          git push -f -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" build/m0-15
+          ann git push -f -q "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" build/m0-15

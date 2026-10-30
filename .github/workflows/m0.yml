@@ -29,6 +29,8 @@ jobs:
       PGPORT: '54329'
       PGUSER: postgres
       FULL: ${{ github.event_name == 'workflow_dispatch' && inputs.full }}
+      # 失敗時把輸出最後一段寫成註解（可經 API 讀取）
+      BASH_ENV: ${{ github.workspace }}/prototype/scripts/ci-annotate.sh
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -37,19 +39,19 @@ jobs:
       - name: 版本資訊
         run: node --version && npm --version && docker --version && python3 --version
       - name: 啟動測試資料庫
-        run: docker compose -f docker-compose.test.yml up -d --wait
+        run: ann docker compose -f docker-compose.test.yml up -d --wait
       - name: 建立測試資料庫（m0_test，C.UTF-8，含測試標記）
-        run: bash test/setup-test-db.sh
+        run: ann bash test/setup-test-db.sh
       - name: 安裝套件（依 lockfile）
-        run: npm ci
+        run: ann npm ci
       - name: 安裝瀏覽器測試工具（固定版本）
         run: |
-          npm install --no-save --ignore-scripts playwright@1.63.0 esbuild@0.28.2
-          npx playwright install --with-deps chromium
+          ann npm install --no-save --ignore-scripts playwright@1.63.0 esbuild@0.28.2
+          ann npx playwright install --with-deps chromium
       - name: 打包瀏覽器測試頁
-        run: ESBUILD=node_modules/.bin/esbuild bash scripts/build-web.sh
+        run: ESBUILD=node_modules/.bin/esbuild ann bash scripts/build-web.sh
       - name: Runner 自我測試（刻意失敗必須被抓到）
-        run: node test/runner-selftest.mjs
+        run: ann node test/runner-selftest.mjs
       - name: 核心故障注入測試
         run: |
           if [ "$FULL" = "true" ]; then
@@ -64,14 +66,14 @@ jobs:
           cp results/summary.json results/summary-browser.json
       - name: M0-12～16 最小可行性
         run: |
-          node feasibility/m0-12-blocknote.mjs
-          node feasibility/m0-13-attachments.mjs
-          node feasibility/m0-14-search.mjs
-          node feasibility/m0-16-licenses.mjs
+          ann node feasibility/m0-12-blocknote.mjs
+          ann node feasibility/m0-13-attachments.mjs
+          ann node feasibility/m0-14-search.mjs
+          ann node feasibility/m0-16-licenses.mjs
       - name: 變異測試（植入已知缺陷必須全部被抓到）
         env:
           ESBUILD: ${{ github.workspace }}/prototype/node_modules/.bin/esbuild
-        run: python3 test/mutations.py
+        run: ann python3 test/mutations.py
       - name: 上傳結果
         if: always()
         uses: actions/upload-artifact@v4
