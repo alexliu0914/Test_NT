@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M0-B 協作測試頁</title>
+  <link rel="stylesheet" href="dist/app.css">
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #fff; color: #111; }
+    header { display: flex; gap: 12px; align-items: center; padding: 8px 16px; border-bottom: 1px solid #ddd; font-size: 14px; }
+    #status[data-state="saved"] { color: #15803d; }
+    #status[data-state="unsaved"], #status[data-state="failed"] { color: #b91c1c; }
+    #banner { color: #b45309; }
+    #editor { padding: 16px 0; }
+  </style>
+</head>
+<body>
+  <header><strong>M0-B</strong><span id="status">載入中</span><span id="banner"></span></header>
+  <div id="editor"></div>
+  <script type="module" src="dist/app.js"></script>
+</body>
+</html>

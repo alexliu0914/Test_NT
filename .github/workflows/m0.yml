@@ -1,0 +1,82 @@
+# M0 原型的可重現測試：任何失敗、中止、未知案例或結果檔缺失都會讓工作失敗（退出碼非 0）
+name: m0-prototype
+on:
+  push:
+    paths: ['prototype/**', '.github/workflows/m0.yml']
+  pull_request:
+    paths: ['prototype/**', '.github/workflows/m0.yml']
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '完整輪數（核心 100 輪、瀏覽器 20 輪）'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: prototype
+        shell: bash
+    env:
+      DATABASE_URL: postgres://postgres@127.0.0.1:54329/m0_test
+      PGHOST: 127.0.0.1
+      PGPORT: '54329'
+      PGUSER: postgres
+      FULL: ${{ github.event_name == 'workflow_dispatch' && inputs.full }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.4'
+      - name: 版本資訊
+        run: node --version && npm --version && docker --version && python3 --version
+      - name: 啟動測試資料庫
+        run: docker compose -f docker-compose.test.yml up -d --wait
+      - name: 建立測試資料庫（m0_test，C.UTF-8，含測試標記）
+        run: bash test/setup-test-db.sh
+      - name: 安裝套件（依 lockfile）
+        run: npm ci
+      - name: 安裝瀏覽器測試工具（固定版本）
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.63.0 esbuild@0.28.2
+          npx playwright install --with-deps chromium
+      - name: 打包瀏覽器測試頁
+        run: ESBUILD=node_modules/.bin/esbuild bash scripts/build-web.sh
+      - name: Runner 自我測試（刻意失敗必須被抓到）
+        run: node test/runner-selftest.mjs
+      - name: 核心故障注入測試
+        run: |
+          if [ "$FULL" = "true" ]; then
+            node test/run.js M0-01=100 M0-02=100 M0-03=100 M0-04=100 M0-05=100 M0-06=100 M0-07=100 M0-08=100 M0-09=40 M0-10=25 M0-11=100 M0-17=30
+          else
+            node test/run.js M0-01=15 M0-02=10 M0-03=15 M0-04=15 M0-05=15 M0-06=15 M0-07=15 M0-08=15 M0-09=5 M0-10=5 M0-11=15 M0-17=5
+          fi
+          cp results/summary.json results/summary-core.json
+      - name: 瀏覽器整合測試（BlockNote＋Chromium＋IndexedDB）
+        run: |
+          if [ "$FULL" = "true" ]; then node test/run.js BR-01=20 BR-02=20; else node test/run.js BR-01=3 BR-02=3; fi
+          cp results/summary.json results/summary-browser.json
+      - name: M0-12～16 最小可行性
+        run: |
+          node feasibility/m0-12-blocknote.mjs
+          node feasibility/m0-13-attachments.mjs
+          node feasibility/m0-14-search.mjs
+          node feasibility/m0-16-licenses.mjs
+      - name: 變異測試（植入已知缺陷必須全部被抓到）
+        env:
+          ESBUILD: ${{ github.workspace }}/prototype/node_modules/.bin/esbuild
+        run: python3 test/mutations.py
+      - name: 上傳結果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m0-results-${{ github.sha }}
+          path: |
+            prototype/results/
+            prototype/results-feas/

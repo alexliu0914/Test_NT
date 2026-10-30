@@ -1,0 +1,1212 @@
+{
+ "id": "M0-05",
+ "title": "A 持續輸入時 B 還原：結果一致、被還原的內容不復活、A 的輸入沒有無聲遺失",
+ "meta": {},
+ "startedAt": "2026-10-30T16:06:04.283Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 50500,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 86,
+    "inflight": 8,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 1,
+   "seed": 50501,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 123,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 2,
+   "seed": 50502,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 106,
+    "inflight": 6,
+    "post": 51,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 3,
+   "seed": 50503,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 82,
+    "inflight": 7,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 4,
+   "seed": 50504,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 96,
+    "inflight": 3,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 5,
+   "seed": 50505,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 114,
+    "inflight": 4,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 6,
+   "seed": 50506,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 81,
+    "inflight": 8,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 7,
+   "seed": 50507,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 67,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 8,
+   "seed": 50508,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 79,
+    "inflight": 5,
+    "post": 60,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 9,
+   "seed": 50509,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 10,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 10,
+   "seed": 50510,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 80,
+    "inflight": 6,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 11,
+   "seed": 50511,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 80,
+    "inflight": 6,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 12,
+   "seed": 50512,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 115,
+    "inflight": 3,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 13,
+   "seed": 50513,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 108,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 14,
+   "seed": 50514,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 123,
+    "inflight": 4,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 15,
+   "seed": 50515,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 97,
+    "inflight": 4,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 16,
+   "seed": 50516,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 98,
+    "inflight": 8,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 17,
+   "seed": 50517,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 113,
+    "inflight": 4,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 18,
+   "seed": 50518,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 5,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 19,
+   "seed": 50519,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 124,
+    "inflight": 6,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 20,
+   "seed": 50520,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 115,
+    "inflight": 7,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 21,
+   "seed": 50521,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 65,
+    "inflight": 5,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 22,
+   "seed": 50522,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 117,
+    "inflight": 9,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 23,
+   "seed": 50523,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 133,
+    "inflight": 5,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 24,
+   "seed": 50524,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 76,
+    "inflight": 3,
+    "post": 60,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 25,
+   "seed": 50525,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 6,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 26,
+   "seed": 50526,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 6,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 27,
+   "seed": 50527,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 136,
+    "inflight": 7,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 28,
+   "seed": 50528,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 125,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 29,
+   "seed": 50529,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 91,
+    "inflight": 5,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 30,
+   "seed": 50530,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 114,
+    "inflight": 4,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 31,
+   "seed": 50531,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 83,
+    "inflight": 3,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 32,
+   "seed": 50532,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 74,
+    "inflight": 7,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 33,
+   "seed": 50533,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 81,
+    "inflight": 7,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 34,
+   "seed": 50534,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 98,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 35,
+   "seed": 50535,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 103,
+    "inflight": 6,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 36,
+   "seed": 50536,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 75,
+    "inflight": 4,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 37,
+   "seed": 50537,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 97,
+    "inflight": 7,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 38,
+   "seed": 50538,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 104,
+    "inflight": 8,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 39,
+   "seed": 50539,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 118,
+    "inflight": 8,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 40,
+   "seed": 50540,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 104,
+    "inflight": 4,
+    "post": 50,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 41,
+   "seed": 50541,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 42,
+   "seed": 50542,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 119,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 43,
+   "seed": 50543,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 110,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 44,
+   "seed": 50544,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 121,
+    "inflight": 6,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 45,
+   "seed": 50545,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 100,
+    "inflight": 4,
+    "post": 60,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 46,
+   "seed": 50546,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 119,
+    "inflight": 4,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 47,
+   "seed": 50547,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 135,
+    "inflight": 3,
+    "post": 60,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 48,
+   "seed": 50548,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 107,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 49,
+   "seed": 50549,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 126,
+    "inflight": 4,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 50,
+   "seed": 50550,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 115,
+    "inflight": 3,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 51,
+   "seed": 50551,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 84,
+    "inflight": 5,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 52,
+   "seed": 50552,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 66,
+    "inflight": 5,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 53,
+   "seed": 50553,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 103,
+    "inflight": 4,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 54,
+   "seed": 50554,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 119,
+    "inflight": 3,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 55,
+   "seed": 50555,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 96,
+    "inflight": 5,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 56,
+   "seed": 50556,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 7,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 57,
+   "seed": 50557,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 73,
+    "inflight": 5,
+    "post": 51,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 58,
+   "seed": 50558,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 132,
+    "inflight": 8,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 59,
+   "seed": 50559,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 111,
+    "inflight": 9,
+    "post": 51,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 60,
+   "seed": 50560,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 73,
+    "inflight": 5,
+    "post": 49,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 61,
+   "seed": 50561,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 127,
+    "inflight": 5,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 62,
+   "seed": 50562,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 105,
+    "inflight": 5,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 63,
+   "seed": 50563,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 116,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 64,
+   "seed": 50564,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 121,
+    "inflight": 3,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 65,
+   "seed": 50565,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 95,
+    "inflight": 4,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 66,
+   "seed": 50566,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 87,
+    "inflight": 4,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 67,
+   "seed": 50567,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 94,
+    "inflight": 5,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 68,
+   "seed": 50568,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 130,
+    "inflight": 4,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 69,
+   "seed": 50569,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 84,
+    "inflight": 6,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 70,
+   "seed": 50570,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 105,
+    "inflight": 4,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 71,
+   "seed": 50571,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 75,
+    "inflight": 3,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 72,
+   "seed": 50572,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 127,
+    "inflight": 7,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 73,
+   "seed": 50573,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 130,
+    "inflight": 6,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 74,
+   "seed": 50574,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 78,
+    "inflight": 7,
+    "post": 61,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 75,
+   "seed": 50575,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 87,
+    "inflight": 4,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 76,
+   "seed": 50576,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 124,
+    "inflight": 8,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 77,
+   "seed": 50577,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 89,
+    "inflight": 6,
+    "post": 50,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 78,
+   "seed": 50578,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 130,
+    "inflight": 8,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 79,
+   "seed": 50579,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 90,
+    "inflight": 8,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 80,
+   "seed": 50580,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 96,
+    "inflight": 5,
+    "post": 55,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 81,
+   "seed": 50581,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 94,
+    "inflight": 4,
+    "post": 51,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 82,
+   "seed": 50582,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 99,
+    "inflight": 5,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 83,
+   "seed": 50583,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 102,
+    "inflight": 6,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 84,
+   "seed": 50584,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 92,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 85,
+   "seed": 50585,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 95,
+    "inflight": 5,
+    "post": 59,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 86,
+   "seed": 50586,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 87,
+    "inflight": 7,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 87,
+   "seed": 50587,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 89,
+    "inflight": 5,
+    "post": 58,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 88,
+   "seed": 50588,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 103,
+    "inflight": 6,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 89,
+   "seed": 50589,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 86,
+    "inflight": 8,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 90,
+   "seed": 50590,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 76,
+    "inflight": 6,
+    "post": 57,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 91,
+   "seed": 50591,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 122,
+    "inflight": 3,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 92,
+   "seed": 50592,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 86,
+    "inflight": 5,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 93,
+   "seed": 50593,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 72,
+    "inflight": 4,
+    "post": 52,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 94,
+   "seed": 50594,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 108,
+    "inflight": 5,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 95,
+   "seed": 50595,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 100,
+    "inflight": 6,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 96,
+   "seed": 50596,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 72,
+    "inflight": 5,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 97,
+   "seed": 50597,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 125,
+    "inflight": 6,
+    "post": 54,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 98,
+   "seed": 50598,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 86,
+    "inflight": 6,
+    "post": 56,
+    "conflictCopies": 1
+   }
+  },
+  {
+   "i": 99,
+   "seed": 50599,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typedDuring": 69,
+    "inflight": 7,
+    "post": 53,
+    "conflictCopies": 1
+   }
+  }
+ ],
+ "durationMs": 154820,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

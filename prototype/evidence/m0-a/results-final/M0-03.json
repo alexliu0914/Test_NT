@@ -1,0 +1,1312 @@
+{
+ "id": "M0-03",
+ "title": "重放、確認遺失後重送、合併後重送（含刪除）：不重複寫入且待確認項目全部清除",
+ "meta": {},
+ "startedAt": "2026-10-30T16:02:41.468Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 30300,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 187,
+    "deleted": 57,
+    "replays": 254,
+    "droppedAcks": 17,
+    "merges": 2
+   }
+  },
+  {
+   "i": 1,
+   "seed": 30301,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 225,
+    "deleted": 75,
+    "replays": 250,
+    "droppedAcks": 16,
+    "merges": 5
+   }
+  },
+  {
+   "i": 2,
+   "seed": 30302,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 183,
+    "deleted": 65,
+    "replays": 202,
+    "droppedAcks": 15,
+    "merges": 4
+   }
+  },
+  {
+   "i": 3,
+   "seed": 30303,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 271,
+    "deleted": 102,
+    "replays": 288,
+    "droppedAcks": 22,
+    "merges": 7
+   }
+  },
+  {
+   "i": 4,
+   "seed": 30304,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 260,
+    "deleted": 87,
+    "replays": 308,
+    "droppedAcks": 11,
+    "merges": 4
+   }
+  },
+  {
+   "i": 5,
+   "seed": 30305,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 298,
+    "deleted": 88,
+    "replays": 290,
+    "droppedAcks": 24,
+    "merges": 8
+   }
+  },
+  {
+   "i": 6,
+   "seed": 30306,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 240,
+    "deleted": 67,
+    "replays": 234,
+    "droppedAcks": 21,
+    "merges": 5
+   }
+  },
+  {
+   "i": 7,
+   "seed": 30307,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 259,
+    "deleted": 88,
+    "replays": 370,
+    "droppedAcks": 19,
+    "merges": 7
+   }
+  },
+  {
+   "i": 8,
+   "seed": 30308,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 152,
+    "deleted": 52,
+    "replays": 144,
+    "droppedAcks": 6,
+    "merges": 4
+   }
+  },
+  {
+   "i": 9,
+   "seed": 30309,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 184,
+    "deleted": 55,
+    "replays": 178,
+    "droppedAcks": 16,
+    "merges": 6
+   }
+  },
+  {
+   "i": 10,
+   "seed": 30310,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 208,
+    "deleted": 70,
+    "replays": 232,
+    "droppedAcks": 13,
+    "merges": 4
+   }
+  },
+  {
+   "i": 11,
+   "seed": 30311,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 259,
+    "deleted": 74,
+    "replays": 408,
+    "droppedAcks": 17,
+    "merges": 5
+   }
+  },
+  {
+   "i": 12,
+   "seed": 30312,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 165,
+    "deleted": 63,
+    "replays": 208,
+    "droppedAcks": 14,
+    "merges": 2
+   }
+  },
+  {
+   "i": 13,
+   "seed": 30313,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 163,
+    "deleted": 58,
+    "replays": 166,
+    "droppedAcks": 10,
+    "merges": 5
+   }
+  },
+  {
+   "i": 14,
+   "seed": 30314,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 279,
+    "deleted": 92,
+    "replays": 388,
+    "droppedAcks": 22,
+    "merges": 7
+   }
+  },
+  {
+   "i": 15,
+   "seed": 30315,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 250,
+    "deleted": 82,
+    "replays": 312,
+    "droppedAcks": 21,
+    "merges": 7
+   }
+  },
+  {
+   "i": 16,
+   "seed": 30316,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 214,
+    "deleted": 73,
+    "replays": 248,
+    "droppedAcks": 25,
+    "merges": 6
+   }
+  },
+  {
+   "i": 17,
+   "seed": 30317,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 210,
+    "deleted": 79,
+    "replays": 272,
+    "droppedAcks": 15,
+    "merges": 5
+   }
+  },
+  {
+   "i": 18,
+   "seed": 30318,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 195,
+    "deleted": 75,
+    "replays": 278,
+    "droppedAcks": 16,
+    "merges": 5
+   }
+  },
+  {
+   "i": 19,
+   "seed": 30319,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 225,
+    "deleted": 61,
+    "replays": 218,
+    "droppedAcks": 17,
+    "merges": 5
+   }
+  },
+  {
+   "i": 20,
+   "seed": 30320,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 170,
+    "deleted": 54,
+    "replays": 180,
+    "droppedAcks": 25,
+    "merges": 6
+   }
+  },
+  {
+   "i": 21,
+   "seed": 30321,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 203,
+    "deleted": 84,
+    "replays": 214,
+    "droppedAcks": 23,
+    "merges": 4
+   }
+  },
+  {
+   "i": 22,
+   "seed": 30322,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 148,
+    "deleted": 56,
+    "replays": 158,
+    "droppedAcks": 11,
+    "merges": 6
+   }
+  },
+  {
+   "i": 23,
+   "seed": 30323,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 204,
+    "deleted": 81,
+    "replays": 176,
+    "droppedAcks": 19,
+    "merges": 9
+   }
+  },
+  {
+   "i": 24,
+   "seed": 30324,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 197,
+    "deleted": 53,
+    "replays": 146,
+    "droppedAcks": 11,
+    "merges": 3
+   }
+  },
+  {
+   "i": 25,
+   "seed": 30325,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 274,
+    "deleted": 92,
+    "replays": 424,
+    "droppedAcks": 21,
+    "merges": 6
+   }
+  },
+  {
+   "i": 26,
+   "seed": 30326,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 250,
+    "deleted": 80,
+    "replays": 320,
+    "droppedAcks": 21,
+    "merges": 5
+   }
+  },
+  {
+   "i": 27,
+   "seed": 30327,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 198,
+    "deleted": 71,
+    "replays": 218,
+    "droppedAcks": 11,
+    "merges": 5
+   }
+  },
+  {
+   "i": 28,
+   "seed": 30328,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 258,
+    "deleted": 75,
+    "replays": 348,
+    "droppedAcks": 16,
+    "merges": 4
+   }
+  },
+  {
+   "i": 29,
+   "seed": 30329,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 200,
+    "deleted": 86,
+    "replays": 200,
+    "droppedAcks": 18,
+    "merges": 7
+   }
+  },
+  {
+   "i": 30,
+   "seed": 30330,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 189,
+    "deleted": 56,
+    "replays": 162,
+    "droppedAcks": 11,
+    "merges": 6
+   }
+  },
+  {
+   "i": 31,
+   "seed": 30331,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 180,
+    "deleted": 71,
+    "replays": 198,
+    "droppedAcks": 14,
+    "merges": 5
+   }
+  },
+  {
+   "i": 32,
+   "seed": 30332,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 201,
+    "deleted": 84,
+    "replays": 242,
+    "droppedAcks": 15,
+    "merges": 6
+   }
+  },
+  {
+   "i": 33,
+   "seed": 30333,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 189,
+    "deleted": 62,
+    "replays": 212,
+    "droppedAcks": 20,
+    "merges": 3
+   }
+  },
+  {
+   "i": 34,
+   "seed": 30334,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 203,
+    "deleted": 57,
+    "replays": 222,
+    "droppedAcks": 14,
+    "merges": 5
+   }
+  },
+  {
+   "i": 35,
+   "seed": 30335,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 223,
+    "deleted": 61,
+    "replays": 214,
+    "droppedAcks": 14,
+    "merges": 6
+   }
+  },
+  {
+   "i": 36,
+   "seed": 30336,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 242,
+    "deleted": 71,
+    "replays": 422,
+    "droppedAcks": 20,
+    "merges": 7
+   }
+  },
+  {
+   "i": 37,
+   "seed": 30337,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 218,
+    "deleted": 62,
+    "replays": 254,
+    "droppedAcks": 16,
+    "merges": 3
+   }
+  },
+  {
+   "i": 38,
+   "seed": 30338,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 203,
+    "deleted": 65,
+    "replays": 254,
+    "droppedAcks": 14,
+    "merges": 6
+   }
+  },
+  {
+   "i": 39,
+   "seed": 30339,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 223,
+    "deleted": 75,
+    "replays": 272,
+    "droppedAcks": 12,
+    "merges": 3
+   }
+  },
+  {
+   "i": 40,
+   "seed": 30340,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 179,
+    "deleted": 64,
+    "replays": 228,
+    "droppedAcks": 15,
+    "merges": 5
+   }
+  },
+  {
+   "i": 41,
+   "seed": 30341,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 189,
+    "deleted": 68,
+    "replays": 310,
+    "droppedAcks": 13,
+    "merges": 4
+   }
+  },
+  {
+   "i": 42,
+   "seed": 30342,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 157,
+    "deleted": 68,
+    "replays": 178,
+    "droppedAcks": 13,
+    "merges": 4
+   }
+  },
+  {
+   "i": 43,
+   "seed": 30343,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 271,
+    "deleted": 89,
+    "replays": 290,
+    "droppedAcks": 25,
+    "merges": 7
+   }
+  },
+  {
+   "i": 44,
+   "seed": 30344,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 260,
+    "deleted": 94,
+    "replays": 306,
+    "droppedAcks": 23,
+    "merges": 8
+   }
+  },
+  {
+   "i": 45,
+   "seed": 30345,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 229,
+    "deleted": 75,
+    "replays": 234,
+    "droppedAcks": 16,
+    "merges": 6
+   }
+  },
+  {
+   "i": 46,
+   "seed": 30346,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 257,
+    "deleted": 77,
+    "replays": 336,
+    "droppedAcks": 21,
+    "merges": 6
+   }
+  },
+  {
+   "i": 47,
+   "seed": 30347,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 267,
+    "deleted": 91,
+    "replays": 258,
+    "droppedAcks": 14,
+    "merges": 5
+   }
+  },
+  {
+   "i": 48,
+   "seed": 30348,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 218,
+    "deleted": 94,
+    "replays": 242,
+    "droppedAcks": 22,
+    "merges": 7
+   }
+  },
+  {
+   "i": 49,
+   "seed": 30349,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 183,
+    "deleted": 62,
+    "replays": 254,
+    "droppedAcks": 13,
+    "merges": 3
+   }
+  },
+  {
+   "i": 50,
+   "seed": 30350,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 279,
+    "deleted": 94,
+    "replays": 422,
+    "droppedAcks": 19,
+    "merges": 6
+   }
+  },
+  {
+   "i": 51,
+   "seed": 30351,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 213,
+    "deleted": 81,
+    "replays": 266,
+    "droppedAcks": 14,
+    "merges": 4
+   }
+  },
+  {
+   "i": 52,
+   "seed": 30352,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 254,
+    "deleted": 78,
+    "replays": 400,
+    "droppedAcks": 19,
+    "merges": 7
+   }
+  },
+  {
+   "i": 53,
+   "seed": 30353,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 219,
+    "deleted": 66,
+    "replays": 152,
+    "droppedAcks": 16,
+    "merges": 6
+   }
+  },
+  {
+   "i": 54,
+   "seed": 30354,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 255,
+    "deleted": 61,
+    "replays": 344,
+    "droppedAcks": 20,
+    "merges": 6
+   }
+  },
+  {
+   "i": 55,
+   "seed": 30355,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 274,
+    "deleted": 90,
+    "replays": 354,
+    "droppedAcks": 26,
+    "merges": 7
+   }
+  },
+  {
+   "i": 56,
+   "seed": 30356,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 288,
+    "deleted": 86,
+    "replays": 494,
+    "droppedAcks": 21,
+    "merges": 6
+   }
+  },
+  {
+   "i": 57,
+   "seed": 30357,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 234,
+    "deleted": 55,
+    "replays": 240,
+    "droppedAcks": 17,
+    "merges": 7
+   }
+  },
+  {
+   "i": 58,
+   "seed": 30358,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 232,
+    "deleted": 73,
+    "replays": 206,
+    "droppedAcks": 12,
+    "merges": 4
+   }
+  },
+  {
+   "i": 59,
+   "seed": 30359,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 158,
+    "deleted": 48,
+    "replays": 130,
+    "droppedAcks": 11,
+    "merges": 4
+   }
+  },
+  {
+   "i": 60,
+   "seed": 30360,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 180,
+    "deleted": 56,
+    "replays": 170,
+    "droppedAcks": 14,
+    "merges": 4
+   }
+  },
+  {
+   "i": 61,
+   "seed": 30361,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 295,
+    "deleted": 100,
+    "replays": 304,
+    "droppedAcks": 26,
+    "merges": 10
+   }
+  },
+  {
+   "i": 62,
+   "seed": 30362,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 251,
+    "deleted": 82,
+    "replays": 314,
+    "droppedAcks": 16,
+    "merges": 7
+   }
+  },
+  {
+   "i": 63,
+   "seed": 30363,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 250,
+    "deleted": 85,
+    "replays": 276,
+    "droppedAcks": 16,
+    "merges": 7
+   }
+  },
+  {
+   "i": 64,
+   "seed": 30364,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 239,
+    "deleted": 78,
+    "replays": 250,
+    "droppedAcks": 14,
+    "merges": 4
+   }
+  },
+  {
+   "i": 65,
+   "seed": 30365,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 229,
+    "deleted": 84,
+    "replays": 388,
+    "droppedAcks": 18,
+    "merges": 6
+   }
+  },
+  {
+   "i": 66,
+   "seed": 30366,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 247,
+    "deleted": 77,
+    "replays": 166,
+    "droppedAcks": 17,
+    "merges": 8
+   }
+  },
+  {
+   "i": 67,
+   "seed": 30367,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 223,
+    "deleted": 63,
+    "replays": 302,
+    "droppedAcks": 14,
+    "merges": 5
+   }
+  },
+  {
+   "i": 68,
+   "seed": 30368,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 293,
+    "deleted": 90,
+    "replays": 236,
+    "droppedAcks": 19,
+    "merges": 7
+   }
+  },
+  {
+   "i": 69,
+   "seed": 30369,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 245,
+    "deleted": 91,
+    "replays": 372,
+    "droppedAcks": 20,
+    "merges": 6
+   }
+  },
+  {
+   "i": 70,
+   "seed": 30370,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 208,
+    "deleted": 74,
+    "replays": 286,
+    "droppedAcks": 17,
+    "merges": 6
+   }
+  },
+  {
+   "i": 71,
+   "seed": 30371,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 277,
+    "deleted": 95,
+    "replays": 348,
+    "droppedAcks": 16,
+    "merges": 7
+   }
+  },
+  {
+   "i": 72,
+   "seed": 30372,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 263,
+    "deleted": 72,
+    "replays": 416,
+    "droppedAcks": 19,
+    "merges": 7
+   }
+  },
+  {
+   "i": 73,
+   "seed": 30373,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 181,
+    "deleted": 61,
+    "replays": 166,
+    "droppedAcks": 13,
+    "merges": 4
+   }
+  },
+  {
+   "i": 74,
+   "seed": 30374,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 277,
+    "deleted": 87,
+    "replays": 320,
+    "droppedAcks": 19,
+    "merges": 7
+   }
+  },
+  {
+   "i": 75,
+   "seed": 30375,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 233,
+    "deleted": 78,
+    "replays": 248,
+    "droppedAcks": 20,
+    "merges": 5
+   }
+  },
+  {
+   "i": 76,
+   "seed": 30376,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 244,
+    "deleted": 95,
+    "replays": 284,
+    "droppedAcks": 20,
+    "merges": 6
+   }
+  },
+  {
+   "i": 77,
+   "seed": 30377,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 287,
+    "deleted": 86,
+    "replays": 212,
+    "droppedAcks": 12,
+    "merges": 8
+   }
+  },
+  {
+   "i": 78,
+   "seed": 30378,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 286,
+    "deleted": 100,
+    "replays": 310,
+    "droppedAcks": 22,
+    "merges": 7
+   }
+  },
+  {
+   "i": 79,
+   "seed": 30379,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 144,
+    "deleted": 65,
+    "replays": 142,
+    "droppedAcks": 12,
+    "merges": 6
+   }
+  },
+  {
+   "i": 80,
+   "seed": 30380,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 293,
+    "deleted": 90,
+    "replays": 462,
+    "droppedAcks": 30,
+    "merges": 8
+   }
+  },
+  {
+   "i": 81,
+   "seed": 30381,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 242,
+    "deleted": 73,
+    "replays": 182,
+    "droppedAcks": 16,
+    "merges": 9
+   }
+  },
+  {
+   "i": 82,
+   "seed": 30382,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 291,
+    "deleted": 83,
+    "replays": 486,
+    "droppedAcks": 23,
+    "merges": 8
+   }
+  },
+  {
+   "i": 83,
+   "seed": 30383,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 316,
+    "deleted": 90,
+    "replays": 388,
+    "droppedAcks": 27,
+    "merges": 8
+   }
+  },
+  {
+   "i": 84,
+   "seed": 30384,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 207,
+    "deleted": 84,
+    "replays": 360,
+    "droppedAcks": 16,
+    "merges": 4
+   }
+  },
+  {
+   "i": 85,
+   "seed": 30385,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 201,
+    "deleted": 47,
+    "replays": 204,
+    "droppedAcks": 16,
+    "merges": 5
+   }
+  },
+  {
+   "i": 86,
+   "seed": 30386,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 253,
+    "deleted": 95,
+    "replays": 242,
+    "droppedAcks": 14,
+    "merges": 5
+   }
+  },
+  {
+   "i": 87,
+   "seed": 30387,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 231,
+    "deleted": 73,
+    "replays": 224,
+    "droppedAcks": 17,
+    "merges": 7
+   }
+  },
+  {
+   "i": 88,
+   "seed": 30388,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 194,
+    "deleted": 75,
+    "replays": 174,
+    "droppedAcks": 16,
+    "merges": 6
+   }
+  },
+  {
+   "i": 89,
+   "seed": 30389,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 179,
+    "deleted": 54,
+    "replays": 132,
+    "droppedAcks": 10,
+    "merges": 4
+   }
+  },
+  {
+   "i": 90,
+   "seed": 30390,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 159,
+    "deleted": 51,
+    "replays": 142,
+    "droppedAcks": 11,
+    "merges": 5
+   }
+  },
+  {
+   "i": 91,
+   "seed": 30391,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 233,
+    "deleted": 72,
+    "replays": 318,
+    "droppedAcks": 16,
+    "merges": 4
+   }
+  },
+  {
+   "i": 92,
+   "seed": 30392,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 228,
+    "deleted": 75,
+    "replays": 288,
+    "droppedAcks": 24,
+    "merges": 7
+   }
+  },
+  {
+   "i": 93,
+   "seed": 30393,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 255,
+    "deleted": 76,
+    "replays": 250,
+    "droppedAcks": 13,
+    "merges": 4
+   }
+  },
+  {
+   "i": 94,
+   "seed": 30394,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 285,
+    "deleted": 75,
+    "replays": 432,
+    "droppedAcks": 26,
+    "merges": 8
+   }
+  },
+  {
+   "i": 95,
+   "seed": 30395,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 230,
+    "deleted": 71,
+    "replays": 220,
+    "droppedAcks": 16,
+    "merges": 5
+   }
+  },
+  {
+   "i": 96,
+   "seed": 30396,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 230,
+    "deleted": 83,
+    "replays": 336,
+    "droppedAcks": 23,
+    "merges": 8
+   }
+  },
+  {
+   "i": 97,
+   "seed": 30397,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 226,
+    "deleted": 70,
+    "replays": 218,
+    "droppedAcks": 12,
+    "merges": 5
+   }
+  },
+  {
+   "i": 98,
+   "seed": 30398,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 201,
+    "deleted": 78,
+    "replays": 190,
+    "droppedAcks": 19,
+    "merges": 8
+   }
+  },
+  {
+   "i": 99,
+   "seed": 30399,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 231,
+    "deleted": 49,
+    "replays": 158,
+    "droppedAcks": 12,
+    "merges": 5
+   }
+  }
+ ],
+ "durationMs": 139884,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

@@ -1,0 +1,917 @@
+{
+ "id": "M0-11",
+ "title": "協作中撤銷登入：2 秒內中斷，舊憑證無法重新連線",
+ "meta": {},
+ "startedAt": "2026-10-30T16:17:19.895Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 111100,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 8
+   }
+  },
+  {
+   "i": 1,
+   "seed": 111101,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 2,
+   "seed": 111102,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 3,
+   "seed": 111103,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 4,
+   "seed": 111104,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 5,
+   "seed": 111105,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 6,
+   "seed": 111106,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 7,
+   "seed": 111107,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 8,
+   "seed": 111108,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 9,
+   "seed": 111109,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 10,
+   "seed": 111110,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 11,
+   "seed": 111111,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 12,
+   "seed": 111112,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 13,
+   "seed": 111113,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 6
+   }
+  },
+  {
+   "i": 14,
+   "seed": 111114,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 7
+   }
+  },
+  {
+   "i": 15,
+   "seed": 111115,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 16,
+   "seed": 111116,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 17,
+   "seed": 111117,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 18,
+   "seed": 111118,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 19,
+   "seed": 111119,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 20,
+   "seed": 111120,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 21,
+   "seed": 111121,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 22,
+   "seed": 111122,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 23,
+   "seed": 111123,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 24,
+   "seed": 111124,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 25,
+   "seed": 111125,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 26,
+   "seed": 111126,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 27,
+   "seed": 111127,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 28,
+   "seed": 111128,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 29,
+   "seed": 111129,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 6
+   }
+  },
+  {
+   "i": 30,
+   "seed": 111130,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 6
+   }
+  },
+  {
+   "i": 31,
+   "seed": 111131,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 32,
+   "seed": 111132,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 33,
+   "seed": 111133,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 34,
+   "seed": 111134,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 35,
+   "seed": 111135,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 36,
+   "seed": 111136,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 37,
+   "seed": 111137,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 38,
+   "seed": 111138,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 39,
+   "seed": 111139,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 40,
+   "seed": 111140,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 41,
+   "seed": 111141,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 42,
+   "seed": 111142,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 43,
+   "seed": 111143,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 44,
+   "seed": 111144,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 45,
+   "seed": 111145,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 46,
+   "seed": 111146,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 47,
+   "seed": 111147,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 48,
+   "seed": 111148,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 49,
+   "seed": 111149,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 50,
+   "seed": 111150,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 51,
+   "seed": 111151,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 52,
+   "seed": 111152,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 53,
+   "seed": 111153,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 54,
+   "seed": 111154,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 55,
+   "seed": 111155,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 56,
+   "seed": 111156,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 57,
+   "seed": 111157,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 58,
+   "seed": 111158,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 59,
+   "seed": 111159,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 60,
+   "seed": 111160,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 61,
+   "seed": 111161,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 62,
+   "seed": 111162,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 63,
+   "seed": 111163,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 64,
+   "seed": 111164,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 65,
+   "seed": 111165,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 66,
+   "seed": 111166,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 67,
+   "seed": 111167,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 68,
+   "seed": 111168,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 8
+   }
+  },
+  {
+   "i": 69,
+   "seed": 111169,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 70,
+   "seed": 111170,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 6
+   }
+  },
+  {
+   "i": 71,
+   "seed": 111171,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 72,
+   "seed": 111172,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 73,
+   "seed": 111173,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 74,
+   "seed": 111174,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 75,
+   "seed": 111175,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 76,
+   "seed": 111176,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 77,
+   "seed": 111177,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 78,
+   "seed": 111178,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 79,
+   "seed": 111179,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 7
+   }
+  },
+  {
+   "i": 80,
+   "seed": 111180,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 2
+   }
+  },
+  {
+   "i": 81,
+   "seed": 111181,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 82,
+   "seed": 111182,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 83,
+   "seed": 111183,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 84,
+   "seed": 111184,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 85,
+   "seed": 111185,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 86,
+   "seed": 111186,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 87,
+   "seed": 111187,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 88,
+   "seed": 111188,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 89,
+   "seed": 111189,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 90,
+   "seed": 111190,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 91,
+   "seed": 111191,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 92,
+   "seed": 111192,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 93,
+   "seed": 111193,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 94,
+   "seed": 111194,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 95,
+   "seed": 111195,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 96,
+   "seed": 111196,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  },
+  {
+   "i": 97,
+   "seed": 111197,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 4
+   }
+  },
+  {
+   "i": 98,
+   "seed": 111198,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 5
+   }
+  },
+  {
+   "i": 99,
+   "seed": 111199,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latencyMs": 3
+   }
+  }
+ ],
+ "latency": {
+  "p50": 4,
+  "p95": 6,
+  "max": 8
+ },
+ "durationMs": 37178,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}
