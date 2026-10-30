@@ -9,7 +9,7 @@ OUT=web/dist/mobile-$VARIANT
 mkdir -p "$OUT"
 $ESBUILD "web/mobile-$VARIANT.js" --bundle --format=esm --platform=browser --target=es2022 \
   --outdir="$OUT" --loader:.woff2=dataurl --loader:.woff=dataurl --loader:.ttf=dataurl \
-  --define:process.env.NODE_ENV='"production"' --minify --log-level=warning
+  --conditions=style,module --define:process.env.NODE_ENV='"production"' --minify --log-level=warning
 python3 - "$VARIANT" <<'PY'
 import base64, sys, os
 v = sys.argv[1]
