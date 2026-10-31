@@ -1,0 +1,12 @@
+// 案例登錄表：編號 → 延遲載入的測試函式（每個函式接收輪數 n，回傳 Recorder 結果）
+const from = (mod, name) => async () => (await import(mod))[name];
+export const registry = {
+  'MIG-01': from('./migrations.mjs', 'mig01'),
+  'AUTH-01': from('./auth.mjs', 'auth01'), 'AUTH-02': from('./auth.mjs', 'auth02'), 'AUTH-03': from('./auth.mjs', 'auth03'),
+  'AUTH-04': from('./auth.mjs', 'auth04'), 'AUTH-05': from('./auth.mjs', 'auth05'), 'AUTH-06': from('./auth.mjs', 'auth06'),
+  'AUTH-07': from('./auth.mjs', 'auth07'),
+  'SEC-01': from('./auth.mjs', 'sec01'), 'SEC-02': from('./auth.mjs', 'sec02'), 'SEC-03': from('./auth.mjs', 'sec03'),
+  'SEC-05': from('./auth.mjs', 'sec05'), 'SEC-06': from('./auth.mjs', 'sec06'),
+  'PAGE-01': from('./pages.mjs', 'page01'), 'PAGE-02': from('./pages.mjs', 'page02'), 'PAGE-03': from('./pages.mjs', 'page03'),
+  'PAGE-04': from('./pages.mjs', 'page04'), 'PAGE-05': from('./pages.mjs', 'page05'),
+};
