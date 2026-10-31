@@ -772,3 +772,7 @@ export async function m0_17(N) {
   }
   return rec.save();
 }
+
+// 每個指定輪數包含的情境數（執行器據此檢查實際輪數是否完整）
+m0_09.roundsPer = 5;   // 五個故障點
+m0_10.roundsPer = 4;   // 四個情境

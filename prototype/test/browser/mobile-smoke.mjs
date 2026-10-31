@@ -38,7 +38,7 @@ try {
   await p.waitForTimeout(1500);
   const auto = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#auto .kv')].map(k => [k.querySelector('dt').textContent, k.querySelector('dd').textContent])));
   info.auto = auto;
-  if (auto['輸入法組字次數'] !== '4') fails.push('組字次數 ' + auto['輸入法組字次數']);
+  if (auto['輸入法組字完成（累計）'] !== '4') fails.push('組字次數 ' + auto['輸入法組字完成（累計）']);
   if (auto['畫面與模型不一致'] !== '0') fails.push('畫面與模型不一致');
   const t3 = await p.locator('.bn-inline-content').nth(2).textContent();
   if (t3 !== '明天下午3點') fails.push('輸入結果 ' + t3);
@@ -60,6 +60,12 @@ try {
   await p.waitForTimeout(500);
   if (await p.locator('.bn-inline-content').nth(2).textContent() !== '明天下午3點') fails.push('重新整理後內容不見');
   if (await p.locator('.item .pill').first().textContent() !== '通過') fails.push('重新整理後勾選結果不見');
+  // 自動紀錄必須跨重新載入累計
+  const auto2 = await p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#auto .kv')].map(k => [k.querySelector('dt').textContent, k.querySelector('dd').textContent])));
+  info.autoAfterReload = auto2;
+  if (auto2['輸入法組字完成（累計）'] !== '4') fails.push('重新整理後組字次數沒有累計: ' + auto2['輸入法組字完成（累計）']);
+  if (!(Number(auto2['本機寫入次數（累計）']) >= Number(auto['本機寫入次數（累計）']))) fails.push('重新整理後本機寫入次數沒有累計');
+  if (!/共 1 次/.test(auto2['重新開啟時還原的段落'])) fails.push('重新開啟還原紀錄 ' + auto2['重新開啟時還原的段落']);
   const [sw, iw] = await p.evaluate(() => [document.documentElement.scrollWidth, innerWidth]);
   if (sw > iw) fails.push(`橫向捲動 ${sw} > ${iw}`);
   mkdirSync('results', { recursive: true });

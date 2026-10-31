@@ -30,10 +30,17 @@ if (!runId) { runId = 'run-' + new Date().toISOString().slice(0, 10) + '-' + Mat
 const reloads = Number(ls.get('m015.loads') || 0) + 1;
 ls.set('m015.loads', String(reloads));
 
+// 自動紀錄跨頁面重新載入累計（第四輪審核：只記最後一次開啟會讓組字與寫入次數看起來是 0）
 const auto = {
-  imeCompositions: 0, domModelMismatch: 0, lastMismatch: '', idbWrites: 0, idbErrors: 0,
-  idbAvailable: true, restoredBlocks: 0, pageLoads: reloads,
+  imeCompositions: 0, compositionInputs: 0, plainInputs: 0, domModelMismatch: 0, lastMismatch: '',
+  idbWrites: 0, idbErrors: 0, idbAvailable: true, restoredBlocks: 0, restoredLoads: 0, pageLoads: reloads,
 };
+try {
+  const prev = JSON.parse(ls.get('m015.auto') || 'null');
+  if (prev) for (const k of ['imeCompositions', 'compositionInputs', 'plainInputs', 'domModelMismatch', 'idbWrites', 'idbErrors', 'restoredLoads']) auto[k] = Number(prev[k]) || 0;
+  if (prev && prev.lastMismatch) auto.lastMismatch = prev.lastMismatch;
+} catch { /* 忽略 */ }
+const saveAuto = () => ls.set('m015.auto', JSON.stringify(auto));
 
 // ---- IndexedDB：保存 Y.Doc 的更新；交易完成（durability strict）才算「已存本機」 ----
 const DBN = 'm015', ST = 'doc', KEY = 'main';
@@ -78,6 +85,7 @@ async function flush() {
       await idbPut({ updates: [...updates], at: Date.now() });
       persisted = Math.max(persisted, v);
       auto.idbWrites++;
+      saveAuto();
     } while (again);
   } catch { auto.idbErrors++; } finally { saving = false; renderStatus(); }
 }
@@ -123,6 +131,8 @@ if (fragEmpty) {
   ]);
 } else {
   auto.restoredBlocks = editor.document.length;
+  auto.restoredLoads++;
+  saveAuto();
 }
 
 // ---- 自動檢查：輸入法結束後，畫面上的文字必須等於編輯器模型（Y.Doc）裡的文字 ----
@@ -137,10 +147,16 @@ function domText() {
 }
 function checkConsistency() {
   const a = domText().replace(/​/g, ''), b = modelText();
-  if (a !== b) { auto.domModelMismatch++; auto.lastMismatch = JSON.stringify({ dom: a.slice(-80), model: b.slice(-80) }); }
+  if (a !== b) { auto.domModelMismatch++; auto.lastMismatch = JSON.stringify({ dom: a.slice(-80), model: b.slice(-80) }); saveAuto(); }
   renderAuto();
 }
-$('editor').addEventListener('compositionend', () => { auto.imeCompositions++; setTimeout(checkConsistency, 400); });
+$('editor').addEventListener('compositionend', () => { auto.imeCompositions++; saveAuto(); setTimeout(checkConsistency, 400); });
+// 有些輸入法（例如部分 Android 輸入法）不送 composition 事件，直接以 insertText 提交：兩種路徑都記錄
+$('editor').addEventListener('input', e => {
+  if (e.inputType === 'insertCompositionText') auto.compositionInputs++;
+  else if (e.inputType === 'insertText' || e.inputType === 'insertReplacementText') auto.plainInputs++;
+  saveAuto();
+});
 $('editor').addEventListener('input', () => { clearTimeout(checkConsistency.t); checkConsistency.t = setTimeout(checkConsistency, 1500); });
 
 // ---- 檢查項目 ----
@@ -208,18 +224,20 @@ function guessDevice() {
   const br = /CriOS|Chrome/.test(ua) ? 'Chrome' : /FxiOS|Firefox/.test(ua) ? 'Firefox' : /Safari/.test(ua) ? 'Safari' : '';
   return [os, br].filter(Boolean).join(' · ');
 }
-$('device').value = state.device || guessDevice();
+if (!state.device) state.device = guessDevice();   // 沒手動修改也會送出推測值
+$('device').value = state.device;
 $('ime').value = state.ime || '';
 $('device').addEventListener('input', () => { state.device = $('device').value; ls.set('m015.state', JSON.stringify(state)); queueSync(); });
 $('ime').addEventListener('input', () => { state.ime = $('ime').value; ls.set('m015.state', JSON.stringify(state)); queueSync(); });
 
 function renderAuto() {
   const rows = [
-    ['輸入法組字次數', auto.imeCompositions],
+    ['輸入法組字完成（累計）', auto.imeCompositions],
+    ['組字輸入／直接輸入（累計）', `${auto.compositionInputs} / ${auto.plainInputs}`],
     ['畫面與模型不一致', auto.domModelMismatch, auto.domModelMismatch ? 'bad' : 'ok'],
-    ['本機寫入次數', auto.idbWrites],
+    ['本機寫入次數（累計）', auto.idbWrites],
     ['本機寫入失敗', auto.idbErrors, auto.idbErrors ? 'bad' : 'ok'],
-    ['重新開啟時還原的段落', auto.restoredBlocks],
+    ['重新開啟時還原的段落', `${auto.restoredBlocks}（共 ${auto.restoredLoads} 次）`],
     ['這台手機開啟次數', auto.pageLoads],
   ];
   const dl = $('auto');

@@ -39,7 +39,7 @@ npm install --no-save --ignore-scripts playwright@1.63.0 esbuild@0.28.2
 npx playwright install --with-deps chromium
 ESBUILD=node_modules/.bin/esbuild bash scripts/build-web.sh
 
-node test/runner-selftest.mjs                   # 執行器自我測試（9 項）
+node test/runner-selftest.mjs                   # 執行器自我測試（12 項）
 npm run test:core                               # M0-01～11、M0-17 完整輪數
 npm run test:browser                            # BR-01、BR-02 各 20 輪
 for f in feasibility/m0-1[2346]*.mjs; do node "$f" || exit 1; done

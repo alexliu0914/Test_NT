@@ -14,6 +14,19 @@ const selftests = {
   'SELFTEST-THROW': async () => { throw new Error('intentional exception'); },
   'SELFTEST-NORESULT': async n => ({ id: 'SELFTEST-NORESULT', total: n, failed: 0 }), // 回報成功但沒有寫結果檔
   'SELFTEST-HANG': () => new Promise(() => {}),        // 永遠不完成、也沒有其他待辦工作（Node 預設會以 13 直接結束）
+  // 少跑一輪，但回傳值與結果檔彼此一致（第四輪審核指出的漏洞）
+  'SELFTEST-SHORT': async n => { const r = new Recorder('SELFTEST-SHORT', '刻意少跑一輪'); for (let i = 0; i < n - 1; i++) r.add(i, i, []); return r.save(); },
+  // 結果檔的 total 與逐輪紀錄數量不一致
+  'SELFTEST-MISCOUNT': async n => {
+    const r = new Recorder('SELFTEST-MISCOUNT', 'total 與逐輪紀錄不一致');
+    for (let i = 0; i < n; i++) r.add(i, i, []);
+    const saved = r.save();
+    saved.iterations = saved.iterations.slice(1);
+    writeFileSync(ROOT_DIR + 'results/SELFTEST-MISCOUNT.json', JSON.stringify(saved));
+    return saved;
+  },
+  // 每個指定輪數實際跑 2 輪的案例（同 M0-09／M0-10 的情境倍數）：必須通過
+  'SELFTEST-PER2': Object.assign(async n => { const r = new Recorder('SELFTEST-PER2', '每輪兩個情境'); for (let i = 0; i < 2 * n; i++) r.add(i, i, []); return r.save(); }, { roundsPer: 2 }),
 };
 
 function sh(cmd) { try { return execSync(cmd, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim(); } catch { return null; } }
@@ -94,8 +107,15 @@ if (!failed) {
     const file = ROOT_DIR + `results/${id}.json`;
     if (!existsSync(file)) { entry.status = 'missing_result_file'; failed = true; continue; }
     const saved = JSON.parse(readFileSync(file, 'utf8'));
-    Object.assign(entry, { total: saved.total, passed: saved.passed, failed: saved.failed, durationMs: saved.durationMs });
-    if (saved.failed > 0) { entry.status = 'fail'; failed = true; entry.firstFails = saved.iterations.filter(x => !x.pass).slice(0, 2).map(x => `#${x.i}: ${x.fails.slice(0, 3).join('; ')}`); }
+    // 實際輪數必須等於要求輪數 × 每輪情境數，且 total、passed＋failed、逐輪紀錄三者一致
+    const expected = n * (fn.roundsPer || 1);
+    const its = Array.isArray(saved.iterations) ? saved.iterations : [];
+    Object.assign(entry, { expected, total: saved.total, passed: saved.passed, failed: saved.failed, iterations: its.length, durationMs: saved.durationMs });
+    if (saved.total !== expected || saved.passed + saved.failed !== saved.total || its.length !== saved.total
+        || its.filter(x => x.pass).length !== saved.passed) {
+      entry.status = 'incomplete'; failed = true;
+      entry.error = `expected ${expected} rounds; total=${saved.total} passed+failed=${saved.passed + saved.failed} iterations=${its.length}`;
+    } else if (saved.failed > 0) { entry.status = 'fail'; failed = true; entry.firstFails = saved.iterations.filter(x => !x.pass).slice(0, 2).map(x => `#${x.i}: ${x.fails.slice(0, 3).join('; ')}`); }
     else if (saved.total === 0) { entry.status = 'no_rounds'; failed = true; }
     else if (r && r.total !== saved.total) { entry.status = 'result_mismatch'; failed = true; }
   }
