@@ -1,0 +1,17 @@
+# 測試用 PostgreSQL（只綁 127.0.0.1；trust 驗證僅限測試，不可用於正式環境）
+# 用法：docker compose -f docker-compose.test.yml up -d --wait
+#       PGHOST=127.0.0.1 PGPORT=54329 PGUSER=postgres bash test/setup-test-db.sh
+services:
+  postgres:
+    image: postgres:16.15
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C.UTF-8 --lc-ctype=C.UTF-8"
+    command: ["postgres", "-c", "max_connections=300"]
+    ports:
+      - "127.0.0.1:54329:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
