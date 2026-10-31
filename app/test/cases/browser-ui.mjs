@@ -93,6 +93,15 @@ export async function br03(N) {
         await input.press('Enter');
         const t1 = await waitTitle(PA, title1).catch(() => null);
         if (t1 === null || t1 > 2000) fails.push('對方 2 秒內沒有看到新頁面 ' + t1); else lat.push(t1);
+        // 從首頁點進頁面：側邊欄必須是同一個 DOM 節點（沒有重新掛載，F-M1-03）
+        if (r === 0) {
+          await PA.locator('[data-testid="tree"]').evaluate(el => { el.__mark = 'same'; });
+          await row(PA, title1).getByText(title1).click();
+          await PA.waitForURL(/\/p\//, { timeout: 10000 });
+          await PA.locator('.bn-editor').waitFor({ timeout: 15000 });
+          const same = await PA.locator('[data-testid="tree"]').evaluate(el => el.__mark === 'same');
+          if (!same) fails.push('從首頁進入頁面時側邊欄被重新掛載');
+        }
         // 對方改名（雙擊）
         const title2 = `改名${r}`;
         await row(PA, title1).getByText(title1).dblclick();
