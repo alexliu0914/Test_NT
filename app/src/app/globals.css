@@ -1,0 +1,5 @@
+html, body { height: 100%; }
+body { margin: 0; }
+.app-audio { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-block: 4px; }
+.app-audio audio { max-width: 100%; flex: 1 1 220px; }
+.app-audio select { font: inherit; padding: 4px 6px; border-radius: 6px; }
