@@ -20,7 +20,7 @@ const checks = [
   { name: '有情境倍數的案例跑足輪數 → 退出碼 0', args: ['SELFTEST-PER2=3'], expect: 0, summaryStatus: 'pass' },
   { name: '未知案例名稱 → 退出碼 1', args: ['M0-99=1'], expect: 1 },
   { name: '輪數無效 → 退出碼 1', args: ['SELFTEST-PASS=0'], expect: 1 },
-  { name: '連到非測試資料庫 → 拒絕執行、退出碼 1', args: ['SELFTEST-PASS=1'], env: { DATABASE_URL: prodLike.toString() }, expect: 1, mustSay: '拒絕執行' },
+  { name: '連到非測試資料庫 → 拒絕執行、退出碼 1', args: ['SELFTEST-PASS=1'], env: { TEST_DATABASE_URL: prodLike.toString(), DATABASE_URL: prodLike.toString() }, expect: 1, mustSay: '拒絕執行' },
 ];
 
 const out = [];
