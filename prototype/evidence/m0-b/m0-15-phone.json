@@ -1,0 +1,58 @@
+{
+  "auto": {
+    "domModelMismatch": 0,
+    "idbAvailable": true,
+    "idbErrors": 0,
+    "idbWrites": 0,
+    "imeCompositions": 0,
+    "lastMismatch": "",
+    "pageLoads": 2,
+    "restoredBlocks": 10
+  },
+  "device": "",
+  "doc": "[{\"id\":\"d81031af-b05a-4f61-b9d8-7f79307c3915\",\"type\":\"heading\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\",\"level\":2,\"isToggleable\":false},\"content\":[{\"type\":\"text\",\"text\":\"測試手機輸入測試\",\"styles\":{}}],\"children\":[]},{\"id\":\"7a869efd-fdd6-48a5-a165-1bb64fd6f21a\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[],\"children\":[]},{\"id\":\"c91995a9-ccea-43a5-8962-874caa5312ea\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[{\"type\":\"text\",\"text\":\"這段文字可以\",\"styles\":{}},{\"type\":\"text\",\"text\":\"隨意修改。請\",\"styles\":{\"bold\":true}},{\"type\":\"text\",\"text\":\"在下面的空白段落用中文輸入法打字。\",\"styles\":{}}],\"children\":[]},{\"id\":\"692fd125-fe20-4401-89bc-8f6f22be1125\",\"type\":\"heading\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\",\"level\":2,\"isToggleable\":false},\"content\":[{\"type\":\"text\",\"text\":\"測\",\"styles\":{}}],\"children\":[]},{\"id\":\"628bae72-59d5-4d58-95dc-dc0ba65ef1f7\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[{\"type\":\"text\",\"text\":\"你好嗎? 我mng 好哦\",\"styles\":{}}],\"children\":[]},{\"id\":\"22eb34ba-c8ff-4ddd-a737-8d7a59b8313a\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[],\"children\":[]},{\"id\":\"32552df1-716a-4b62-ab24-34b33d1200dd\",\"type\":\"checkListItem\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\",\"checked\":false},\"content\":[{\"type\":\"text\",\"text\":\"勾選這個項目試試看\",\"styles\":{}}],\"children\":[]},{\"id\":\"c168abeb-c59b-4c77-b1e5-34670b543805\",\"type\":\"appAudio\",\"props\":{\"fileId\":\"m015-tone\",\"speed\":1},\"children\":[]},{\"id\":\"e4777cee-58fe-420c-90f1-da80eee44e5c\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[{\"type\":\"text\",\"text\":\"音檔共 60 秒：每秒一聲嗶，每 10 秒是較高的音。\",\"styles\":{}}],\"children\":[]},{\"id\":\"fd414eea-0119-462c-9c44-b0b450810fb7\",\"type\":\"paragraph\",\"props\":{\"backgroundColor\":\"default\",\"textColor\":\"default\",\"textAlignment\":\"left\"},\"content\":[{\"type\":\"text\",\"text\":\"可以\",\"styles\":{}}],\"children\":[]}]",
+  "ime": "嘸蝦米",
+  "items": {
+    "audio": {
+      "at": "2026-10-31T05:05:22.014Z",
+      "r": "pass"
+    },
+    "bg": {
+      "at": "2026-10-31T05:06:35.550Z",
+      "r": "pass"
+    },
+    "drag": {
+      "at": "2026-10-31T05:04:38.323Z",
+      "r": "pass"
+    },
+    "ime": {
+      "at": "2026-10-31T04:48:14.500Z",
+      "r": "pass"
+    },
+    "kbd": {
+      "at": "2026-10-31T05:05:56.788Z",
+      "r": "pass"
+    },
+    "mid": {
+      "at": "2026-10-31T04:48:52.320Z",
+      "r": "pass"
+    },
+    "reload": {
+      "at": "2026-10-31T05:06:58.242Z",
+      "r": "pass"
+    },
+    "select": {
+      "at": "2026-10-31T04:49:38.899Z",
+      "r": "pass"
+    },
+    "slash": {
+      "at": "2026-10-31T05:03:52.109Z",
+      "r": "pass"
+    }
+  },
+  "runId": "run-2026-10-31-rvehzy",
+  "startedAt": "2026-10-31T04:46:44.504Z",
+  "ua": "Mozilla/5.0 (Linux; Android 16; SM-S9180 Build/BP4A.251205.006; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/156.0.8078.47 Mobile Safari/537.36 Claude/1.261028.19",
+  "updatedAt": "2026-10-31T05:07:16.565Z",
+  "viewport": "384x660@2.8125"
+}
