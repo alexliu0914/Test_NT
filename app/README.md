@@ -39,7 +39,7 @@ COLLAB_PUBLIC_URL=ws://127.0.0.1:27601 npx next build
 npx playwright install --with-deps chromium
 node test/runner-selftest.mjs                      # 執行器自我測試（12 項）
 node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=30 M0-01=100 BR-01=20 ...
-python3 test/mutations.py                          # 24 個植入缺陷都必須被抓到
+python3 test/mutations.py                          # 25 個植入缺陷都必須被抓到
 ```
 
 | 編號 | 內容 |

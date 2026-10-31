@@ -134,6 +134,19 @@ export async function page03(n) {
       // 再還原先刪除的那一頁：上層已在，回到原位置
       const r2 = await A.agent.post(`/api/pages/${early}/restore`);
       if (r2.status !== 200 || r2.json.parentId !== root) fails.push('單獨刪除的子頁面沒有回到原上層');
+      // F-M1-04：指定批次中「不是根」的頁面還原，而批次的根的上層屬於另一批、仍在垃圾桶
+      // kids[1]（含 deep）先刪 → 批次 X；再刪 root → 批次 Y；指定 deep 還原批次 X：kids[1] 必須改掛到最上層
+      await A.agent.del(`/api/pages/${kids[1]}`);
+      await A.agent.del(`/api/pages/${root}`);
+      const r3 = await B.agent.post(`/api/pages/${deep}/restore`);
+      const t3 = await tree(A.agent);
+      const k1 = t3.find(p => p.id === kids[1]), dp = t3.find(p => p.id === deep);
+      if (r3.status !== 200 || r3.json.restored !== 2) fails.push('指定子頁面還原時數量不正確 ' + JSON.stringify(r3.json));
+      if (!k1 || k1.parentId !== null) fails.push('批次的根仍掛在垃圾桶裡的頁面底下 ' + JSON.stringify(k1));
+      if (!dp || dp.parentId !== kids[1]) fails.push('批次內的結構沒有保留');
+      const orphan = (await db.query(`select count(*)::int as n from pages c join pages p on p.id = c.parent_id where c.deleted_at is null and p.deleted_at is not null`)).rows[0].n;
+      if (orphan) fails.push('有頁面掛在已刪除的頁面底下');
+      await B.agent.post(`/api/pages/${root}/restore`);       // 收尾：其餘頁面還原，下一輪不受影響
       return [fails];
     });
   }

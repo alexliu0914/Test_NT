@@ -170,17 +170,18 @@ export async function restorePage(id: string) {
   return tx(async (c, ws) => {
     const root = (await c.query('select id, parent_id, trash_batch from pages where id=$1 and workspace_id=$2 and deleted_at is not null', [id, ws])).rows[0];
     if (!root) throw new PageError(404, 'not_in_trash', '垃圾桶裡沒有這個頁面');
-    // 原本的上層頁面已不在（也被刪除或已永久刪除）時，還原到最上層的最後面
-    let parentId: string | null = root.parent_id;
-    if (parentId) {
-      const p = (await c.query('select deleted_at, trash_batch from pages where id=$1', [parentId])).rows[0];
-      if (!p || (p.deleted_at && p.trash_batch !== root.trash_batch)) parentId = null;
-    }
+    // 整批還原。指定的頁面不一定是這一批的根（API 可指定批次中的任何頁面），所以還原後檢查這一批中每個頁面：
+    // 上層仍在垃圾桶裡（屬於另一批）的，改掛到最上層的最後面（F-M1-04）
     const n = await c.query('update pages set deleted_at=null, trash_batch=null, updated_at=now() where trash_batch=$1 returning id', [root.trash_batch]);
-    if (parentId !== root.parent_id) {
-      await c.query('update pages set parent_id=$1, position=$2 where id=$3', [parentId, await positionFor(c, ws, parentId, undefined, id), id]);
+    const restored = n.rows.map(r => r.id as string);
+    const orphans = (await c.query(
+      `select c.id from pages c join pages p on p.id = c.parent_id
+        where c.id = any($1::uuid[]) and p.deleted_at is not null order by c.position, c.id`, [restored])).rows.map(r => r.id as string);
+    for (const o of orphans) {
+      await c.query('update pages set parent_id=null, position=$1 where id=$2', [await positionFor(c, ws, null, undefined, o), o]);
     }
-    return { restored: n.rows.length, parentId };
+    const parentId = (await c.query('select parent_id from pages where id=$1', [id])).rows[0].parent_id ?? null;
+    return { restored: restored.length, parentId, reattached: orphans.length };
   });
 }
 

@@ -57,6 +57,9 @@ MUTANTS = [
      "         union all select p.id from pages p join sub on p.parent_id = sub.id where false)", ['PAGE-03=1']),
     ('MUT-P3', '清理時不看 30 天期限', 'src/lib/pages.ts',
      "and deleted_at < now() - make_interval(days => $2)", "and $2::int is not null", ['PAGE-04=1']),
+    ('MUT-P5', '還原時只檢查指定頁面的上層，不檢查整批', 'src/lib/pages.ts',
+     "        where c.id = any($1::uuid[]) and p.deleted_at is not null order by c.position, c.id`, [restored]))",
+     "        where c.id = $2::uuid and p.deleted_at is not null and c.parent_id <> all($1::uuid[]) order by c.position, c.id`, [restored, id]))", ['PAGE-03=1']),
     ('MUT-P4', '頁面變動沒有推送', 'migrations/0001_triggers.sql',
      "  PERFORM pg_notify('pages_changed', COALESCE(NEW.workspace_id, OLD.workspace_id)::text);", "  NULL;", ['PAGE-01=1']),
     # ---- 瀏覽器端 ----
