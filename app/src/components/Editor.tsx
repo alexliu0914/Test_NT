@@ -20,7 +20,7 @@ const schema = makeSchema((fileId: string) => `/api/files/${encodeURIComponent(f
 
 type Props = { pageId: string; user: { id: string; name: string }; onStatus: (s: SaveState) => void };
 
-type Ready = { client: InstanceType<typeof Client>; editor: BlockNoteEditor<any, any, any>; foreign: { key: string; value: Record<string, unknown> }[] };
+type Ready = { client: InstanceType<typeof Client>; editor: BlockNoteEditor<any, any, any>; store: IdbStore; foreign: { key: string; value: Record<string, unknown> }[] };
 
 export default function Editor(props: Props) {
   const [ready, setReady] = useState<Ready | null>(null);
@@ -57,7 +57,7 @@ export default function Editor(props: Props) {
             provider: { awareness: new Awareness(client.ydoc) },
           },
         }));
-        setReady({ client, editor, foreign });
+        setReady({ client, editor, store, foreign });
       } catch (e) {
         setFatal(String((e as Error).message || e));
       }
@@ -71,7 +71,7 @@ export default function Editor(props: Props) {
 }
 
 function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
-  const { client, editor, foreign } = ready;
+  const { client, editor, store, foreign } = ready;
   const scheme = useComputedColorScheme('light');
   const viewRef = useRef<HTMLDivElement>(null);
   const [readOnly, setReadOnly] = useState(false);
@@ -120,15 +120,23 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
     addEventListener('beforeunload', beforeUnload);
     // 自動化測試用介面
     (window as unknown as { __app: unknown }).__app = {
-      client, editor, status,
+      client, editor, store, status,
       blocks: () => editor.document,
       text: () => editor.document.map(b => (Array.isArray(b.content) ? (b.content as { text?: string }[]).map(c => c.text || '').join('') : '')).join('\n'),
       persisted: () => client.localPersisted(),
-      foreignDrafts: () => foreign,
+      // 版本還原介面屬於 M2；M1 的端到端測試直接呼叫協作用戶端
+      makeVersion: (id: string) => client.makeVersion(id),
+      restoreAndWait: (versionId: string) => new Promise(res => {
+        const id = client.restore(versionId);
+        const h = (m: { restoreId: string }) => { if (m.restoreId === id) { client.off('restore_result', h); res(m); } };
+        client.on('restore_result', h);
+      }),
+      undoInfo: () => ({ managers: client.extraUndoManagers.size, depth: [...client.extraUndoManagers].reduce((n, um) => n + um.undoStack.length + um.redoStack.length, 0) }),
+      foreignDrafts: () => describeForeign(foreign),
       discardForeign: async () => { await IdbStore.deleteKeys(foreign.map(f => f.key)); if (client.blocked) await client.discardAndLogout({ confirm: true }); },
     };
     return () => { clearInterval(iv); removeEventListener('beforeunload', beforeUnload); };
-  }, [client, editor, deviceBlocked, onStatus, flags, foreign]);
+  }, [client, editor, store, deviceBlocked, onStatus, flags, foreign]);
 
   if (deviceBlocked) return <ForeignDrafts foreign={foreign} client={client} />;
   return (
@@ -140,11 +148,21 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
   );
 }
 
+// 其他帳號的草稿轉成可讀的區塊 JSON（下載用）
+const converterForDrafts = BlockNoteEditor.create({ schema });
+function describeForeign(foreign: { key: string; value: Record<string, unknown> }[]) {
+  return foreign.map(({ key, value }) => {
+    const c = new Client({ url: '', docId: key.slice(4), token: '', userId: String(value.userId), storage: structuredClone(value),
+      describe: (ydoc: unknown) => JSON.stringify(yDocToBlocks(converterForDrafts, ydoc as never, FRAGMENT)) });
+    return { key, ...c.downloadUnsynced() };
+  });
+}
+
 // 這台裝置上有其他帳號尚未同步的草稿：先下載或確認後捨棄，才能開始編輯（M0-B F-07）
 function ForeignDrafts({ foreign, client }: { foreign: { key: string; value: Record<string, unknown> }[]; client: InstanceType<typeof Client> }) {
   const [confirming, setConfirming] = useState(false);
   function download() {
-    const data = JSON.stringify(foreign.map(f => ({ key: f.key, ...f.value })), null, 1);
+    const data = JSON.stringify(describeForeign(foreign), null, 1);
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
     a.download = 'drafts.json';

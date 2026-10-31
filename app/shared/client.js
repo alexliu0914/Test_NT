@@ -141,13 +141,17 @@ export class Client extends Emitter {
     ws.addEventListener('message', ev => this.onMessage(JSON.parse(typeof ev.data === 'string' ? ev.data : ev.data.toString())));
     ws.addEventListener('close', ev => {
       if (this.ws !== ws) return;
+      const wasReady = this.ready;
       this.ready = false;
       this.emit('disconnected', ev.code);
       if (ev.code === 4001) { this.revoked = true; this.emit('revoked'); return; }
       if (ev.code === 4004) { this.pageClosed = true; this.emit('page_closed'); return; }
       // 4003：憑證無效或過期。有 getToken 時換新憑證重連；沒有（固定憑證）就停止，避免無限重試
       if (ev.code === 4003 && !this.getToken) { this.emit('token_rejected', ev.reason); return; }
-      if (this.autoReconnect && !this.closedByUser) setTimeout(() => { if (!this.closedByUser && this.ws === ws) this.connect(); }, 30 + Math.floor(Math.random() * 70));
+      // 連續失敗時指數退避（第一次 25～75 毫秒，最長約 5 秒），避免離線時不停向網頁伺服器換憑證
+      const fails = this.reconnectFails = (this.reconnectFails || 0) + (wasReady ? 0 : 1);
+      const base = Math.min(5000, 50 * 2 ** Math.min(fails, 7));
+      if (this.autoReconnect && !this.closedByUser) setTimeout(() => { if (!this.closedByUser && this.ws === ws) this.connect(); }, Math.floor(base * (0.5 + Math.random())));
     });
     ws.addEventListener('error', () => {});
   }
@@ -211,6 +215,7 @@ export class Client extends Emitter {
     st.knownEpoch = m.epoch;
     this.touch();
     this.ready = true;
+    this.reconnectFails = 0;
     for (const c of st.unackedCopies) this.raw({ t: 'conflict_copy', ...c });
     for (const e of st.pending) this.sendUpdate(e);
     for (const r of st.pendingRestores) this.raw({ t: 'restore', ...r });

@@ -9,5 +9,6 @@ export const registry = {
   'SEC-05': from('./auth.mjs', 'sec05'), 'SEC-06': from('./auth.mjs', 'sec06'),
   'PAGE-01': from('./pages.mjs', 'page01'), 'PAGE-02': from('./pages.mjs', 'page02'), 'PAGE-03': from('./pages.mjs', 'page03'),
   'PAGE-04': from('./pages.mjs', 'page04'), 'PAGE-05': from('./pages.mjs', 'page05'),
+  'BR-01': from('./browser.mjs', 'br01'), 'BR-02': from('./browser-idb.mjs', 'br02'), 'BR-03': from('./browser-ui.mjs', 'br03'),
   ...Object.fromEntries(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '17'].map(k => [`M0-${k}`, from('./m0.mjs', `m0_${k}`)])),
 };
