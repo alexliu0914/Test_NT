@@ -14,7 +14,9 @@ import { verifyCollabToken } from '../shared/collab-token.mjs';
 import * as Y from 'yjs';
 import { replaceFragmentsFrom, docJSON } from '../shared/doc.js';
 
-const PORT = Number(process.env.PORT || 27000);
+// 連接埠：--port 參數（npm run collab，Windows 也適用）＞ PORT 環境變數（測試）＞ 27000
+const portArg = process.argv.indexOf('--port');
+const PORT = Number((portArg > 0 && process.argv[portArg + 1]) || process.env.PORT || 27000);
 const DATABASE_URL = process.env.DATABASE_URL;
 const FAULT_POINT = process.env.FAULT_POINT || '';
 const BATCH_MS = Number(process.env.BATCH_MS || 20);

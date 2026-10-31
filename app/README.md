@@ -17,9 +17,10 @@
 
 ```bash
 cd app
-cp .env.example .env          # 填入 BETTER_AUTH_SECRET、COLLAB_SECRET（openssl rand -base64 48）
+cp .env.example .env          # 填入 BETTER_AUTH_SECRET、COLLAB_SECRET（各執行一次下一行，產生兩組不同的值）
+node -e "console.log(require('crypto').randomBytes(48).toString('base64'))"
 docker compose -f docker-compose.test.yml up -d --wait
-createdb -h 127.0.0.1 -p 54329 -U postgres -T template0 -E UTF8 --lc-collate=C.UTF-8 --lc-ctype=C.UTF-8 notes_dev
+docker compose -f docker-compose.test.yml exec postgres createdb -U postgres notes_dev
 npm ci
 npm run db:migrate
 npm run admin:create -- --email you@example.com --name 你的名字     # 建立第一個管理者與工作區
@@ -28,6 +29,8 @@ npm run collab                 # 協作伺服器 ws://localhost:3001（另開一
 ```
 
 第一次登入必須設定兩步驟驗證；之後的帳號由管理者在「設定 → 邀請成員」建立邀請連結（72 小時、只能用一次）。
+
+Windows（PowerShell）也適用以上指令；需先啟動 Docker Desktop。
 
 ## 測試
 
