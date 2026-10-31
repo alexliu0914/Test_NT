@@ -38,8 +38,8 @@ bash test/setup-test-db.sh                         # 建立 notes_test（只會�
 COLLAB_PUBLIC_URL=ws://127.0.0.1:27601 npx next build
 npx playwright install --with-deps chromium
 node test/runner-selftest.mjs                      # 執行器自我測試（12 項）
-node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=30 M0-01=100 BR-01=20 ...
-python3 test/mutations.py                          # 25 個植入缺陷都必須被抓到
+node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=60 M0-01=100 BR-01=20 BR-04=20 ...
+python3 test/mutations.py                          # 26 個植入缺陷都必須被抓到
 ```
 
 | 編號 | 內容 |
@@ -49,7 +49,7 @@ python3 test/mutations.py                          # 25 個植入缺陷都必須
 | SEC-01／02／03／05／06 | 登入失敗鎖定、撤銷其他裝置（含協作連線 2 秒內中斷）、跨站請求、未登入的每個 API、協作憑證竄改／過期／錯頁／撤銷 |
 | PAGE-01～05 | 對方 2 秒內看到變更、不能移到自己的子頁面、整批刪除與還原、30 天永久刪除、兩人隨機操作的不變量 |
 | M0-01～11、M0-17 | M0 協作核心測試，改在正式協作伺服器與正式 session 上執行 |
-| BR-01～03 | 真正的 Chromium：兩人編輯與還原、IndexedDB（含正式登入撤銷、不同帳號）、正式介面流程（邀請→兩步驟驗證→頁面樹） |
+| BR-01～04 | 真正的 Chromium：兩人編輯與還原、IndexedDB（含正式登入撤銷、不同帳號）、正式介面流程（邀請→兩步驟驗證→頁面樹）、兩人同時開始編輯新頁面 |
 
 瀏覽器測試的網頁固定在 27600、協作伺服器在 27601；網頁的 CSP 在建置時寫入協作網址，所以建置時要設定 `COLLAB_PUBLIC_URL=ws://127.0.0.1:27601`。
 

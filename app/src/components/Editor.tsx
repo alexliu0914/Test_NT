@@ -13,6 +13,8 @@ import { Awareness } from 'y-protocols/awareness';
 import { Client } from '@shared/client.js';
 import { IdbStore } from '@shared/idb-store.js';
 import { makeSchema, FRAGMENT } from '@shared/blocknote-schema.js';
+import { initialDocUpdate } from '@shared/initial-doc.js';
+import * as Y from 'yjs';
 
 export type SaveState = 'loading' | 'saved' | 'saving' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'error';
 
@@ -49,6 +51,9 @@ export default function Editor(props: Props) {
             return j.token;
           },
         });
+        // 文件仍是空的（新頁面、這台裝置還沒同步過）：先套用固定的骨架，避免兩人同時開始輸入時各自建立一份（F-M1-05）
+        // 結構 ID 與伺服器建立頁面時寫入的完全相同，已存在時套用不會有任何變化
+        if (client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
         const editor = BlockNoteEditor.create(withCollaboration({
           schema,
           collaboration: {
@@ -91,7 +96,8 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
         if (st && st.undoManager) client.registerUndoManager(st.undoManager);
       }
     }, 0);
-    const on = (ev: string, fn: (...a: any[]) => void) => client.on(ev, fn);
+    const subs: [string, (...a: any[]) => void][] = [];
+    const on = (ev: string, fn: (...a: any[]) => void) => { subs.push([ev, fn]); client.on(ev, fn); };
     on('conflict_copy_sent', ((c: { kind: string }) => { if (c.kind === 'offline') setReadOnly(true); }));
     on('offline_conflict_resolved', (async () => {
       const until = Date.now() + 5000;
@@ -102,7 +108,8 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
     on('page_closed', (() => { flags.pageClosed = true; setReadOnly(true); setBanner('這個頁面已移到垃圾桶。'); }));
     client.connect();
     void view;
-    return () => clearTimeout(t);
+    // 效果重新執行（開發模式的 StrictMode 會刻意執行兩次）時不重複註冊事件
+    return () => { clearTimeout(t); for (const [ev, fn] of subs) client.off(ev, fn); };
   }, [client, editor, deviceBlocked, flags]);
 
   useEffect(() => {

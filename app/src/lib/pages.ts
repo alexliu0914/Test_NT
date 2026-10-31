@@ -6,6 +6,7 @@
 import { generateKeyBetween } from 'fractional-indexing';
 import type { PoolClient } from 'pg';
 import { pool } from './db';
+import { initialDocUpdate } from '@shared/initial-doc.js';
 
 export const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const TRASH_DAYS = 30;
@@ -114,6 +115,8 @@ export async function createPage(userId: string, body: { parentId?: string | nul
       `insert into pages(workspace_id, parent_id, title, icon, position, created_by)
        values ($1,$2,$3,$4,$5,$6) returning id, parent_id, title, icon, position, updated_at`,
       [ws, parentId, cleanTitle(body.title), cleanIcon(body.icon), pos, userId]);
+    // 新頁面的文件骨架（固定 clientID）：兩人同時開始輸入時不會各自建立一份（F-M1-05）
+    await c.query('insert into doc_states(page_id, state, up_to_seq) values ($1, $2, 0)', [r.rows[0].id, Buffer.from(initialDocUpdate())]);
     return mapRow(r.rows[0]);
   });
 }

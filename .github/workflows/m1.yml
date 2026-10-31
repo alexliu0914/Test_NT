@@ -75,7 +75,7 @@ jobs:
           cp results/summary.json results/summary-core.json
       - name: 瀏覽器（正式網頁與登入）
         run: |
-          if [ "$FULL" = "true" ]; then ann node test/run.js BR-01=20 BR-02=20 BR-03=5; else ann node test/run.js BR-01=2 BR-02=2 BR-03=1; fi
+          if [ "$FULL" = "true" ]; then ann node test/run.js BR-01=20 BR-02=20 BR-03=5 BR-04=20; else ann node test/run.js BR-01=2 BR-02=2 BR-03=1 BR-04=4; fi
           cp results/summary.json results/summary-browser.json
       - name: 變異測試（完整執行時）
         if: env.FULL == 'true'

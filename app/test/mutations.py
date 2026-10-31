@@ -72,6 +72,8 @@ MUTANTS = [
      "    if (p.some(e => (e.v || 0) > this.persistedVersion) || !this.localPersisted()) return 'unsaved';\n", "", ['BR-02=1']),
     ('MUT-B4', '只檢查同一份文件、不檢查整台裝置的其他帳號草稿', 'src/components/Editor.tsx',
      "        const foreign = await IdbStore.otherUserDrafts(user.id);", "        const foreign: { key: string; value: Record<string, unknown> }[] = [];", ['BR-02=1']),
+    ('MUT-B5', '新頁面沒有固定的文件骨架（兩人同時開始輸入時各自建立）', 'shared/initial-doc.js',
+     "export const INITIAL_DOC_B64 = 'AQcB", "export const INITIAL_DOC_B64 = 'AAA=';\nexport const UNUSED_B64 = 'AQcB", ['BR-04=4']),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')
