@@ -259,7 +259,8 @@ export async function acl02(n) {
       await expect('A 退出（建立者）', await A.agent.post(`/api/spaces/${s1}/leave`), 400);
       const mem = (await db.query('select user_id from space_members where space_id=$1 order by user_id', [s1])).rows.map(r => r.user_id);
       if (JSON.stringify(mem) !== JSON.stringify([A.id, B.id, C.id].sort())) fails.push('成員名單被非建立者改變 ' + mem.length);
-      if ((await db.query('select name from spaces where id=$1', [s1])).rows[0].name !== `共享${i}`) fails.push('空間被非建立者改名');
+      if ((await db.query('select name from spaces where id=$1', [s1])).rows[0]?.name !== `共享${i}`) fails.push('空間被非建立者改名或刪除');
+      if (fails.length) return [fails, m];   // 空間已被非建立者改變，後續步驟的前提不成立
 
       // 3. 移除 C：C 的頁面樹 2 秒內不再有 P、協作連線 2 秒內中斷、憑證被拒；之後的修改只留在本機
       const cC = track(collabClient(C, P));
