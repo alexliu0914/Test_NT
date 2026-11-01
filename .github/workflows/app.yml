@@ -1,0 +1,91 @@
+# 正式程式（app/）：任何失敗、中止、輪數不足或結果檔缺失都會讓工作失敗（與 M0／M1 相同的執行器規則）
+# 依 test/manifest.json 分段執行（M2 計畫 v0.4 §5）：手動觸發可指定階段，推送時用 manifest 的 current
+name: app
+on:
+  push:
+    paths: ['app/**', '.github/workflows/app.yml']
+  pull_request:
+    paths: ['app/**', '.github/workflows/app.yml']
+  workflow_dispatch:
+    inputs:
+      full:
+        description: '完整輪數＋變異測試'
+        type: boolean
+        default: true
+      stage:
+        description: '階段（空白＝manifest 的 current）'
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    defaults:
+      run:
+        working-directory: app
+        shell: bash
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '54329'
+      PGUSER: postgres
+      TEST_DATABASE_URL: postgres://postgres@127.0.0.1:54329/notes_test
+      DATABASE_URL: postgres://postgres@127.0.0.1:54329/notes_test
+      # 建置時使用的設定（不是秘密；測試執行時每次另外隨機產生秘密值）
+      COLLAB_PUBLIC_URL: ws://127.0.0.1:27601
+      BETTER_AUTH_URL: http://127.0.0.1:27600
+      BETTER_AUTH_SECRET: build-time-placeholder-not-used-at-runtime-000
+      COLLAB_SECRET: build-time-placeholder-not-used-at-runtime-000
+      FULL: ${{ github.event_name == 'workflow_dispatch' && inputs.full }}
+      STAGE_INPUT: ${{ inputs.stage }}
+      BASH_ENV: ${{ github.workspace }}/prototype/scripts/ci-annotate.sh
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.23.4'
+      - name: 決定階段與輪數
+        run: |
+          S="${STAGE_INPUT:-$(node -p "require('./test/manifest.json').current")}"
+          echo "STAGE=$S" >> "$GITHUB_ENV"
+          if [ "$FULL" = "true" ]; then echo "MODE=--full" >> "$GITHUB_ENV"; else echo "MODE=--quick" >> "$GITHUB_ENV"; fi
+          echo "stage=$S full=$FULL"
+      - name: 啟動測試資料庫
+        run: ann docker compose -f docker-compose.test.yml up -d --wait
+      - name: 建立測試資料庫（notes_test，C.UTF-8，含測試標記）
+        run: ann bash test/setup-test-db.sh
+      - name: 安裝套件（依 lockfile）
+        run: |
+          ann npm ci
+          ann npx playwright install --with-deps chromium
+      - name: 套件漏洞掃描（正式相依套件不得有高風險漏洞，SEC-09）
+        run: ann npm audit --omit=dev --audit-level=high
+      - name: 型別檢查與建置
+        run: |
+          ann npx tsc --noEmit
+          ann npx next build
+      - name: 執行器自我測試
+        run: ann node test/runner-selftest.mjs
+      - name: 認證、安全、頁面樹、遷移、版本 API（api 群組）
+        run: ann node test/run.js --stage "$STAGE" --group api $MODE && cp results/summary.json results/summary-api.json
+      - name: 協作核心（core 群組：M0-01～11、M0-17，在正式協作伺服器上）
+        run: ann node test/run.js --stage "$STAGE" --group core $MODE && cp results/summary.json results/summary-core.json
+      - name: 瀏覽器（browser 群組：正式網頁與登入）
+        run: ann node test/run.js --stage "$STAGE" --group browser $MODE && cp results/summary.json results/summary-browser.json
+      - name: 效能（perf 群組，M2-d 起啟用）
+        run: |
+          if node -e "const m=require('./test/manifest.json');const i=m.stages.indexOf(process.env.STAGE);process.exit(m.cases.some(c=>c.group==='perf'&&m.stages.indexOf(c.stage)<=i)?0:1)"; then
+            ann node test/run.js --stage "$STAGE" --group perf $MODE && cp results/summary.json results/summary-perf.json
+          else echo "perf 群組在 $STAGE 尚未啟用（NOT_APPLICABLE_NOT_IMPLEMENTED）"; fi
+      - name: 變異測試（完整執行時；依階段啟用）
+        if: env.FULL == 'true'
+        run: ann python3 test/mutations.py --stage "$STAGE"
+      - name: 上傳結果
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-results-${{ github.sha }}
+          path: app/results/

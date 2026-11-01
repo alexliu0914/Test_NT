@@ -45,6 +45,17 @@ node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=60 M0-01=100 BR-01=20 BR-
 python3 test/mutations.py                          # 26 個植入缺陷都必須被抓到
 ```
 
+### 分段執行（M2 起）
+
+`test/manifest.json` 列出每個案例與變異所屬的階段（m1、m2-a～m2-d）、群組（api、core、browser、perf）與輪數；`test/m1-baseline.json` 是 M1 封存基線（5f7bd04），M1 的案例與變異不能移除、改階段或減少完整輪數，否則執行器拒絕執行。
+
+```bash
+node test/run.js --stage m2-a --group browser --full    # 該階段（含之前）的全部案例；之後階段的記為 NOT_APPLICABLE_NOT_IMPLEMENTED
+python3 test/mutations.py --stage m2-a                  # 該階段（含之前）的全部變異
+```
+
+CI（`.github/workflows/app.yml`）推送時用 manifest 的 `current` 階段跑縮減輪數；手動觸發可指定階段並跑完整輪數與變異。
+
 | 編號 | 內容 |
 | --- | --- |
 | MIG-01 | 每個遷移回滾後重新套用，結構完全相同；全部回滾後沒有殘留 |

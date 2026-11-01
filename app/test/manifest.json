@@ -1,0 +1,543 @@
+{
+ "_doc": "測試分段啟用清單（M2 計畫 v0.4 §5）。stage 之前（含）的案例與變異都必須執行；之後的記為 NOT_APPLICABLE_NOT_IMPLEMENTED。M1 的案例與變異受 m1-baseline.json 保護，不能移除、改階段或減少完整輪數。",
+ "stages": [
+  "m1",
+  "m2-a",
+  "m2-b",
+  "m2-c",
+  "m2-d"
+ ],
+ "final": "m2-d",
+ "current": "m1",
+ "groups": [
+  "api",
+  "core",
+  "browser",
+  "perf"
+ ],
+ "cases": [
+  {
+   "id": "MIG-01",
+   "stage": "m1",
+   "group": "api",
+   "full": 3,
+   "quick": 1
+  },
+  {
+   "id": "AUTH-01",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-02",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-03",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-04",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-05",
+   "stage": "m1",
+   "group": "api",
+   "full": 9,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-06",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "AUTH-07",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "SEC-01",
+   "stage": "m1",
+   "group": "api",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "SEC-02",
+   "stage": "m1",
+   "group": "api",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "SEC-03",
+   "stage": "m1",
+   "group": "api",
+   "full": 3,
+   "quick": 1
+  },
+  {
+   "id": "SEC-05",
+   "stage": "m1",
+   "group": "api",
+   "full": 3,
+   "quick": 1
+  },
+  {
+   "id": "SEC-06",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "PAGE-01",
+   "stage": "m1",
+   "group": "api",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "PAGE-02",
+   "stage": "m1",
+   "group": "api",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "PAGE-03",
+   "stage": "m1",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "PAGE-04",
+   "stage": "m1",
+   "group": "api",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "PAGE-05",
+   "stage": "m1",
+   "group": "api",
+   "full": 60,
+   "quick": 3
+  },
+  {
+   "id": "M0-01",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-02",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 5
+  },
+  {
+   "id": "M0-03",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-04",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-05",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-06",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-07",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-08",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-09",
+   "stage": "m1",
+   "group": "core",
+   "full": 40,
+   "quick": 2
+  },
+  {
+   "id": "M0-10",
+   "stage": "m1",
+   "group": "core",
+   "full": 25,
+   "quick": 2
+  },
+  {
+   "id": "M0-11",
+   "stage": "m1",
+   "group": "core",
+   "full": 100,
+   "quick": 10
+  },
+  {
+   "id": "M0-17",
+   "stage": "m1",
+   "group": "core",
+   "full": 30,
+   "quick": 3
+  },
+  {
+   "id": "BR-01",
+   "stage": "m1",
+   "group": "browser",
+   "full": 20,
+   "quick": 2
+  },
+  {
+   "id": "BR-02",
+   "stage": "m1",
+   "group": "browser",
+   "full": 20,
+   "quick": 2
+  },
+  {
+   "id": "BR-03",
+   "stage": "m1",
+   "group": "browser",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "BR-04",
+   "stage": "m1",
+   "group": "browser",
+   "full": 20,
+   "quick": 4
+  },
+  {
+   "id": "EDIT-01",
+   "stage": "m2-a",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "EDIT-02",
+   "stage": "m2-a",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "BR-05",
+   "stage": "m2-a",
+   "group": "browser",
+   "full": 20,
+   "quick": 4
+  },
+  {
+   "id": "SEC-04",
+   "stage": "m2-a",
+   "group": "browser",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "COL-01",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "COL-02",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "COL-03",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "COL-04",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "COL-06",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "COL-07",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "COL-09",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "COL-10",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "COL-11",
+   "stage": "m2-b",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "COL-05",
+   "stage": "m2-c",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "COL-08",
+   "stage": "m2-c",
+   "group": "browser",
+   "full": 20,
+   "quick": 3
+  },
+  {
+   "id": "SEC-12",
+   "stage": "m2-c",
+   "group": "browser",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "VER-01",
+   "stage": "m2-c",
+   "group": "api",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "VER-02",
+   "stage": "m2-c",
+   "group": "api",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "PERF-01",
+   "stage": "m2-d",
+   "group": "perf",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "PERF-02",
+   "stage": "m2-d",
+   "group": "perf",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "PERF-03",
+   "stage": "m2-d",
+   "group": "perf",
+   "full": 5,
+   "quick": 1
+  }
+ ],
+ "mutants": [
+  {
+   "id": "MUT-1",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-2",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-3",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-4",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-5",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-6",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-7",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-8",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A1",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A2",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A3",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A4",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A5",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A6",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A7",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-A8",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-P1",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-P2",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-P3",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-P5",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-P4",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-B1",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-B2",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-B3",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-B4",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-B5",
+   "stage": "m1"
+  },
+  {
+   "id": "MUT-C6",
+   "stage": "m2-a"
+  },
+  {
+   "id": "MUT-C1",
+   "stage": "m2-b"
+  },
+  {
+   "id": "MUT-C2",
+   "stage": "m2-b"
+  },
+  {
+   "id": "MUT-C3",
+   "stage": "m2-b"
+  },
+  {
+   "id": "MUT-C8",
+   "stage": "m2-b"
+  },
+  {
+   "id": "MUT-C4",
+   "stage": "m2-c"
+  },
+  {
+   "id": "MUT-C5",
+   "stage": "m2-c"
+  },
+  {
+   "id": "MUT-C7",
+   "stage": "m2-c"
+  }
+ ]
+}

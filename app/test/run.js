@@ -1,4 +1,7 @@
 // 用法：node test/run.js AUTH-01=3 PAGE-02=5 M0-01=100 BR-01=10 ...（M1 由 M0 執行器移植，判定規則相同）
+//   或：node test/run.js --stage m2-a --group browser --full|--quick
+//       依 test/manifest.json 執行該階段（含之前階段）的所有案例；之後階段的案例記為 NOT_APPLICABLE_NOT_IMPLEMENTED（不算通過）。
+//       manifest 必須通過 M1 基線檢查（m1-baseline.json），否則拒絕執行。--manifest <路徑> 只供執行器自我測試使用。
 // 任一案例有失敗輪次、中止、未知案例名稱、輪數不足或結果檔缺失，退出碼都是 1（供 CI 阻擋合併）。
 // 每次執行都寫出 results/summary.json：提交 SHA、環境版本、完整指令、各案例結果與退出碼。
 import { existsSync, readFileSync, writeFileSync, mkdirSync, unlinkSync } from 'node:fs';
@@ -6,6 +9,7 @@ import { execSync } from 'node:child_process';
 import { db, assertTestDatabase, APP_DIR as ROOT_DIR, DB_URL, dbName, stopAll } from './lib/harness.mjs';
 import { Recorder } from './lib/recorder.mjs';
 import { registry } from './cases/index.mjs';
+import { loadManifest, checkManifest, isActive, NOT_APPLICABLE } from './lib/manifest.mjs';
 
 // 驗證 Runner 本身的自我測試案例
 const selftests = {
@@ -48,18 +52,44 @@ process.on('exit', code => {
 });
 // 在 GitHub Actions 中以註解輸出失敗摘要（可經 API 讀取，不必下載完整記錄）
 function annotate(msg) { if (process.env.GITHUB_ACTIONS) console.log('::error title=m0::' + String(msg).replace(/\r?\n/g, ' ').slice(0, 900)); }
-const args = process.argv.slice(2);
+const argv = process.argv.slice(2);
+const flag = name => { const i = argv.indexOf(name); return i >= 0 ? argv[i + 1] : undefined; };
+const STAGE = flag('--stage'), GROUP = flag('--group'), MANIFEST = flag('--manifest');
+const MODE = argv.includes('--full') ? 'full' : argv.includes('--quick') ? 'quick' : null;
+const FLAG_VALUES = new Set([STAGE, GROUP, MANIFEST].filter(Boolean));
+let args = argv.filter(a => !a.startsWith('--') && !FLAG_VALUES.has(a));
+const notApplicable = [];
+let manifestError = null;
+if (STAGE) {
+  try {
+    const man = loadManifest(MANIFEST || undefined);
+    const errs = checkManifest(man);
+    if (!man.stages.includes(STAGE)) errs.push(`未知的階段：${STAGE}`);
+    if (GROUP && !man.groups.includes(GROUP)) errs.push(`未知的群組：${GROUP}`);
+    if (!MODE) errs.push('--stage 必須搭配 --full 或 --quick');
+    if (errs.length) manifestError = 'manifest 未通過 M1 基線檢查，拒絕執行：' + errs.join('；');
+    else for (const c of man.cases) {
+      if (GROUP && c.group !== GROUP) continue;
+      if (isActive(man, c, STAGE)) args.push(`${c.id}=${c[MODE]}`);
+      else notApplicable.push({ id: c.id, stage: c.stage, status: NOT_APPLICABLE });
+    }
+  } catch (e) { manifestError = 'manifest 讀取失敗：' + e.message; }
+}
 const summary = {
   startedAt: started,
-  command: 'node test/run.js ' + args.join(' '),
+  command: 'node test/run.js ' + argv.join(' '),
+  stage: STAGE || null, group: GROUP || null, mode: MODE,
   commit: sh(`git -C "${ROOT_DIR}" rev-parse HEAD`),
+  tested_sha: sh(`git -C "${ROOT_DIR}" rev-parse HEAD`),
   dirty: sh(`git -C "${ROOT_DIR}" status --porcelain`) ? true : false,
   env: { node: process.version, platform: `${process.platform} ${process.arch}`, database: dbName(DB_URL) },
   cases: [],
 };
 let failed = false;
+if (manifestError) { console.error(manifestError); summary.setupError = manifestError; failed = true; }
+else if (STAGE && args.length === 0) { summary.setupError = '這個階段與群組沒有任何已啟用的案例'; console.error(summary.setupError); failed = true; }
 
-try {
+if (!failed) try {
   await assertTestDatabase();
   summary.env.postgres = (await db.query('show server_version')).rows[0].server_version;
   const pj = p => { try { return JSON.parse(readFileSync(ROOT_DIR + 'node_modules/' + p + '/package.json', 'utf8')).version; } catch { return null; } };
@@ -69,7 +99,7 @@ try {
     const mod = process.env.PLAYWRIGHT_MODULE;
     const pjPath = mod ? mod.replace(/index\.m?js$/, 'package.json') : ROOT_DIR + 'node_modules/playwright/package.json';
     summary.env.packages.playwright = JSON.parse(readFileSync(pjPath, 'utf8')).version;
-    if (args.some(a => a.startsWith('BR-'))) {
+    if (args.some(a => !a.startsWith('SELFTEST-'))) {
       const pw = await import(mod || 'playwright');
       const chromium = (pw.chromium || pw.default.chromium);
       const b = await chromium.launch({ args: ['--no-sandbox'] });
@@ -120,6 +150,13 @@ if (!failed) {
   }
 }
 
+// 尚未啟用的案例：明確列出，不算通過也不算失敗（M2 計畫 v0.4 §5.1）
+summary.notApplicable = notApplicable;
+summary.counts = {
+  executed: summary.cases.length,
+  passed: summary.cases.filter(c => c.status === 'pass').length,
+  notApplicable: notApplicable.length,
+};
 summary.finishedAt = new Date().toISOString();
 summaryWritten = true;
 summary.exitCode = failed ? 1 : 0;
@@ -127,6 +164,7 @@ mkdirSync(ROOT_DIR + 'results', { recursive: true });
 writeFileSync(ROOT_DIR + 'results/summary.json', JSON.stringify(summary, null, 1));
 for (const c of summary.cases) if (c.status !== 'pass') annotate(`${c.id} ${c.status} ${c.passed ?? ''}/${c.total ?? ''} ${c.error || ''} ${(c.firstFails || []).join(' | ')}`);
 if (summary.setupError) annotate('setup: ' + summary.setupError);
-console.log(`exit ${summary.exitCode}: ` + summary.cases.map(c => `${c.id}=${c.status}${c.total !== undefined ? `(${c.passed}/${c.total})` : ''}`).join(' '));
+console.log(`exit ${summary.exitCode}: ` + summary.cases.map(c => `${c.id}=${c.status}${c.total !== undefined ? `(${c.passed}/${c.total})` : ''}`).join(' ')
+  + (notApplicable.length ? ` | ${NOT_APPLICABLE}: ${notApplicable.map(c => c.id).join(' ')}` : ''));
 try { await db.end(); } catch { /* ignore */ }
 process.exit(summary.exitCode);

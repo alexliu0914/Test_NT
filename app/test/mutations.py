@@ -3,7 +3,9 @@
 - MUT-1～8：M0 的協作核心缺陷，移植到 M1 的協作伺服器與用戶端
 - MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端
 改到 Next.js 會用到的程式（src/、shared/、migrations/）時，複本會重新建置。
-用法：python3 test/mutations.py [編號 ...]"""
+用法：python3 test/mutations.py [編號 ...]
+      python3 test/mutations.py --stage m2-a   依 test/manifest.json 執行該階段（含之前）的全部變異；
+                                                之後階段的記為 NOT_APPLICABLE_NOT_IMPLEMENTED（不算抓到）"""
 import json, os, shutil, subprocess, sys, tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -120,22 +122,46 @@ def run(mid, title, path, old, new, cases):
     return {'id': mid, 'title': title, 'caught': any(o['caught'] for o in out), 'runs': out}
 
 
-only = sys.argv[1:]
+argv = sys.argv[1:]
+stage = None
+if '--stage' in argv:
+    i = argv.index('--stage'); stage = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
+only = argv
 results = []
+not_applicable = []
+if stage:
+    man = json.load(open(os.path.join(ROOT, 'test', 'manifest.json'), encoding='utf8'))
+    base = json.load(open(os.path.join(ROOT, 'test', 'm1-baseline.json'), encoding='utf8'))
+    mstage = {m['id']: m['stage'] for m in man['mutants']}
+    defined = {m[0] for m in MUTANTS}
+    errs = [f'M1 基線變異被移除或改階段：{x}' for x in base['mutants'] if mstage.get(x) != 'm1' or x not in defined]
+    if stage not in man['stages']:
+        errs.append('未知的階段：' + stage)
+    if errs:
+        print('manifest 未通過 M1 基線檢查，拒絕執行：' + '；'.join(errs)); sys.exit(1)
+    idx = man['stages'].index(stage)
+    active = [k for k, v in mstage.items() if man['stages'].index(v) <= idx]
+    not_applicable = [{'id': k, 'stage': v, 'status': 'NOT_APPLICABLE_NOT_IMPLEMENTED'} for k, v in mstage.items() if k not in active]
+    for k in active:
+        if k not in defined:
+            results.append({'id': k, 'title': '', 'error': 'mutant listed in manifest but not defined'})
+    only = [k for k in active if k in defined]
 for m in MUTANTS:
-    if only and m[0] not in only:
+    if (only or stage) and m[0] not in only:
         continue
     r = run(*m)
     print(json.dumps(r, ensure_ascii=False), flush=True)
     results.append(r)
 os.makedirs(os.path.join(ROOT, 'results'), exist_ok=True)
-out = os.path.join(ROOT, 'results', 'mutations.json' if not only else 'mutations-' + '-'.join(only) + '.json')
-json.dump(results, open(out, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+out = os.path.join(ROOT, 'results', 'mutations.json' if (stage or not only) else 'mutations-' + '-'.join(only) + '.json')
+json.dump(results if not stage else {'stage': stage, 'results': results, 'notApplicable': not_applicable},
+          open(out, 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 shutil.rmtree(WORK, ignore_errors=True)
 missed = [r['id'] for r in results if not r.get('caught')]
 if os.environ.get('GITHUB_ACTIONS'):
     for r in results:
         if not r.get('caught'):
             print('::error title=m1-mutations::%s %s not caught %s' % (r['id'], r['title'], r.get('error', '')))
-print('mutations caught: %d/%d' % (len(results) - len(missed), len(results)) + (' missed=' + ','.join(missed) if missed else ''))
+print('mutations caught: %d/%d' % (len(results) - len(missed), len(results)) + (' missed=' + ','.join(missed) if missed else '')
+      + (' NOT_APPLICABLE_NOT_IMPLEMENTED=' + ','.join(x['id'] for x in not_applicable) if not_applicable else ''))
 sys.exit(1 if missed or not results else 0)
