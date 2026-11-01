@@ -57,6 +57,12 @@ const peers = P => P.evaluate(() => window.__app.peers());
 const awId = P => P.evaluate(() => window.__app.awarenessClientId());
 const me = P => P.evaluate(() => window.__app.me());
 const statusLog = P => P.evaluate(() => window.__app.statusLog());
+// 在第一段真正的結尾輸入（T-M2-08）：End 鍵只會移到畫面上那一行的行尾，段落長到換行後，字會插到段落中間、把其他記號拆開
+async function typeFirstEnd(P, s) {
+  await P.locator('.bn-editor').focus();
+  await P.evaluate(() => { const e = window.__app.editor; e.setTextCursorPosition(e.document[0].id, 'end'); });
+  await P.keyboard.type(s, { delay: 0 });
+}
 const focusEnd = async P => { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+End'); };
 const timed = async (fn, ms) => { const t0 = Date.now(); const ok = await fn(ms).then(() => true, () => false); return { ok, ms: Date.now() - t0 }; };
 
@@ -100,7 +106,7 @@ export async function col01(N) {
     const [A, B] = S.map(s => s.P);
     await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
     await waitSynced(A); await waitSynced(B);
-    await typeAtEnd(A, '段', { where: 'first' });
+    await typeFirstEnd(A, '段');
     await waitSynced(A); await waitSynced(B);
     const same = r % 2 === 0;
     const typed = { A: {}, B: {} };
@@ -165,12 +171,14 @@ export async function col02(N) {
     const [A, B] = S.map(s => s.P);
     await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
     await waitSynced(A); await waitSynced(B);
-    await typeAtEnd(A, `前段${r}`, { where: 'first' });
+    await typeFirstEnd(A, `前段${r}`);
     await typeAtEnd(A, `目標段${r}`, { newBlock: true });
     await typeAtEnd(A, `後段${r}`, { newBlock: true });
     await waitSynced(A); await waitSynced(B);
     const target = await A.evaluate(t => window.__app.blocks().find(b => JSON.stringify(b.content).includes(t))?.id, `目標段${r}`);
     if (!target) throw new Error('找不到目標區塊');
+    // 診斷用：記錄是否出現「正在合併」（暫停編輯）
+    for (const P of [A, B]) await P.evaluate(() => { window.__mergingSeen = 0; const o = new MutationObserver(() => { if (document.querySelector('[data-testid="merging"]')) window.__mergingSeen++; }); o.observe(document.body, { childList: true, subtree: true }); window.__mergeObs?.disconnect(); window.__mergeObs = o; });
     // B 把游標放在目標區塊結尾開始輸入；A 在隨機時間刪除整個區塊
     await B.locator('.bn-editor').focus();
     await B.evaluate(id => window.__app.editor.setTextCursorPosition(id, 'end'), target);
@@ -190,7 +198,7 @@ export async function col02(N) {
       await B.evaluate(id => window.__app.editor.setTextCursorPosition(id, 'end'), back);
       await B.keyboard.type(after);
     }
-    await typeAtEnd(A, afterA, { where: 'first' });
+    await typeFirstEnd(A, afterA);
     await waitSynced(A, 30000); await waitSynced(B, 30000);
     const bd = await checkConverged(fails, '最終', [A, B], docId);
     const t = allText(bd);
@@ -203,6 +211,9 @@ export async function col02(N) {
     const tops = blocksOfState(skel);
     if (!Array.isArray(tops)) fails.push('文件骨架異常');
     for (const P of [A, B]) if ((await status(P)) !== 'saved') fails.push('最後狀態不是已儲存：' + await status(P));
+    // 失敗時留下診斷資料（不影響判定）
+    if (fails.length) { m.text = t.slice(0, 400); m.multi = [await A.evaluate(() => window.__app.multiContent().length), await B.evaluate(() => window.__app.multiContent().length)]; }
+    m.merging = [await A.evaluate(() => window.__mergingSeen), await B.evaluate(() => window.__mergingSeen)];
   }
 }
 
@@ -229,7 +240,7 @@ export async function col03(N) {
     const relay = S[1].relay;
     await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
     await waitSynced(A); await waitSynced(B);
-    await typeAtEnd(A, '開始', { where: 'first' });
+    await typeFirstEnd(A, '開始');
     await waitSynced(A); await waitSynced(B);
     // 網路中斷但連線沒有關閉（封包不再往返）：B 應在連線存活檢查（8 秒）內改顯示「離線」，不能先顯示「儲存失敗」或「已儲存」
     relay.stall(true);
@@ -254,7 +265,7 @@ export async function col03(N) {
     while (Date.now() - t0 < 30000) {
       const tb = `乙${r}o${k}q`, ta = `甲${r}k${k}q`;
       await typeAtEnd(B, ' ' + tb); tokB.push(tb);
-      await typeAtEnd(A, ' ' + ta, { where: 'first' }); tokA.push(ta);
+      await typeFirstEnd(A, ' ' + ta); tokA.push(ta);
       k++;
       await sleep(4000);
     }
@@ -443,13 +454,13 @@ export async function col06(N) {
     await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
     await waitSynced(A); await waitSynced(B);
     // A 在第一段、B 在第二段輸入（同一位置同時輸入會讓字元交錯，那是 COL-01 的範圍）
-    await typeAtEnd(A, '甲段', { where: 'first' });
+    await typeFirstEnd(A, '甲段');
     await typeAtEnd(B, '乙段', { newBlock: true });
     await waitSynced(A); await waitSynced(B);
     const typed = [];
     let stop = false;
-    const writer = async (P, u, opts) => { let i = 0; while (!stop) { const t = `${u}${r}k${i++}q`; await typeAtEnd(P, ' ' + t, opts); typed.push(t); await sleep(between(rnd, 30, 150)); } };
-    const ws = [writer(A, 'A', { where: 'first' }), writer(B, 'B', { newBlock: false })];
+    const writer = async (P, u, type) => { let i = 0; while (!stop) { const t = `${u}${r}k${i++}q`; await type(P, ' ' + t); typed.push(t); await sleep(between(rnd, 30, 150)); } };
+    const ws = [writer(A, 'A', typeFirstEnd), writer(B, 'B', (P, s) => typeAtEnd(P, s, { newBlock: false }))];
     await sleep(between(rnd, 300, 1500));
     await env.collab.kill9();
     const down = between(rnd, 300, 2000);
@@ -495,7 +506,7 @@ export async function col07(N) {
     await waitSynced(A); await waitSynced(B);
     // 1. 輸入後一顯示「已儲存」就 kill -9
     const toks = [0, 1, 2].map(i => `A${r}k${i}`);
-    for (const t of toks) await typeAtEnd(A, ' ' + t, { where: 'first' });
+    for (const t of toks) await typeFirstEnd(A, ' ' + t);
     await A.waitForFunction(() => window.__app.status() === 'saved', null, { timeout: 20000, polling: 5 });
     await env.collab.kill9();
     const dbt = await dbText(docId);
@@ -507,7 +518,7 @@ export async function col07(N) {
     // 2. 不對應的確認：攔下 A 的確認，改送一個其他 update_id 的確認
     relay.setFilter(msg => (msg.includes('"t":"ack"') ? 'drop' : 'pass'));
     const t2 = `A${r}x0`;
-    await typeAtEnd(A, ' ' + t2, { where: 'first' });
+    await typeFirstEnd(A, ' ' + t2);
     await A.waitForFunction(() => window.__app.client.storage.pending.length > 0 && window.__app.persisted(), null, { timeout: 5000 });
     await sleep(300);
     relay.inject({ t: 'ack', ids: ['00000000-0000-4000-8000-' + String(r).padStart(12, '0')], seq: 1 });
@@ -743,7 +754,7 @@ export async function col11(N) {
     // 連續輸入（每個字元一筆更新，超過待寫入上限會收到 busy）
     for (let i = 0; i < 8; i++) {
       const t = `A${r}f${i}`; toks.push(t);
-      await typeAtEnd(A, ' ' + t, { where: 'first' });
+      await typeFirstEnd(A, ' ' + t);
       const s = await status(A);
       samples.push(s);
       if (s === 'failed' && sawFailed === null) sawFailed = Date.now() - t0;
