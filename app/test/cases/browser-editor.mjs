@@ -358,11 +358,11 @@ const count = (s, sub) => s.split(sub).length - 1;
 // [A 的結構, B 的結構, 開始方式]
 //  sync：已同步後兩人各自在最後按 Enter 開新行（同一位置）再建立
 //  same：已同步後兩人直接在同一個空白行建立（同一個區塊被兩人同時改類型）
-//  unsynced：編輯器一出現就開始（不等協作連線）
+//  unsynced：編輯器一出現就開始（不等協作連線）；用 Markdown 快捷輸入建立（斜線選單會被第一次同步的重新繪製關閉，T-M2-02）
 //  offline：A 離線時把第一行改成標題，B 同時把同一行改成清單，A 再連線（必定是同一個區塊）
 //  convert：同一個有文字的區塊，A 用快捷鍵改成標題、B 同時改成項目清單
 const MODES = [
-  ['table', 'table', 'sync'], ['nested', 'nested', 'sync'], ['paste', 'paste', 'same'], ['table', 'nested', 'unsynced'],
+  ['table', 'table', 'sync'], ['nested', 'nested', 'sync'], ['paste', 'paste', 'same'], ['nested', 'heading', 'unsynced'],
   ['heading', 'bullet', 'offline'], ['heading', 'bullet', 'convert'], ['paste', 'table', 'sync'],
 ];
 
