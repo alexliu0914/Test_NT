@@ -329,9 +329,11 @@ export async function edit02(N) {
 // 「同時改同一個區塊的類型」會讓 y-prosemirror 刪掉整個區塊（F-M2-01），模式 2、4、5 專門重現這個情況。
 const topLevel = P => P.evaluate(() => window.__app.client.ydoc.getXmlFragment('document-store').length);
 
-async function makeStructure(P, kind, tok, { enterFirst = true, positioned = false } = {}) {
-  // positioned（T-M2-09）：呼叫前已把游標放在指定位置（兩人同步後從同一個既有區塊開始）；否則照原本按 Ctrl+End
-  if (!positioned) { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+End'); }
+async function makeStructure(P, kind, tok, { enterFirst = true, positioned = false, at = null } = {}) {
+  // T-M2-09：Ctrl+End 的目的地會隨對方的內容改變（對方的新行先傳到時，會跳進對方的區塊）。
+  // positioned：呼叫前已把游標放在指定位置；at：以區塊 ID 定位到該區塊結尾（不等待對方）；兩者都沒有時照原本按 Ctrl+End
+  if (at) { await P.locator('.bn-editor').focus(); await P.evaluate(id => window.__app.editor.setTextCursorPosition(id, 'end'), at); }
+  else if (!positioned) { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+End'); }
   if (enterFirst) await P.keyboard.press('Enter');
   if (kind === 'table') {
     await P.keyboard.type('/表格', { delay: 10 });
@@ -399,7 +401,8 @@ export async function br05(N) {
             await Promise.all([A, B].map(async P => { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+Home'); }));
             await Promise.all([A.keyboard.press('Control+Alt+1'), B.keyboard.press('Control+Shift+8')]);
           } else if (how === 'unsynced') {
-            await Promise.all([makeStructure(A, ka, ta), makeStructure(B, kb, tb)]);
+            // 編輯器一出現就開始：兩人都定位到固定骨架的區塊（initial-block，F-M1-05）結尾，不等對方
+            await Promise.all([makeStructure(A, ka, ta, { at: 'initial-block' }), makeStructure(B, kb, tb, { at: 'initial-block' })]);
           } else {
             // sync：兩人都在同步後的最後一個區塊結尾按 Enter；same：兩人都在同一個空白行（第一個區塊）直接建立
             const ref = await A.evaluate(same => { const d = window.__app.editor.document; return same ? d[0].id : d[d.length - 1].id; }, how === 'same');
