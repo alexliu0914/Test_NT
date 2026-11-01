@@ -25,6 +25,7 @@ import { tolerateMultiContent, repairByAuthor, ownClientIds, findMultiContent } 
 import { initialDocUpdate } from '@shared/initial-doc.js';
 import { setLeaveGuard } from '@/lib/leave-guard';
 import { keepEmptyLine } from '@/lib/empty-line-keeper';
+import { guardBinding } from '@/lib/binding-guard';
 import * as Y from 'yjs';
 
 export type SaveState = 'loading' | 'saved' | 'saving' | 'offline' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
@@ -135,6 +136,7 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
   const [deniedDrafts, setDeniedDrafts] = useState(0);
   const [picker, setPicker] = useState(false);
   const [merging, setMerging] = useState(false);
+  const bindingErrors = useMemo<string[]>(() => [], []);
   // F-M2-01：區塊有多個內容節點時，作者立刻搬到新區塊；不是作者就暫停編輯等待，3 秒後仍未修復才自己修復
   useEffect(() => {
     if (deviceBlocked) return;
@@ -180,6 +182,8 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
     const t = setTimeout(() => {
       flags.unbound = !editor.prosemirrorState.plugins.some(p => typeof (p as unknown as { key: string }).key === 'string' && (p as unknown as { key: string }).key.startsWith('y-sync$'));
       if (flags.unbound) { setReadOnly(true); setBanner('編輯器未連接到協作文件，無法儲存。'); }
+      // F-M2-09：繫結套用修改時發生例外就重新完整繪製（避免舊畫面被寫回、把剛收到的修改刪掉）
+      if (!flags.unbound) guardBinding(editor, e => { bindingErrors.push(String(e)); if (bindingErrors.length > 20) bindingErrors.shift(); });
       for (const p of editor.prosemirrorState.plugins) {
         const st = p.getState(editor.prosemirrorState) as { undoManager?: unknown } | undefined;
         if (st && st.undoManager) client.registerUndoManager(st.undoManager);
@@ -238,6 +242,7 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
     (window as unknown as { __app: unknown }).__app = {
       client, editor, store, status, statusLog: () => log.slice(),
       peers: () => client.peers(), me: () => client.me, awarenessClientId: () => client.awareness.clientID,
+      bindingErrors: () => bindingErrors.slice(),
       blocks: () => editor.document,
       text: () => editor.document.map(b => (Array.isArray(b.content) ? (b.content as { text?: string }[]).map(c => c.text || '').join('') : '')).join('\n'),
       persisted: () => client.localPersisted(),

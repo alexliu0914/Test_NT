@@ -85,10 +85,13 @@ async function rawConn(agent, pageId) {
 // 每段輸入完成後量對方編輯器出現該段全部字元的時間（必須 ≤1 秒）；最後兩端與資料庫一致，每個字元的數量與輸入的完全相同（無遺失、無重複）。
 const ALPHA_A = '甲乙丙丁戊己庚辛', ALPHA_B = '子丑寅卯辰巳午未';
 export async function col01(N) {
-  const rec = new Recorder('COL-01', '同段落並發輸入：無字元遺失或重複、兩端與資料庫一致、對方 1 秒內可見（記錄延遲）；兩人先後貼到同一空白行，各自結構完整（F-M2-08）');
+  const rec = new Recorder('COL-01', '同段落並發輸入：無字元遺失或重複、兩端與資料庫一致、對方 1 秒內可見（記錄延遲）；兩人先後貼到同一空白行，各自結構完整（F-M2-08）；一人改區塊類型時另一人同時輸入的字不遺失（F-M2-09）');
   const env = await bootEnv({ users: 2 });
   const pw = await loadPlaywright();
   const S = await openBrowsers(pw, env.users);
+  // F-M2-09 用：B 的另一個瀏覽器，攔截協作連線以控制「A 的修改何時到達 B」（原本的 COL-01 情境不經過攔截）
+  const [RB] = await openBrowsers(pw, [env.users[1]], { relay: [0] });
+  S.push(RB);
   const all = [];
   try {
     for (let r = 0; r < N; r++) {
@@ -145,6 +148,99 @@ export async function col01(N) {
     }
     if (count(txt.DB, '段') !== 1) fails.push('原有文字「段」數量不對：' + count(txt.DB, '段'));
     await orderedPaste(r, fails, m);
+    await typeDuringConvert(r, fails, m);
+  }
+
+  // F-M2-09 固定順序：B 在區塊 X 打字；A 把 X 改成標題或清單；B 在收到 A 的修改之前再打字（暫停 B 的接收，
+  // 以資料庫確認兩筆修改都已提交，不靠固定等待時間）；之後放行。B 的字必須在兩端與資料庫中恰好出現一次，區塊類型是 A 改的類型。
+  // 五種情境：改標題、改清單（輸入「- 」）、B 斷線時打字、A 改完就關閉頁面、B 打字時協作服務被 kill -9 並重新啟動。
+  async function typeDuringConvert(r, fails, m) {
+    const A = S[0].P, B = S[2].P, relay = S[2].relay;
+    const kinds = ['heading', 'dash', 'offline', 'closed', 'restart', 'undo', 'replace'];
+    m.convert = {};
+    for (const how of kinds) {
+      const tag = `${how}:`;
+      const base = `乙${r}${how.slice(0, 2)}`, late = `遲${r}${how.slice(0, 2)}`;
+      try {
+        const docId = await newPage(env.users[0].agent, `COL-01 改類型 ${how} ${r}`);
+        await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
+        await waitSynced(A); await waitSynced(B);
+        await caretInto(B, 0);
+        await B.keyboard.type(base);
+        await waitSynced(B);
+        await A.waitForFunction(t => window.__app.text().includes(t), base, { timeout: 10000 });
+        const id = await A.evaluate(() => window.__app.editor.document[0].id);
+        const userB = env.users[1].id;
+        const committed = async () => Number((await db.query('select count(*)::int as n from doc_updates where page_id=$1 and user_id=$2', [docId, userB])).rows[0].n);
+        const before = await committed();
+        if (how === 'replace') {
+          // 反例：A 選取整段後貼上標題取代。被取代的字是有意刪除，不能被補回
+          await A.locator('.bn-editor').focus();
+          // 以編輯器選取整段文字（Shift+End 偶爾沒有選到）
+          await A.evaluate(i => {
+            const e = window.__app.editor;
+            e.setTextCursorPosition(i, 'start'); const from = e.prosemirrorState.selection.from;
+            e.setTextCursorPosition(i, 'end'); const to = e.prosemirrorState.selection.from;
+            const TS = e.prosemirrorState.selection.constructor;
+            e.prosemirrorView.dispatch(e.prosemirrorState.tr.setSelection(TS.create(e.prosemirrorState.doc, from, to)));
+          }, id);
+          if (await A.evaluate(() => window.__app.editor.prosemirrorState.selection.empty)) throw new Error('沒有選到文字');
+          await pasteHtml(A, `<h2>新${r}</h2>`);
+          await waitSynced(A); await waitSynced(B);
+          const bd = await checkConverged(fails, tag + '最終', [A, B], docId);
+          const t = allText(bd);
+          if (t.includes(base)) fails.push(`${tag}被取代的「${base}」又出現了`);
+          if (count(t, `新${r}`) !== 1) fails.push(`${tag}貼上的「新${r}」出現 ${count(t, `新${r}`)} 次`);
+          continue;
+        }
+        if (how === 'offline') relay.goOffline(); else relay.hold();
+        await A.locator('.bn-editor').focus();
+        await A.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'start'), id);
+        if (how === 'dash') await A.keyboard.type('- ', { delay: 10 }); else await A.keyboard.press('Control+Alt+1');
+        await waitSynced(A);
+        if (how === 'closed') await A.goto('about:blank');
+        if (how === 'restart') await env.collab.kill9();
+        await B.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'end'), id);
+        await B.keyboard.type(late);
+        if (how === 'restart') { await env.collab.start(); }
+        if (how === 'offline') relay.goOnline();
+        if (how === 'heading' || how === 'dash' || how === 'closed' || how === 'undo') {
+          // B 的修改已提交（暫停的只有伺服器送給 B 的訊息）
+          const t0 = Date.now();
+          while (await committed() <= before) { if (Date.now() - t0 > 15000) throw new Error('B 的修改沒有提交'); await sleep(50); }
+          m.convert[how] = { releasedMsgs: relay.release() };
+        } else if (how === 'restart') relay.release();
+        await waitSynced(B, 40000);
+        if (how === 'closed') { await openDoc(A, env.base, docId); }
+        await waitSynced(A, 40000);
+        const bd = await checkConverged(fails, tag + '最終', [A, B], docId);
+        const t = allText(bd);
+        for (const tok of [base, late]) if (count(t, tok) !== 1) fails.push(`${tag}「${tok}」出現 ${count(t, tok)} 次（${count(t, tok) ? '重複' : '遺失'}）`);
+        const want = how === 'dash' ? 'bulletListItem' : 'heading';
+        if (!bd.length || bd[0].type !== want) fails.push(`${tag}區塊類型不是 ${want}：${bd[0] && bd[0].type}`);
+        if (bd.length !== 1) fails.push(`${tag}應只有 1 個區塊，實際 ${bd.length}`);
+        for (const P of [A, B]) if ((await status(P)) !== 'saved') fails.push(`${tag}最後狀態不是已儲存：${await status(P)}`);
+        if (how === 'undo') {
+          // A 復原改類型、再重做：B 的字都要留下
+          for (const [keys, type] of [['Control+z', 'paragraph'], ['Control+Shift+z', 'heading']]) {
+            await A.locator('.bn-editor').focus();
+            await A.keyboard.press(keys);
+            await A.waitForFunction(ty => window.__app.editor.document[0].type === ty, type, { timeout: 5000 }).catch(() => {});
+            await waitSynced(A); await waitSynced(B);
+            await B.waitForFunction(ty => window.__app.editor.document[0].type === ty, type, { timeout: 5000 }).catch(() => {});
+            const bd2 = await checkConverged(fails, `${tag}${keys} 之後`, [A, B], docId);
+            const t2 = allText(bd2);
+            if (!bd2.length || bd2[0].type !== type) fails.push(`${tag}${keys} 之後區塊類型不是 ${type}：${bd2[0] && bd2[0].type}`);
+            for (const tok of [base, late]) if (count(t2, tok) !== 1) fails.push(`${tag}${keys} 之後「${tok}」出現 ${count(t2, tok)} 次`);
+          }
+        }
+      } catch (e) {
+        fails.push(`${tag}exception: ${e.message}`);
+      } finally {
+        relay.release(); relay.goOnline();
+        if (!env.collab.proc || env.collab.proc.exitCode !== null || env.collab.proc.signalCode !== null) await env.collab.start();
+      }
+    }
   }
 
   // F-M2-08 固定順序：兩人的游標都在同一個空白行；B 先貼上，等 A 的畫面「真的收到」B 的內容後（不是等固定時間），A 才貼上。

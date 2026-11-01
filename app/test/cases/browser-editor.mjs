@@ -365,6 +365,9 @@ const count = (s, sub) => s.split(sub).length - 1;
 const MODES = [
   ['table', 'table', 'sync'], ['nested', 'nested', 'sync'], ['paste', 'paste', 'same'], ['nested', 'heading', 'unsynced'],
   ['heading', 'bullet', 'offline'], ['heading', 'bullet', 'convert'], ['paste', 'table', 'sync'],
+  // ctrlend（T-M2-09、F-M2-09）：原本的 Ctrl+End 操作。對方的新行先傳到時 Ctrl+End 會跳進對方的區塊，兩人在同一個區塊編輯，
+  // 照編輯器規則不一定得到兩份完整清單；改以操作語意判定：兩端與資料庫一致、只有一個頂層骨架、兩人打的每個字都在（順序可交錯）
+  ['nested', 'nested', 'ctrlend'],
 ];
 
 export async function br05(N) {
@@ -399,8 +402,8 @@ export async function br05(N) {
             await Promise.all([waitSynced(A), waitSynced(B)]);
             await Promise.all([A, B].map(async P => { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+Home'); }));
             await Promise.all([A.keyboard.press('Control+Alt+1'), B.keyboard.press('Control+Shift+8')]);
-          } else if (how === 'unsynced') {
-            // 同步前就開始：維持原本的 Ctrl+End（使用者決議：未證實有缺陷前不修改，F-M2-08 第 3 種）
+          } else if (how === 'unsynced' || how === 'ctrlend') {
+            // 同步前就開始：維持原本的 Ctrl+End（使用者決議：未證實有缺陷前不修改，F-M2-08 第 3 種）；ctrlend：原本的 Ctrl+End 操作
             await Promise.all([makeStructure(A, ka, ta), makeStructure(B, kb, tb)]);
           } else {
             // sync：兩人都在同步後的最後一個區塊結尾按 Enter；same：兩人都在同一個空白行（第一個區塊）直接建立
@@ -413,7 +416,12 @@ export async function br05(N) {
           if (!c.ok) { fails.push(diverged(c, '同時建立後')); return; }
           lat.push(c.ms);
           const t = allText(c.blocks), fb = flat(c.blocks);
-          if (how === 'convert') {
+          if (how === 'ctrlend') {
+            // 每個字（不含「- 」快捷鍵本身）都要在：甲、乙、上、下各 2 個，輪次編號的數字各 4 份
+            const want = {};
+            for (const tok of [ta + '上', ta + '下', tb + '上', tb + '下']) for (const ch of tok) want[ch] = (want[ch] || 0) + 1;
+            for (const [ch, n] of Object.entries(want)) if (count(t, ch) !== n) fails.push(`Ctrl+End 情境中「${ch}」有 ${count(t, ch)} 個，應有 ${n} 個（${count(t, ch) < n ? '遺失' : '重複'}）`);
+          } else if (how === 'convert') {
             if (!fb.some(b => b.type === 'heading' && blockText(b).includes(shared))) fails.push('A 改成的標題消失');
             if (!fb.some(b => b.type === 'bulletListItem' && blockText(b).includes(shared))) fails.push('B 改成的項目清單消失');
           } else {

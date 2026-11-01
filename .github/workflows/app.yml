@@ -69,6 +69,8 @@ jobs:
           ann npx next build
       - name: 執行器自我測試
         run: ann node test/runner-selftest.mjs
+      - name: 改類型補救的單元測試（F-M2-09）
+        run: ann node test/unit/conversion-rescue.mjs
       - name: 認證、安全、頁面樹、遷移、版本 API（api 群組）
         run: ann node test/run.js --stage "$STAGE" --group api $MODE && cp results/summary.json results/summary-api.json
       - name: 協作核心（core 群組：M0-01～11、M0-17，在正式協作伺服器上）

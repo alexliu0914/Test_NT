@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M1 變異測試：在程式複本中植入已知缺陷，相關測試必須抓到（任一輪失敗即算抓到）。
 - MUT-1～8：M0 的協作核心缺陷，移植到 M1 的協作伺服器與用戶端
-- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）；MUT-C1～C3、C8：協作游標與儲存狀態（M2-b）；MUT-C9、C10：兩人貼到同一個空白行（M2-b，F-M2-08）
+- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）；MUT-C1～C3、C8：協作游標與儲存狀態（M2-b）；MUT-C9、C10：兩人貼到同一個空白行（M2-b，F-M2-08）；MUT-F09：改區塊類型時補救同時輸入的字（M2-b，F-M2-09）
 改到 Next.js 會用到的程式（src/、shared/、migrations/）時，複本會重新建置。
 用法：python3 test/mutations.py [編號 ...]
       python3 test/mutations.py --check [--manifest 路徑]   只檢查 manifest 與變異定義（自我測試用）
@@ -122,6 +122,8 @@ MUTANTS = [
     # ---- F-M2-08：兩人貼到同一個空白行（M2-b 新增，使用者核准 44 個） ----
     ('MUT-C9', '貼到空白行時沿用那一行的區塊（不建立自己的新區塊）', 'shared/paste-sanitize.js',
      "  if (!target) return doPaste();", "  if (target || !target) return doPaste();", ['COL-01=1']),
+    ('MUT-F09', '改區塊類型時不補救另一人同時輸入的字（F-M2-09）', 'collab/server.mjs',
+     "        if (!work && mayNeedRescue(room.ydoc, it.data)) {", "        if (!work && false) {", ['COL-01=1']),
     ('MUT-C10', '自己的空白行被別人的貼上換掉時不補回', 'src/lib/empty-line-keeper.ts',
      "  if (!(a.el as unknown as { _item: { deleted: boolean } })._item.deleted) return;", "  if (a.el) return;", ['COL-01=1']),
 ]

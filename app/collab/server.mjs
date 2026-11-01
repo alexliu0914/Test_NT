@@ -28,6 +28,7 @@ import { verifyCollabToken } from '../shared/collab-token.mjs';
 import * as Y from 'yjs';
 import { replaceFragmentsFrom, docJSON } from '../shared/doc.js';
 import { decodeAwareness, encodeAwareness } from '../shared/awareness-codec.js';
+import { createRescueDoc, cloneRescueDoc, mayNeedRescue, applyWithRescue } from '../shared/conversion-rescue.js';
 
 // 連接埠：--port 參數（npm run collab，Windows 也適用）＞ PORT 環境變數（測試）＞ 27000
 const portArg = process.argv.indexOf('--port');
@@ -146,9 +147,12 @@ async function loadRoom(room) {
       const ups = (await c.query(
         'select seq, data from doc_updates where page_id=$1 and seq > $2 order by seq',
         [room.id, st ? st.up_to_seq : 0])).rows;
-      const ydoc = new Y.Doc();
-      if (st) Y.applyUpdate(ydoc, new Uint8Array(st.state), REMOTE);
-      for (const u of ups) Y.applyUpdate(ydoc, new Uint8Array(u.data), REMOTE);
+      // F-M2-09：改類型補救需要保留對應表中的舊節點（不做垃圾回收），載入時就要設定
+      // 狀態與之後的更新合併成一筆套用：改類型的更新與記錄對應表的更新是分開的兩筆，逐筆套用時，
+      // 前一筆結束就會回收舊節點（對應表還沒載入），之後才到的字就無法補救
+      const ydoc = createRescueDoc();
+      const parts = [...(st ? [new Uint8Array(st.state)] : []), ...ups.map(u => new Uint8Array(u.data))];
+      if (parts.length) Y.applyUpdate(ydoc, parts.length === 1 ? parts[0] : Y.mergeUpdates(parts), REMOTE);
       room.ydoc = ydoc;
       room.seq = Number(p.last_seq);
       room.epoch = p.restore_epoch;
@@ -211,6 +215,8 @@ async function flush(room) {
       let seq = room.seq;
       const inserted = [];
       const seenInBatch = new Set();
+      // F-M2-09：這批有改區塊類型或寫入已改類型的舊節點時，在複本上依序套用並計算補救；提交成功後才取代 room.ydoc
+      let work = null;
       for (const it of items) it.denied = !auth.allowed.has(it.userId);
       for (const it of items) {
         if (it.denied) continue;
@@ -229,12 +235,26 @@ async function flush(room) {
           'insert into doc_update_ids(page_id, update_id, seq) select $1, unnest($2::text[]), $3',
           [room.id, fresh, seq]);
         it.seq = seq;
+        it.rescue = null;
+        if (!work && mayNeedRescue(room.ydoc, it.data)) {
+          work = cloneRescueDoc(room.ydoc);
+          for (const prev of inserted) Y.applyUpdate(work, prev.data, REMOTE);
+        }
+        if (work) {
+          const r = applyWithRescue(work, it.data, REMOTE);
+          if (r) {
+            seq += 1;
+            await c.query('insert into doc_updates(page_id, seq, data, user_id, kind) values ($1,$2,$3,$4,$5)',
+              [room.id, seq, Buffer.from(r), null, 'rescue']);
+            it.rescue = { seq, data: r };
+          }
+        }
         inserted.push(it);
       }
       await c.query('update pages set last_seq=$2 where id=$1', [room.id, seq]);
       faultPoint('flush:before_commit');
       await c.query('commit');
-      return { seq, inserted };
+      return { seq, inserted, work };
     } catch (e) {
       failed = true;
       try { await c.query('rollback'); } catch { /* 連線可能已被終止 */ }
@@ -247,11 +267,14 @@ async function flush(room) {
   // 失去權限的連線先移出房間，不再收到任何廣播
   for (const it of items) if (it.denied) room.conns.delete(it.conn);
   // 提交成功後：依序套用、廣播給其他連線、回覆確認
+  if (result.work) room.ydoc = result.work;
   for (const it of result.inserted) {
-    Y.applyUpdate(room.ydoc, it.data, REMOTE);
+    if (!result.work) Y.applyUpdate(room.ydoc, it.data, REMOTE);
     for (const other of room.conns) {
       if (other !== it.conn) send(other, { t: 'remote', data: b64(it.data), seq: it.seq });
     }
+    // 補救更新是伺服器的修改：送給所有連線（包含送出原更新的人）
+    if (it.rescue) for (const conn of room.conns) send(conn, { t: 'remote', data: b64(it.rescue.data), seq: it.rescue.seq });
   }
   const deniedConns = new Map();
   for (const it of items) {
