@@ -6,8 +6,18 @@
 // M2-s 失去權限（關閉代碼 4005、P0-01）：
 // - 待確認項目移到 storage.denied（「無權限」），永不自動重送、不自動重連；刪除本機從伺服器快取的文件狀態，只保留自己的修改
 // - 之後權限恢復時也不自動補送：由使用者選擇下載、另存為衝突副本（不合併，伺服器仍依當下成員身分檢查）或捨棄
+// M2-b：
+// - 協作游標（W2）：this.awareness（y-protocols）只在連線時與伺服器交換，屬於暫態：不寫入本機草稿、待確認清單或文件更新，不影響儲存狀態。
+//   名字與顏色以伺服器在 welcome 告知的為準（伺服器也會覆蓋轉送給其他人的狀態）；送出節流為每 100 毫秒最多一次。
+//   斷線、撤銷、失去權限時清除其他人的游標。
+// - 連線存活檢查（livenessMs，瀏覽器使用；Node 測試預設關閉）：網路中斷但 TCP 沒有關閉時，瀏覽器可能很久都不觸發 close，
+//   畫面會停在「儲存中」再變成「儲存失敗」。已連線時每 livenessMs/2 送一次 ping，超過 livenessMs 沒有收到任何訊息就視為斷線，
+//   改顯示「離線」並重新連線。瀏覽器的 offline 事件（goOffline）也立即視為斷線。
+// - 五種儲存狀態（W3）：displayStatus()，判定規則見 save-state.js；伺服器的 {t:'db'} 通知資料庫寫入失敗與恢復
 import * as Y from 'yjs';
+import { Awareness, encodeAwarenessUpdate, applyAwarenessUpdate, removeAwarenessStates } from 'y-protocols/awareness';
 import { Emitter, uuid, b64, fromB64 } from './util.js';
+import { deriveSaveState } from './save-state.js';
 import { insertToken, deleteRandomToken, deleteRandomBlock, docJSON, fragment } from './doc.js';
 
 const REMOTE = 'remote';
@@ -18,10 +28,12 @@ export class Client extends Emitter {
   constructor({
     url, docId, token, userId, name = 'A', storage = {}, failAfterMs = 10000, autoReconnect = true,
     rnd = Math.random, trackReceived = false, clearUndoOnRestore = true,
-    WebSocketImpl = globalThis.WebSocket, persist = null, describe = docJSON, getToken = null,
+    WebSocketImpl = globalThis.WebSocket, persist = null, describe = docJSON, getToken = null, livenessMs = 0,
   }) {
     super();
-    Object.assign(this, { url, docId, token, userId, name, storage, failAfterMs, autoReconnect, rnd, trackReceived, clearUndoOnRestore, WebSocketImpl, persist, describe, getToken });
+    Object.assign(this, { url, docId, token, userId, name, storage, failAfterMs, autoReconnect, rnd, trackReceived, clearUndoOnRestore, WebSocketImpl, persist, describe, getToken, livenessMs });
+    this.lastHeard = 0;
+    this.livenessTimer = null;
     this.pageClosed = false;
     this.connectAttempt = 0;
     this.ready = false;
@@ -36,6 +48,10 @@ export class Client extends Emitter {
     this.saving = false;
     this.saveAgain = false;
     this.extraUndoManagers = new Set();
+    this.dbFailing = false;
+    this.me = null;            // 伺服器確認的名字與顏色
+    this.awTimer = null;
+    this.awLastSent = 0;
     storage.pending ||= [];
     storage.docUpdates ||= [];
     storage.pendingRestores ||= [];
@@ -53,7 +69,17 @@ export class Client extends Emitter {
   }
 
   initDoc() {
+    if (this.awareness) this.awareness.destroy();
     this.ydoc = new Y.Doc();
+    this.awareness = new Awareness(this.ydoc);
+    // y-protocols 每 3 秒檢查逾時的計時器：不讓它單獨撐住 Node 行程（測試）
+    const it = this.awareness._checkInterval;
+    if (it && typeof it.unref === 'function') it.unref();
+    this.awareness.on('update', ({ added, updated, removed }, origin) => {
+      if (origin === REMOTE) return;
+      const me = this.awareness.clientID;
+      if (added.includes(me) || updated.includes(me) || removed.includes(me)) this.scheduleAwareness();
+    });
     for (const u of this.storage.docUpdates) Y.applyUpdate(this.ydoc, u, LOAD);
     this.undoManager = new Y.UndoManager(fragment(this.ydoc), { trackedOrigins: new Set([LOCAL]), captureTimeout: 0 });
     this.ydoc.on('update', (u, origin) => {
@@ -140,6 +166,50 @@ export class Client extends Emitter {
 
   get pending() { return this.storage.pending; }
 
+  // 五種儲存狀態（M2-b W3）：unsaved／saved／offline／failed／saving，規則見 save-state.js
+  displayStatus() {
+    const st = this.storage;
+    const p = st.pending;
+    const unsynced = p.length > 0 || !!st.offlineCopy || st.unackedCopies.length > 0;
+    return deriveSaveState({
+      unsynced,
+      unpersisted: unsynced && (p.some(e => (e.v || 0) > this.persistedVersion) || !this.localPersisted()),
+      connected: this.ready,
+      dbFailing: this.dbFailing,
+      oldestPendingAgeMs: p.length ? Date.now() - Math.min(...p.map(e => e.at)) : 0,
+      failAfterMs: this.failAfterMs,
+    });
+  }
+
+  // ---- 協作游標（M2-b W2） ----
+  scheduleAwareness() {
+    if (this.awTimer) return;
+    const wait = Math.max(0, 100 - (Date.now() - this.awLastSent));
+    this.awTimer = setTimeout(() => { this.awTimer = null; this.sendAwareness(); }, wait);
+  }
+
+  sendAwareness() {
+    if (!this.ready || this.accessDenied || this.revoked) return;
+    this.awLastSent = Date.now();
+    this.raw({ t: 'aw', data: b64(encodeAwarenessUpdate(this.awareness, [this.awareness.clientID])) });
+  }
+
+  clearPeers() {
+    if (!this.awareness) return;
+    const others = [...this.awareness.getStates().keys()].filter(id => id !== this.awareness.clientID);
+    if (others.length) { removeAwarenessStates(this.awareness, others, REMOTE); this.emit('peers'); }
+  }
+
+  // 同頁其他人的游標（名字、顏色都是伺服器確認的）
+  peers() {
+    const out = [];
+    for (const [clientId, st] of this.awareness.getStates()) {
+      if (clientId === this.awareness.clientID || !st || !st.user) continue;
+      out.push({ clientId, name: st.user.name, color: st.user.color, cursor: !!st.cursor });
+    }
+    return out;
+  }
+
   saveStatus() {
     const p = this.storage.pending;
     if (p.length === 0 && !this.storage.offlineCopy && this.storage.unackedCopies.length === 0) return 'saved';
@@ -175,11 +245,47 @@ export class Client extends Emitter {
     const ws = new this.WebSocketImpl(this.url);
     this.ws = ws;
     ws.addEventListener('open', () => this.raw({ t: 'hello', docId: this.docId, token: this.token }));
-    ws.addEventListener('message', ev => this.onMessage(JSON.parse(typeof ev.data === 'string' ? ev.data : ev.data.toString())));
-    ws.addEventListener('close', ev => {
-      if (this.ws !== ws) return;
+    ws.addEventListener('message', ev => {
+      if (ws.__closedHandled) return;   // 已判定斷線的舊連線：之後才到的訊息一律不處理
+      this.lastHeard = Date.now();
+      this.onMessage(JSON.parse(typeof ev.data === 'string' ? ev.data : ev.data.toString()));
+    });
+    ws.addEventListener('close', ev => this.onSocketClosed(ws, ev.code, ev.reason));
+    ws.addEventListener('error', () => {});
+  }
+
+  // 連線存活檢查：已連線時定期 ping；太久沒有收到任何訊息就視為斷線
+  startLiveness() {
+    if (!this.livenessMs || this.livenessTimer) return;
+    this.livenessTimer = setInterval(() => {
+      const ws = this.ws;
+      if (!ws || !this.ready) return;
+      if (Date.now() - this.lastHeard > this.livenessMs) { this.socketLost(ws); return; }
+      this.raw({ t: 'ping' });
+    }, Math.max(200, Math.floor(this.livenessMs / 2)));
+    if (typeof this.livenessTimer.unref === 'function') this.livenessTimer.unref();
+  }
+  stopLiveness() { if (this.livenessTimer) { clearInterval(this.livenessTimer); this.livenessTimer = null; } }
+
+  // 不等瀏覽器的 close 事件，直接當作斷線處理（之後重新連線）
+  socketLost(ws) {
+    if (!ws || ws.__closedHandled) return;
+    this.onSocketClosed(ws, 1006);
+    this.dropSocket(ws);
+  }
+  goOffline() { if (this.ws) this.socketLost(this.ws); }
+  reconnectNow() { if (!this.ready && !this.closedByUser && !this.revoked && !this.accessDenied && !this.pageClosed && this.autoReconnect && !this.blocked) this.connect(); }
+
+  onSocketClosed(ws, code, reason = '') {
+    {
+      const ev = { code, reason };
+      if (this.ws !== ws || ws.__closedHandled) return;
+      ws.__closedHandled = true;
+      this.stopLiveness();
       const wasReady = this.ready;
       this.ready = false;
+      this.dbFailing = false;
+      this.clearPeers();
       this.emit('disconnected', ev.code);
       if (ev.code === 4001) { this.revoked = true; this.emit('revoked'); return; }
       if (ev.code === 4004) { this.pageClosed = true; this.emit('page_closed'); return; }
@@ -190,8 +296,7 @@ export class Client extends Emitter {
       const fails = this.reconnectFails = (this.reconnectFails || 0) + (wasReady ? 0 : 1);
       const base = Math.min(5000, 50 * 2 ** Math.min(fails, 7));
       if (this.autoReconnect && !this.closedByUser) setTimeout(() => { if (!this.closedByUser && this.ws === ws) this.connect(); }, Math.floor(base * (0.5 + Math.random())));
-    });
-    ws.addEventListener('error', () => {});
+    }
   }
 
   dropSocket(ws) {
@@ -201,6 +306,9 @@ export class Client extends Emitter {
   disconnect() {
     this.closedByUser = true;
     this.ready = false;
+    this.stopLiveness();
+    if (this.awTimer) { clearTimeout(this.awTimer); this.awTimer = null; }
+    this.clearPeers();
     if (this.ws) { const ws = this.ws; this.ws = null; this.dropSocket(ws); }
   }
 
@@ -229,6 +337,13 @@ export class Client extends Emitter {
       case 'cc_ack': return this.onCopyAck(m);
       case 'version_ok': return this.emit('version_ok', m);
       case 'denied': return this.markDenied(m.ids);
+      case 'aw':
+        try { applyAwarenessUpdate(this.awareness, fromB64(m.data), REMOTE); } catch { /* 格式錯誤的游標資料直接忽略 */ }
+        return this.emit('peers');
+      case 'db':
+        this.dbFailing = !m.ok;
+        return this.emit('db', m.ok);
+      case 'pong': return undefined;
       default: return undefined;
     }
   }
@@ -254,7 +369,12 @@ export class Client extends Emitter {
     st.knownEpoch = m.epoch;
     this.touch();
     this.ready = true;
+    this.dbFailing = false;
     this.reconnectFails = 0;
+    this.lastHeard = Date.now();
+    this.startLiveness();
+    if (m.you) { this.me = m.you; this.awareness.setLocalStateField('user', m.you); }
+    this.sendAwareness();
     for (const c of st.unackedCopies) this.raw({ t: 'conflict_copy', ...c });
     for (const e of st.pending) this.sendUpdate(e);
     for (const r of st.pendingRestores) this.raw({ t: 'restore', ...r });

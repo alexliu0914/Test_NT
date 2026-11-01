@@ -94,7 +94,7 @@ export async function br01(N) {
     await A.waitForFunction(() => window.__app.persisted(), null, { timeout: 5000 });
     await B.waitForFunction(() => window.__app.persisted(), null, { timeout: 5000 });
     const sDown = [await status(A), await status(B)];
-    if (sDown.some(s => !['saving', 'failed'].includes(s))) fails.push('2-停機時狀態應為 saving/failed，實際 ' + sDown);
+    if (sDown.some(s => !['saving', 'offline'].includes(s))) fails.push('2-停機時狀態應為 saving/offline，實際 ' + sDown);
     await env.collab.start();
     await waitSynced(A); await waitSynced(B);
     cur = await checkConverged(fails, '2-重啟', A, B, docId);

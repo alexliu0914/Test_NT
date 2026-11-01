@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M1 變異測試：在程式複本中植入已知缺陷，相關測試必須抓到（任一輪失敗即算抓到）。
 - MUT-1～8：M0 的協作核心缺陷，移植到 M1 的協作伺服器與用戶端
-- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）
+- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）；MUT-C1～C3、C8：協作游標與儲存狀態（M2-b）
 改到 Next.js 會用到的程式（src/、shared/、migrations/）時，複本會重新建置。
 用法：python3 test/mutations.py [編號 ...]
       python3 test/mutations.py --stage m2-a   依 test/manifest.json 執行該階段（含之前）的全部變異；
@@ -107,6 +107,17 @@ MUTANTS = [
     ('MUT-S9', '帳號上限沒有在新增帳號的交易中強制（只在建立邀請時檢查）', 'migrations/0002_spaces.sql',
      "  PERFORM pg_advisory_xact_lock(hashtext('notes:accounts'));\n  SELECT count(*) INTO n FROM \"user\";\n",
      "  n := 0;\n", ['AUTH-08=1']),
+    # ---- M2-b：協作游標與儲存狀態（M2 計畫 v0.5 §4.2） ----
+    ('MUT-C1', '伺服器接受用戶端自填名字或顏色', 'collab/server.mjs',
+     "    const st = { user: { name: conn.userName, color: assignColor(room, conn.userId) } };",
+     "    const st = { user: (e.state && e.state.user) || { name: conn.userName, color: assignColor(room, conn.userId) } };", ['COL-04=1']),
+    ('MUT-C2', 'awareness 洩漏到不同頁面', 'collab/server.mjs',
+     "  for (const other of room.conns) if (other !== from) send(other, { t: 'aw', data });",
+     "  for (const other of authed) if (other !== from) send(other, { t: 'aw', data });", ['COL-04=1']),
+    ('MUT-C3', '撤銷時不移除游標', 'collab/server.mjs',
+     "  if (!room || conn.presenceDropped) return;", "  if (!room || conn.presenceDropped || conn.revoked) return;", ['COL-09=1']),
+    ('MUT-C8', '資料庫失敗時仍顯示已儲存', 'shared/save-state.js',
+     "  if (!s.unsynced) return 'saved';", "  if (!s.unsynced || s.dbFailing) return 'saved';", ['COL-11=1']),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')

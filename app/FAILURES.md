@@ -164,3 +164,17 @@ M2-s 起頁面屬於空間，非成員看不到；帳號最多四個。M1 案例
 ### T-M2-04 已驗收階段的封存基線
 - 依 M2-s 驗收決議「將 d78a094 封存為 M2-s 程式驗證基線」、「M2-b 必須保留現有空間授權、資料提交與衝突副本規則」：新增 `test/accepted-baselines.json`，記錄 M2-a（2141293）與 M2-s（d78a094）新增的案例完整輪數與變異。`checkManifest` 比照 M1 基線，不允許移除、改階段或減少完整輪數。
 - 執行器自我測試 15 → 16 項（新增「已驗收階段的案例被減少輪數、變異被移除 → 拒絕執行」）。
+
+### T-M2-05 M1 測試的前提修改：「離線」與「儲存失敗」分成兩個狀態
+M2 計畫 v0.5 W3 要求五種儲存狀態。M1 的 `failed` 狀態顯示的文字是「離線，內容保存在此裝置」；M2-b 起，離線改為 `offline`（文字不變），`failed` 改為「儲存失敗」（已連線但資料庫無法寫入，或超過 10 秒仍未確認）。M1 兩處判定離線狀態的斷言跟著改名，允許的狀態意義不變：
+
+| 位置 | 原程式 | 新程式 | 原因 | 覆蓋 |
+| --- | --- | --- | --- | --- |
+| `test/cases/browser-idb.mjs` BR-02 S3 | `if (!['saving', 'failed'].includes(st)) fails.push('S3-離線時狀態應為 saving/failed，實際 ' + st);` | `if (!['saving', 'offline'].includes(st)) fails.push('S3-離線時狀態應為 saving/offline，實際 ' + st);` | 離線的狀態代號由 `failed` 改為 `offline`（畫面文字相同） | 不變（「已儲存」「尚未存到此裝置」仍判失敗；現在「儲存失敗」也判失敗，比原本嚴格） |
+| `test/cases/browser.mjs` BR-01 步驟 2 | `if (sDown.some(s => !['saving', 'failed'].includes(s))) …` | `if (sDown.some(s => !['saving', 'offline'].includes(s))) …` | 同上：協作伺服器停機時用戶端是離線 | 不變（同上） |
+
+`shared/client.js` 的 `saveStatus()`（M0 核心測試使用的協定層狀態）沒有修改；畫面改用新的 `displayStatus()`。
+
+### T-M2-06 測試工具的增補（不影響既有判定）
+- `test/lib/browser.mjs` 的 `installRelay` 新增 `setFilter`（攔下伺服器送來的特定訊息）、`inject`（送出模擬的伺服器訊息）、`dropConnections`（中斷目前連線，用戶端自動重新連線），供 COL-07 檢查「不對應的確認」；原有的延遲與離線功能不變。
+- 編輯器的測試介面 `window.__app` 新增 `peers()`、`me()`、`awarenessClientId()`、`statusLog()`。

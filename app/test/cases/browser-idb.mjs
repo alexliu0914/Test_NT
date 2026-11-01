@@ -112,7 +112,7 @@ export async function br02(N) {
       for (const t of toks) await typeAtEnd(P, ` ${t}`);
       await P.waitForFunction(() => window.__app.persisted(), null, { timeout: 5000 });
       const st = await status(P);
-      if (!['saving', 'failed'].includes(st)) fails.push('S3-離線時狀態應為 saving/failed，實際 ' + st);
+      if (!['saving', 'offline'].includes(st)) fails.push('S3-離線時狀態應為 saving/offline，實際 ' + st);
       await ctx.close();
       ctx = await start(dir, dev);
       ({ P } = await pageWithRelay(ctx));

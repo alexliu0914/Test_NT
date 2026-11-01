@@ -13,12 +13,21 @@
 //  2. 更新先在一個資料庫交易中寫入，提交成功後才套用到伺服器文件、廣播給其他連線、回覆確認。
 //  3. update_id 由用戶端以 UUID 配發；doc_update_ids 以 (page_id, update_id) 為主鍵去重。
 //  4. 還原是佇列中的一個項目，與一般編輯共用 seq；restore_id 冪等。
+// M2-b 協作游標（W2、FR-06）：
+//  - awareness 只在同一頁、已通過登入／兩步驟驗證／頁面授權的連線之間轉送；不寫入資料庫、不進入編輯佇列、不影響確認
+//  - 名字與顏色由伺服器依登入身分決定：用戶端送來的狀態只保留 cursor 欄位，user 一律以伺服器的值覆蓋；
+//    每條連線只能代表一個 Yjs clientID（第一次送出的），不能冒用同頁其他連線的 clientID
+//  - 顏色：同頁在線的使用者優先分配未使用的顏色，使用者的最後一條連線離開後釋放；用完時重複使用（名字仍不同）
+//  - 每條連線每秒最多 20 則、每則最多 2 KiB，超過的直接丟棄（只計數）
+//  - 連線關閉、登入撤銷、失去權限、頁面關閉時立即通知同頁其他人移除游標；沒有回應心跳超過 PRESENCE_TTL_MS 的連線視為異常斷線，移除游標並中斷
+// M2-b 儲存狀態（W3、FR-10）：寫入資料庫失敗（重試中）時通知同頁連線 {t:'db', ok:false}，恢復後 {t:'db', ok:true}；用戶端據此顯示「儲存失敗」
 import { WebSocketServer } from 'ws';
 import http from 'node:http';
 import pg from 'pg';
 import { verifyCollabToken } from '../shared/collab-token.mjs';
 import * as Y from 'yjs';
 import { replaceFragmentsFrom, docJSON } from '../shared/doc.js';
+import { decodeAwareness, encodeAwareness } from '../shared/awareness-codec.js';
 
 // 連接埠：--port 參數（npm run collab，Windows 也適用）＞ PORT 環境變數（測試）＞ 27000
 const portArg = process.argv.indexOf('--port');
@@ -33,6 +42,14 @@ const ACCESS_NOTIFY_DELAY_MS = Number(process.env.ACCESS_NOTIFY_DELAY_MS || 0);
 // 背壓：每份文件待寫入的更新上限；超過時回覆 busy，用戶端保留在待確認清單並稍後重送
 const MAX_INBOX = Number(process.env.MAX_INBOX || 2000);
 const REMOTE = 'server';
+// 協作游標（M2-b）
+const AW_MAX_BYTES = 2048;
+const AW_RATE = Number(process.env.AW_RATE || 20);
+const PRESENCE_TTL_MS = Number(process.env.PRESENCE_TTL_MS || 30000);
+const HEARTBEAT_MS = Number(process.env.HEARTBEAT_MS || 10000);
+const PALETTE_ALL = ['#e03131', '#1971c2', '#2f9e44', '#f08c00', '#9c36b5', '#0c8599', '#c2255c', '#5f3dc4'];
+// 測試用：縮小色票，驗證用完時重複使用
+const PALETTE = PALETTE_ALL.slice(0, Math.max(1, Math.min(8, Number(process.env.PALETTE_SIZE || 8))));
 
 const pool = new pg.Pool({ connectionString: DATABASE_URL, max: 8, application_name: process.env.PG_APP_NAME || 'collab' });
 pool.on('error', e => log('pool error', e.message));
@@ -73,6 +90,9 @@ class Room {
     this.flushScheduled = false;
     this.sinceCompact = 0;
     this.spaceId = null;
+    this.dbFailing = false;
+    this.presence = new Map();   // clientID → { conn, clock, state }（協作游標，只在記憶體）
+    this.colors = new Map();     // userId → 色票索引（同頁在線的使用者）
   }
   enqueue(fn) {
     const p = this.queue.then(fn);
@@ -94,19 +114,20 @@ function getRoom(id) {
 }
 
 // 監控用統計：資料庫連續失敗的起始時間、背壓觸發次數、待寫入佇列的最大長度
-const stats = { dbDownSince: null, busy: 0, maxInbox: 0, retries: 0 };
+const stats = { dbDownSince: null, busy: 0, maxInbox: 0, retries: 0, awRelayed: 0, awDropped: 0, awOversize: 0, awForged: 0, presenceTtl: 0 };
 
 // 資料庫錯誤一律重試、不丟棄更新（未提交的更新不會被確認，所以不會有假的「已儲存」）。
 // 記憶體由 MAX_INBOX 背壓限制；資料庫持續失效的時間由 /health 的 dbDownSince 對外揭露，供監控告警。
 // M1：資料內容錯誤（SQLSTATE 22／23／42 類，例如格式不符、違反限制）重試也不會成功，直接拋出，不讓佇列卡住；
 // 其餘（連線中斷、資料庫重啟、注入的故障）照舊無限重試。
 const NON_RETRYABLE = /^(22|23|42)/;
-async function withRetry(fn) {
+async function withRetry(fn, onRetry = null) {
   let delay = 20;
   for (;;) {
     try { const r = await fn(); stats.dbDownSince = null; return r; } catch (e) {
       if (e && typeof e.code === 'string' && NON_RETRYABLE.test(e.code)) throw e;
       stats.dbDownSince ||= new Date().toISOString();
+      if (onRetry) onRetry(e);
       stats.retries++;
       log('db error, retrying', e.message);
       await sleep(delay);
@@ -169,6 +190,7 @@ async function authorize(c, pageId, userIds) {
 // 失去權限：回覆被拒的 update_id（用戶端標為「無權限」保留在本機、不再重送）並以 4005 關閉
 function denyConn(conn, ids) {
   if (ids && ids.length) send(conn, { t: 'denied', ids });
+  dropPresence(conn);
   if (conn.room) conn.room.conns.delete(conn);
   conn.denied = true;
   if (conn.ws.readyState === 1) conn.ws.close(4005, 'access revoked');
@@ -178,7 +200,7 @@ async function flush(room) {
   const items = room.inbox;
   room.inbox = [];
   if (items.length === 0) return;
-  // 失敗時整批重試，佇列後面的項目會等待，順序不變
+  // 失敗時整批重試，佇列後面的項目會等待，順序不變；重試期間通知同頁連線「儲存失敗」（M2-b W3）
   const result = await withRetry(async () => {
     const c = await checkout();
     let failed = false;
@@ -218,8 +240,9 @@ async function flush(room) {
       try { await c.query('rollback'); } catch { /* 連線可能已被終止 */ }
       throw e;
     } finally { c.release(failed); }
-  });
+  }, () => setDbFailing(room, true));
   faultPoint('flush:after_commit');
+  if (room.dbFailing) setDbFailing(room, false);
   room.seq = result.seq;
   // 失去權限的連線先移出房間，不再收到任何廣播
   for (const it of items) if (it.denied) room.conns.delete(it.conn);
@@ -238,6 +261,12 @@ async function flush(room) {
   for (const [conn, ids] of deniedConns) denyConn(conn, ids);
   room.sinceCompact += result.inserted.length;
   if (room.sinceCompact >= COMPACT_EVERY) await compact(room);
+}
+
+function setDbFailing(room, failing) {
+  if (room.dbFailing === failing) return;
+  room.dbFailing = failing;
+  for (const c of room.conns) send(c, { t: 'db', ok: !failing });
 }
 
 // 合併：把目前完整狀態寫入 doc_states，刪除已合併的增量更新（doc_update_ids 保留作為去重）
@@ -402,9 +431,11 @@ async function isMember(pageId, userId) {
 }
 
 wss.on('connection', ws => {
-  const conn = { ws, room: null, userId: null, sessionId: null, joined: false };
+  const conn = { ws, room: null, userId: null, userName: '', sessionId: null, joined: false, lastSeen: Date.now(), awClientId: null, awTokens: AW_RATE, awRefill: Date.now() };
+  ws.on('pong', () => { conn.lastSeen = Date.now(); });
   let authing = false;
   ws.on('message', async raw => {
+    conn.lastSeen = Date.now();
     let m;
     try { m = JSON.parse(raw.toString()); } catch { return; }
     if (!conn.room) {
@@ -421,6 +452,7 @@ wss.on('connection', ws => {
       if (!(await isMember(m.docId.toLowerCase(), s.user_id))) return ws.close(4004, 'page not found');
       if (ws.readyState !== 1) return undefined;
       conn.userId = s.user_id;
+      conn.userName = s.name || '';
       conn.sessionId = v.claims.sid;
       authed.add(conn);
       const room = getRoom(m.docId.toLowerCase());
@@ -430,8 +462,12 @@ wss.on('connection', ws => {
         if (room.missing) { rooms.delete(room.id); ws.close(4004, 'page not found'); return; }
         room.conns.add(conn);
         conn.joined = true;
+        const color = assignColor(room, conn.userId);
         // 先送 restore_epoch 與狀態；用戶端在套用前自行判斷是否需要先存衝突副本
-        send(conn, { t: 'welcome', epoch: room.epoch, seq: room.seq, state: b64(Y.encodeStateAsUpdate(room.ydoc)) });
+        send(conn, { t: 'welcome', epoch: room.epoch, seq: room.seq, state: b64(Y.encodeStateAsUpdate(room.ydoc)), you: { name: conn.userName, color } });
+        // 同頁其他人目前的游標
+        const others = [...room.presence.entries()].filter(([, p]) => p.conn !== conn).map(([clientId, p]) => ({ clientId, clock: p.clock, state: p.state }));
+        if (others.length) send(conn, { t: 'aw', data: b64(encodeAwareness(others)) });
       });
       return undefined;
     }
@@ -460,23 +496,29 @@ wss.on('connection', ws => {
       case 'conflict_copy':
         room.enqueue(() => saveConflictCopy(room, conn, m));
         break;
+      case 'aw':
+        if (!conn.denied && !conn.presenceDropped) onAwareness(room, conn, m.data);
+        break;
+      case 'ping':
+        send(conn, { t: 'pong' });
+        break;
       default:
         break;
     }
     return undefined;
   });
-  ws.on('close', () => { authed.delete(conn); if (conn.room) conn.room.conns.delete(conn); });
+  ws.on('close', () => { authed.delete(conn); dropPresence(conn); if (conn.room) conn.room.conns.delete(conn); });
   ws.on('error', () => {});
 });
 
 // 撤銷登入：收到通知立即中斷該 session 的所有連線
 function closeSession(sessionId) {
-  for (const conn of authed) if (conn.sessionId === sessionId) conn.ws.close(4001, 'revoked');
+  for (const conn of authed) if (conn.sessionId === sessionId) { conn.revoked = true; dropPresence(conn); conn.ws.close(4001, 'revoked'); }
 }
 
 // 頁面移入垃圾桶或被永久刪除：中斷該頁的所有連線，並丟棄記憶體中的文件
 function closePage(pageId) {
-  for (const conn of authed) if (conn.room && conn.room.id === pageId) conn.ws.close(4004, 'page closed');
+  for (const conn of authed) if (conn.room && conn.room.id === pageId) { dropPresence(conn); conn.ws.close(4004, 'page closed'); }
   const room = rooms.get(pageId);
   if (room) room.enqueue(() => { if (room.conns.size === 0) rooms.delete(pageId); });
 }
@@ -550,6 +592,83 @@ async function recheckSessions() {
   } catch { /* 下一輪再查 */ }
 }
 setInterval(() => { recheckSessions(); recheckAccess(); }, SESSION_RECHECK_MS).unref();
+
+// ---- 協作游標（M2-b W2）----
+function assignColor(room, userId) {
+  if (!room.colors.has(userId)) {
+    const used = new Map();
+    for (const i of room.colors.values()) used.set(i, (used.get(i) || 0) + 1);
+    let pick = PALETTE.findIndex((_, i) => !used.has(i));
+    // 色票用完：選目前使用人數最少的顏色（名字仍可分辨）
+    if (pick < 0) pick = PALETTE.map((_, i) => i).sort((a, b) => used.get(a) - used.get(b) || a - b)[0];
+    room.colors.set(userId, pick);
+  }
+  return PALETTE[room.colors.get(userId)];
+}
+
+function broadcastAw(room, from, entries) {
+  const data = b64(encodeAwareness(entries));
+  for (const other of room.conns) if (other !== from) send(other, { t: 'aw', data });
+  stats.awRelayed++;
+}
+
+function onAwareness(room, conn, data) {
+  if (typeof data !== 'string') return;
+  // 節流：每條連線每秒 AW_RATE 則（token bucket）；超過的丟棄，不影響文件更新
+  const now = Date.now();
+  conn.awTokens = Math.min(AW_RATE, conn.awTokens + (now - conn.awRefill) * AW_RATE / 1000);
+  conn.awRefill = now;
+  if (conn.awTokens < 1) { stats.awDropped++; return; }
+  conn.awTokens -= 1;
+  const buf = fromB64(data);
+  if (buf.length > AW_MAX_BYTES) { stats.awOversize++; return; }
+  let entries;
+  try { entries = decodeAwareness(buf); } catch { stats.awDropped++; return; }
+  const out = [];
+  for (const e of entries) {
+    // 每條連線只代表一個 clientID；同頁其他連線已使用的 clientID 不能冒用
+    const owner = room.presence.get(e.clientId);
+    if (owner && owner.conn !== conn) { stats.awForged++; continue; }
+    if (conn.awClientId === null) conn.awClientId = e.clientId;
+    if (e.clientId !== conn.awClientId) { stats.awForged++; continue; }
+    const clock = (owner ? owner.clock : 0) + 1;
+    if (e.state === null) {
+      if (owner) { room.presence.delete(e.clientId); out.push({ clientId: e.clientId, clock, state: null }); }
+      continue;
+    }
+    // 只保留游標位置；名字與顏色一律以伺服器確認的身分覆蓋（不接受用戶端自填）
+    const st = { user: { name: conn.userName, color: assignColor(room, conn.userId) } };
+    if (e.state && typeof e.state === 'object' && 'cursor' in e.state) st.cursor = e.state.cursor;
+    room.presence.set(e.clientId, { conn, clock, state: st });
+    out.push({ clientId: e.clientId, clock, state: st });
+  }
+  if (out.length) broadcastAw(room, conn, out);
+}
+
+// 連線離開（關閉、撤銷、失去權限、頁面關閉、心跳逾時）：通知同頁其他人移除它的游標；使用者已沒有其他連線時釋放顏色
+function dropPresence(conn) {
+  const room = conn.room;
+  if (!room || conn.presenceDropped) return;
+  conn.presenceDropped = true;
+  const out = [];
+  for (const [clientId, p] of room.presence) {
+    if (p.conn !== conn) continue;
+    room.presence.delete(clientId);
+    out.push({ clientId, clock: p.clock + 1, state: null });
+  }
+  if (out.length) broadcastAw(room, conn, out);
+  const stillHere = [...room.conns].some(c => c !== conn && c.userId === conn.userId && !c.presenceDropped);
+  if (!stillHere) room.colors.delete(conn.userId);
+}
+
+// 心跳：沒有回應超過 PRESENCE_TTL_MS 的連線視為異常斷線（例如網路中斷但 TCP 沒有關閉），移除游標並中斷
+setInterval(() => {
+  const now = Date.now();
+  for (const conn of authed) {
+    if (now - conn.lastSeen > PRESENCE_TTL_MS) { stats.presenceTtl++; dropPresence(conn); conn.ws.terminate(); continue; }
+    try { conn.ws.ping(); } catch { /* ignore */ }
+  }
+}, HEARTBEAT_MS).unref();
 
 listenNotifications();
 server.listen(PORT, process.env.HOST || '127.0.0.1', () => console.log('READY ' + PORT));

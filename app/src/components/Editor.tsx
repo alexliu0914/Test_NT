@@ -3,6 +3,7 @@
 // M1 範圍：沿用 M0 的儲存、離線、還原與衝突副本行為，改用正式登入與 5 分鐘協作憑證。
 // M2-a：繁體中文介面、斜線選單只提供 FR-04 的區塊與頁面連結、所有連結與貼上內容經安全規則檢查（W1、W6）。
 // M2-s：失去權限（4005）時不再顯示文件內容，只提供下載自己尚未同步的內容；權限恢復後舊草稿不自動補送，由使用者選擇。
+// M2-b：同頁其他人的游標、名字、顏色（伺服器確認的身分）；五種儲存狀態；有尚未同步的修改時關閉分頁提醒。
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BlockNoteEditor, filterSuggestionItems, insertOrUpdateBlockForSlashMenu } from '@blocknote/core';
 import { dictionary, PAGE_LINK_TITLE } from '@shared/editor-dictionary.js';
@@ -13,7 +14,6 @@ import PageLinkPicker from './PageLinkPicker';
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
 import { useComputedColorScheme } from '@mantine/core';
-import { Awareness } from 'y-protocols/awareness';
 import { Client } from '@shared/client.js';
 import { IdbStore } from '@shared/idb-store.js';
 import { makeSchema, FRAGMENT, SLASH_ITEMS } from '@shared/blocknote-schema.js';
@@ -22,9 +22,31 @@ import { safePasteHandler, sanitizeHTML } from '@shared/paste-sanitize.js';
 import { pageRegistry } from '@shared/page-registry.js';
 import { tolerateMultiContent, repairByAuthor, ownClientIds, findMultiContent } from '@shared/structure-repair.js';
 import { initialDocUpdate } from '@shared/initial-doc.js';
+import { setLeaveGuard } from '@/lib/leave-guard';
 import * as Y from 'yjs';
 
-export type SaveState = 'loading' | 'saved' | 'saving' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
+export type SaveState = 'loading' | 'saved' | 'saving' | 'offline' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
+
+// 游標：沿用 BlockNote 預設的外觀，另加名字與顏色的屬性（測試與輔助技術用）
+function renderCursor(u: { name: string; color: string }) {
+  const base = document.createElement('span');
+  base.classList.add('bn-collaboration-cursor__base');
+  base.dataset.testid = 'remote-cursor';
+  base.dataset.name = u.name;
+  base.dataset.color = u.color;
+  const caret = document.createElement('span');
+  caret.setAttribute('contenteditable', 'false');
+  caret.classList.add('bn-collaboration-cursor__caret');
+  caret.style.backgroundColor = u.color;
+  const label = document.createElement('span');
+  label.classList.add('bn-collaboration-cursor__label');
+  label.style.backgroundColor = u.color;
+  label.style.color = 'white';
+  label.textContent = u.name;
+  caret.appendChild(label);
+  base.append('\u2060', caret, '\u2060');
+  return base;
+}
 
 const schema = makeSchema((fileId: string) => `/api/files/${encodeURIComponent(fileId)}/content`);
 
@@ -49,6 +71,8 @@ export default function Editor(props: Props) {
         const converter = BlockNoteEditor.create({ schema });
         client = new Client({
           url: '', docId: pageId, token: '', userId: user.id, name: user.name, storage, persist: store,
+          // 網路中斷但連線沒有關閉時，8 秒內改顯示「離線」並重新連線（M2-b W3）
+          livenessMs: 8000,
           describe: (ydoc: unknown) => JSON.stringify(yDocToBlocks(converter, ydoc as never, FRAGMENT)),
           // 每次連線前換新的 5 分鐘協作憑證；401＝登入失效，404＝頁面已不存在
           getToken: async () => {
@@ -69,8 +93,10 @@ export default function Editor(props: Props) {
           pasteHandler: safePasteHandler as never,
           collaboration: {
             fragment: client.ydoc.getXmlFragment(FRAGMENT),
-            user: { name: user.name, color: '#0ca678' },
-            provider: { awareness: new Awareness(client.ydoc) },
+            // 名字與顏色以伺服器為準（welcome 告知、轉送時覆蓋）；這裡只是連線前的預設值
+            user: { name: user.name, color: '#868e96' },
+            provider: { awareness: client.awareness },
+            renderCursor,
           },
         }));
         // F-M2-01：兩人同時改同一個區塊的類型時，不讓 y-prosemirror 刪掉整個區塊（修復與暫停編輯在 Bound）
@@ -180,15 +206,33 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       if (flags.pageClosed) return 'page_closed';
       if (flags.denied) return 'denied';
       if (client.isReadOnly()) return 'readonly';
-      return client.saveStatus() as SaveState;
+      return client.displayStatus() as SaveState;
     };
-    const iv = setInterval(() => onStatus(status()), 200);
-    onStatus(status());
-    const beforeUnload = (e: BeforeUnloadEvent) => { if (!deviceBlocked && client.saveStatus() === 'unsaved') e.preventDefault(); };
+    // 狀態變化紀錄（測試用：確認「已儲存」只在所有待確認更新都收到確認後出現）
+    const log: { at: number; s: SaveState; pending: number }[] = [];
+    const tick = () => {
+      const s = status();
+      if (!log.length || log[log.length - 1].s !== s) { log.push({ at: Date.now(), s, pending: client.storage.pending.length }); if (log.length > 500) log.shift(); }
+      onStatus(s);
+    };
+    const iv = setInterval(tick, 100);
+    tick();
+    const unguard = setLeaveGuard({
+      unsynced: () => (deviceBlocked || flags.denied ? 0 : client.storage.pending.length + client.storage.unackedCopies.length + (client.storage.offlineCopy ? 1 : 0)),
+      waitClean: async (ms: number) => { const until = Date.now() + ms; while (client.hasUnsynced() && Date.now() < until) await new Promise(r => setTimeout(r, 50)); return !client.hasUnsynced() || flags.denied; },
+    });
+    // 有尚未同步（或尚未寫入本機）的修改時關閉分頁：瀏覽器只允許顯示通用的提醒文字
+    const beforeUnload = (e: BeforeUnloadEvent) => { if (!deviceBlocked && !flags.denied && client.hasUnsynced()) e.preventDefault(); };
     addEventListener('beforeunload', beforeUnload);
+    // 瀏覽器回報離線／恢復連網：立即改為離線、立即重新連線
+    const goOffline = () => client.goOffline();
+    const goOnline = () => client.reconnectNow();
+    addEventListener('offline', goOffline);
+    addEventListener('online', goOnline);
     // 自動化測試用介面
     (window as unknown as { __app: unknown }).__app = {
-      client, editor, store, status,
+      client, editor, store, status, statusLog: () => log.slice(),
+      peers: () => client.peers(), me: () => client.me, awarenessClientId: () => client.awareness.clientID,
       blocks: () => editor.document,
       text: () => editor.document.map(b => (Array.isArray(b.content) ? (b.content as { text?: string }[]).map(c => c.text || '').join('') : '')).join('\n'),
       persisted: () => client.localPersisted(),
@@ -211,7 +255,7 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       visiblePages: () => pageRegistry.list().map((p: { id: string }) => p.id),
       discardForeign: async () => { await IdbStore.deleteKeys(foreign.map(f => f.key)); if (client.blocked) await client.discardAndLogout({ confirm: true }); },
     };
-    return () => { clearInterval(iv); removeEventListener('beforeunload', beforeUnload); };
+    return () => { clearInterval(iv); unguard(); removeEventListener('beforeunload', beforeUnload); removeEventListener('offline', goOffline); removeEventListener('online', goOnline); };
   }, [client, editor, store, deviceBlocked, onStatus, flags, foreign]);
 
   if (deviceBlocked) return <ForeignDrafts foreign={foreign} client={client} />;
@@ -221,12 +265,35 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       {banner && <div role="status" style={{ padding: '8px 54px', color: 'var(--mantine-color-orange-7)' }}>{banner}</div>}
       {deniedDrafts > 0 && <DeniedDrafts client={client} onDone={() => setDeniedDrafts(0)} />}
       {merging && !banner && <div role="status" data-testid="merging" style={{ padding: '8px 54px', color: 'var(--mantine-color-dimmed)' }}>正在合併另一位使用者同時做的修改…</div>}
+      <Presence client={client} />
       <BlockNoteView editor={editor} editable={!readOnly && !merging} theme={scheme === 'dark' ? 'dark' : 'light'} slashMenu={false} formattingToolbar={false}>
         <SuggestionMenuController triggerCharacter="/" getItems={async q => filterSuggestionItems(slashItems as never, q)} />
         <FormattingToolbarController formattingToolbar={() => <FormattingToolbar blockTypeSelectItems={typeItems} />} />
       </BlockNoteView>
       <PageLinkPicker exclude={pageId} opened={picker} onClose={() => setPicker(false)} onPick={id => { setPicker(false); insertOrUpdateBlockForSlashMenu(editor, { type: 'pageLink', props: { pageId: id } } as never); }} />
       <span hidden data-user={user.id} />
+    </div>
+  );
+}
+
+// 同頁在線的其他人（伺服器確認的名字與顏色；同一帳號的多條連線合併顯示）
+function Presence({ client }: { client: InstanceType<typeof Client> }) {
+  const [peers, setPeers] = useState(() => client.peers());
+  useEffect(() => {
+    const h = () => setPeers(client.peers());
+    client.on('peers', h);
+    client.on('disconnected', h);
+    return () => { client.off('peers', h); client.off('disconnected', h); };
+  }, [client]);
+  const people = [...new Map(peers.map(p => [p.name + '|' + p.color, p])).values()];
+  if (!people.length) return null;
+  return (
+    <div data-testid="presence" aria-label="同頁的其他人" style={{ padding: '4px 54px', display: 'flex', gap: 12, fontSize: 13, color: 'var(--mantine-color-dimmed)' }}>
+      {people.map(p => (
+        <span key={p.name + p.color} data-testid="presence-user" data-name={p.name} data-color={p.color} style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+          <span aria-hidden style={{ width: 8, height: 8, borderRadius: 4, background: p.color, display: 'inline-block' }} />{p.name}
+        </span>
+      ))}
     </div>
   );
 }

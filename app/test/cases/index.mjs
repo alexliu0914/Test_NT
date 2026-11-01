@@ -16,5 +16,7 @@ export const registry = {
   // M2-s
   'ACL-01': from('./acl.mjs', 'acl01'), 'ACL-02': from('./acl.mjs', 'acl02'), 'ACL-03': from('./acl.mjs', 'acl03'),
   'ACL-04': from('./browser-acl.mjs', 'acl04'), 'MIG-02': from('./migrations.mjs', 'mig02'), 'AUTH-08': from('./acl.mjs', 'auth08'),
+  // M2-b
+  ...Object.fromEntries(['01', '02', '03', '04', '06', '07', '09', '10', '11'].map(k => [`COL-${k}`, from('./collab.mjs', `col${k}`)])),
   ...Object.fromEntries(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '17'].map(k => [`M0-${k}`, from('./m0.mjs', `m0_${k}`)])),
 };

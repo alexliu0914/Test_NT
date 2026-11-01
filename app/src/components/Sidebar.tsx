@@ -3,9 +3,12 @@
 // 另一位使用者的變更經 /api/pages/events 推送，2 秒內出現（PAGE-01）。
 // M2-s：依空間分段——最上方「我的頁面」（個人空間），下方是自己參加的每個共享空間（名稱與成員人數）。
 // 拖到另一個空間時先取得預覽，確認「誰會看到、誰將看不到」後才移動（P0-02）。
+// M2-b：這台裝置上（目前帳號）有尚未同步修改的頁面標上「未同步」；切換頁面前經離開提醒（leave-guard）。
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { pageRegistry } from '@shared/page-registry.js';
+import { IdbStore } from '@shared/idb-store.js';
+import { canLeave } from '@/lib/leave-guard';
 import { ActionIcon, Box, Button, Collapse, Group, Menu, Popover, ScrollArea, SimpleGrid, Stack, Text, TextInput, UnstyledButton } from '@mantine/core';
 import SpaceDialogs, { type Space, type MovePreview, MoveConfirm } from './SpaceDialogs';
 
@@ -18,6 +21,7 @@ type RowCtx = {
   move: (id: string, target: TreePage, where: 'before' | 'inside' | 'after') => void;
   setIcon: (id: string, icon: string | null) => void; rename: (id: string, title: string) => void;
   create: (parentId: string | null) => void; remove: (id: string) => void; open: (id: string) => void;
+  unsynced: Set<string>;
 };
 type TrashItem = { id: string; spaceId: string; title: string; icon: string | null; deletedAt: string; count: number };
 type MoveBody = { parentId: string | null; afterId?: string | null; spaceId?: string; confirm?: string };
@@ -45,6 +49,24 @@ export default function Sidebar({ currentId, userId, onCurrent, onNavigate }: { 
   const [editing, setEditing] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [drop, setDrop] = useState<{ id: string; where: 'before' | 'inside' | 'after' } | null>(null);
+  const [unsynced, setUnsynced] = useState<Set<string>>(() => new Set());
+  // 站內切換頁面：目前頁面有尚未同步的修改時先經離開提醒
+  const go = useCallback(async (path: string) => { if (await canLeave()) { router.push(path); onNavigate(); } }, [router, onNavigate]);
+
+  // 只列出目前帳號自己的草稿，且只標在自己看得到的頁面上（不顯示其他帳號的草稿頁名）
+  useEffect(() => {
+    let stop = false;
+    const scan = async () => {
+      try {
+        const mine = await IdbStore.unsyncedFor(userId);
+        const ids = new Set(mine.map((d: { key: string }) => String(d.key).replace(/^doc:/, '')));
+        if (!stop) setUnsynced(prev => (prev.size === ids.size && [...ids].every(i => prev.has(i)) ? prev : ids));
+      } catch { /* IndexedDB 無法使用 */ }
+    };
+    scan();
+    const iv = setInterval(scan, 2000);
+    return () => { stop = true; clearInterval(iv); };
+  }, [userId]);
 
   const load = useCallback(async () => {
     const r = await api('/api/pages');
@@ -55,7 +77,7 @@ export default function Sidebar({ currentId, userId, onCurrent, onNavigate }: { 
   }, [router]);
 
   // 頁面連結區塊點擊時以站內導覽開啟（不重新載入整頁）
-  useEffect(() => { pageRegistry.setNavigate(p => router.push(p)); }, [router]);
+  useEffect(() => { pageRegistry.setNavigate(p => { void go(p); }); }, [go]);
 
   useEffect(() => {
     load();
@@ -96,8 +118,7 @@ export default function Sidebar({ currentId, userId, onCurrent, onNavigate }: { 
     if (parentId) setExpanded(s => new Set([...s, parentId]));
     await load();
     setEditing(r.data.page.id);
-    router.push(`/p/${r.data.page.id}`);
-    onNavigate();
+    await go(`/p/${r.data.page.id}`);
   }
   async function rename(id: string, title: string) {
     setEditing(null);
@@ -162,7 +183,7 @@ export default function Sidebar({ currentId, userId, onCurrent, onNavigate }: { 
   }
 
   const ctx: RowCtx = { children, expanded, setExpanded, currentId, drop, setDrop, editing, setEditing, move, setIcon, rename, create, remove,
-    open: (id: string) => { router.push(`/p/${id}`); onNavigate(); } };
+    open: (id: string) => { void go(`/p/${id}`); }, unsynced };
   const spaceName = (s: Space) => (s.kind === 'personal' ? '我的頁面' : s.name);
   return (
     <Stack gap={0} h="100%">
@@ -260,6 +281,7 @@ const { children, expanded, setExpanded, currentId, drop, setDrop, editing, setE
             <Text size="sm" truncate c={p.title ? undefined : 'dimmed'}>{p.title || '未命名'}</Text>
           </UnstyledButton>
         )}
+        {ctx.unsynced.has(p.id) && <Text span size="xs" c="orange" data-testid="unsynced-mark" title="這台裝置上有尚未同步的修改">未同步</Text>}
         <Menu position="bottom-end" withinPortal>
           <Menu.Target><ActionIcon variant="subtle" size="sm" color="gray" aria-label="頁面選項">⋯</ActionIcon></Menu.Target>
           <Menu.Dropdown>

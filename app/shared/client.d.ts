@@ -5,7 +5,7 @@ export interface ClientOptions {
   url: string; docId: string; token?: string; userId: string; name?: string; storage?: Record<string, any>;
   failAfterMs?: number; autoReconnect?: boolean; rnd?: () => number; trackReceived?: boolean; clearUndoOnRestore?: boolean;
   WebSocketImpl?: any; persist?: { load(): Promise<any>; save(s: any): Promise<void>; clear(): Promise<void> } | null;
-  describe?: (ydoc: Y.Doc) => string; getToken?: (() => Promise<string>) | null;
+  describe?: (ydoc: Y.Doc) => string; getToken?: (() => Promise<string>) | null; livenessMs?: number;
 }
 export class Client {
   constructor(opts: ClientOptions);
@@ -24,4 +24,11 @@ export class Client {
   accessDenied: boolean;
   deniedDraft(): { userId: string; docId: string; text: string; updates: { id: string; covers?: string[]; data: string; at: number }[] };
   saveDeniedAsCopy(): string | null; discardDenied(): void;
+  // M2-b：協作游標與五種儲存狀態
+  awareness: import('y-protocols/awareness').Awareness;
+  me: { name: string; color: string } | null;
+  dbFailing: boolean;
+  displayStatus(): 'unsaved' | 'saved' | 'offline' | 'failed' | 'saving';
+  peers(): { clientId: number; name: string; color: string; cursor: boolean }[];
+  sendAwareness(): void; clearPeers(): void; goOffline(): void; reconnectNow(): void;
 }

@@ -32,14 +32,16 @@ export async function useAgentCookies(ctx, agent) {
 
 // 攔截這個頁面的協作連線（Playwright routeWebSocket）：可加回覆延遲、可整段中斷（模擬離線）
 export async function installRelay(page) {
-  const st = { delayMs: 0, offline: false, conns: new Set() };
+  // filter（M2-b COL-07）：伺服器送來的訊息經 filter(訊息字串) 回傳 'drop' 時不轉送
+  // stalled（M2-b COL-03）：雙向都不轉送、也不關閉連線，模擬網路中斷但 TCP 沒有關閉
+  const st = { delayMs: 0, offline: false, conns: new Set(), filter: null, stalled: false };
   await page.routeWebSocket(u => new URL(u).port === String(COLLAB_PORT), ws => {
     if (st.offline) { ws.close({ code: 1001, reason: 'offline' }); return; }
     const server = ws.connectToServer();
     const pair = { ws, server };
     st.conns.add(pair);
-    ws.onMessage(m => server.send(m));
-    server.onMessage(m => { if (st.delayMs > 0) setTimeout(() => ws.send(m), st.delayMs); else ws.send(m); });
+    ws.onMessage(m => { if (!st.stalled) server.send(m); });
+    server.onMessage(m => { if (st.stalled) return; if (st.filter && st.filter(String(m)) === 'drop') return; if (st.delayMs > 0) setTimeout(() => ws.send(m), st.delayMs); else ws.send(m); });
     server.onClose((code, reason) => { st.conns.delete(pair); const fwd = () => ws.close({ code: code >= 4000 ? code : 1001, reason }); if (st.delayMs) setTimeout(fwd, st.delayMs); else fwd(); });
     ws.onClose(() => { st.conns.delete(pair); server.close(); });
   });
@@ -48,6 +50,12 @@ export async function installRelay(page) {
     setDelay(ms) { st.delayMs = ms; },
     goOffline() { st.offline = true; for (const p of [...st.conns]) { try { p.ws.close({ code: 1001, reason: 'offline' }); } catch { /* */ } try { p.server.close(); } catch { /* */ } } st.conns.clear(); },
     goOnline() { st.offline = false; },
+    setFilter(fn) { st.filter = fn; },
+    stall(on = true) { st.stalled = on; },
+    // 直接送一則訊息給頁面（模擬伺服器送來的訊息，例如不對應的確認）
+    inject(msg) { for (const p of st.conns) p.ws.send(typeof msg === 'string' ? msg : JSON.stringify(msg)); },
+    // 中斷目前的協作連線（不進入離線模式，用戶端會自動重新連線）
+    dropConnections() { for (const p of [...st.conns]) { try { p.ws.close({ code: 1001, reason: 'drop' }); } catch { /* */ } try { p.server.close(); } catch { /* */ } } st.conns.clear(); },
   };
 }
 
