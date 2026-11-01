@@ -2,7 +2,7 @@
  "id": "M0-10",
  "title": "登出、被撤銷、換帳號：未經明確捨棄，未確認的修改都不會被清除",
  "meta": {},
- "startedAt": "2026-10-31T11:32:34.496Z",
+ "startedAt": "2026-11-01T02:43:50.485Z",
  "iterations": [
   {
    "i": 0,
@@ -905,7 +905,7 @@
    }
   }
  ],
- "durationMs": 54359,
+ "durationMs": 51569,
  "total": 100,
  "passed": 100,
  "failed": 0

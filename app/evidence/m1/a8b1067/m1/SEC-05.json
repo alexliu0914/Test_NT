@@ -1,0 +1,33 @@
+{
+ "id": "SEC-05",
+ "title": "未登入呼叫每個 API 端點都被拒（health 除外且不含資料）；一般成員不能建立邀請",
+ "meta": {},
+ "startedAt": "2026-10-31T11:07:52.693Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 4154,
+ "total": 3,
+ "passed": 3,
+ "failed": 0
+}

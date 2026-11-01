@@ -1,7 +1,7 @@
 {
- "startedAt": "2026-10-31T11:35:51.542Z",
+ "startedAt": "2026-11-01T02:46:56.540Z",
  "command": "node test/run.js BR-01=20 BR-02=20 BR-03=5 BR-04=20",
- "commit": "a8b10670d3bb96dedf35a05bb01af24eccb4ed37",
+ "commit": "5f7bd0404496117d5f0dde491850bd28239359fe",
  "dirty": false,
  "env": {
   "node": "v22.23.4",
@@ -31,7 +31,7 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 133420
+   "durationMs": 117076
   },
   {
    "id": "BR-02",
@@ -42,7 +42,7 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 412785
+   "durationMs": 318164
   },
   {
    "id": "BR-03",
@@ -53,7 +53,7 @@
    "passed": 5,
    "failed": 0,
    "iterations": 5,
-   "durationMs": 44365
+   "durationMs": 35365
   },
   {
    "id": "BR-04",
@@ -64,9 +64,9 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 23303
+   "durationMs": 18203
   }
  ],
- "finishedAt": "2026-10-31T11:46:06.994Z",
+ "finishedAt": "2026-11-01T02:55:06.754Z",
  "exitCode": 0
 }

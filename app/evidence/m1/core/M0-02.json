@@ -2,7 +2,7 @@
  "id": "M0-02",
  "title": "資料庫寫入失敗或連線被終止時不送確認、不廣播；恢復後補寫",
  "meta": {},
- "startedAt": "2026-10-31T11:11:23.608Z",
+ "startedAt": "2026-11-01T02:25:04.625Z",
  "iterations": [
   {
    "i": 0,
@@ -10,9 +10,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 415,
+    "typed": 425,
     "longFaults": 1,
-    "terminations": 6,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -22,8 +22,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 440,
-    "longFaults": 1,
+    "typed": 472,
+    "longFaults": 2,
     "terminations": 2,
     "sawFailed": true
    }
@@ -34,9 +34,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 383,
-    "longFaults": 1,
-    "terminations": 3,
+    "typed": 514,
+    "longFaults": 3,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -46,9 +46,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 409,
+    "typed": 489,
     "longFaults": 1,
-    "terminations": 0,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -58,9 +58,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 428,
-    "longFaults": 0,
-    "terminations": 4,
+    "typed": 469,
+    "longFaults": 2,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -70,9 +70,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 436,
-    "longFaults": 1,
-    "terminations": 2,
+    "typed": 482,
+    "longFaults": 2,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -82,9 +82,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 417,
+    "typed": 404,
     "longFaults": 0,
-    "terminations": 6,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -94,8 +94,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 395,
-    "longFaults": 2,
+    "typed": 405,
+    "longFaults": 1,
     "terminations": 1,
     "sawFailed": true
    }
@@ -106,9 +106,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 443,
-    "longFaults": 2,
-    "terminations": 3,
+    "typed": 511,
+    "longFaults": 0,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -118,9 +118,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 453,
+    "typed": 408,
     "longFaults": 2,
-    "terminations": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -130,7 +130,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 438,
+    "typed": 415,
     "longFaults": 2,
     "terminations": 0,
     "sawFailed": true
@@ -142,9 +142,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 406,
-    "longFaults": 1,
-    "terminations": 6,
+    "typed": 500,
+    "longFaults": 2,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -154,9 +154,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 522,
-    "longFaults": 1,
-    "terminations": 0,
+    "typed": 514,
+    "longFaults": 2,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -166,7 +166,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 483,
+    "typed": 413,
     "longFaults": 2,
     "terminations": 2,
     "sawFailed": true
@@ -178,7 +178,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 417,
+    "typed": 475,
     "longFaults": 2,
     "terminations": 1,
     "sawFailed": true
@@ -190,9 +190,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 387,
-    "longFaults": 1,
-    "terminations": 2,
+    "typed": 560,
+    "longFaults": 3,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -202,9 +202,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 442,
+    "typed": 404,
     "longFaults": 0,
-    "terminations": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -214,9 +214,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 474,
-    "longFaults": 0,
-    "terminations": 7,
+    "typed": 481,
+    "longFaults": 2,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -226,9 +226,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 512,
-    "longFaults": 1,
-    "terminations": 1,
+    "typed": 458,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -238,9 +238,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 412,
+    "typed": 436,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -250,9 +250,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 433,
-    "longFaults": 0,
-    "terminations": 4,
+    "typed": 549,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -262,9 +262,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 420,
-    "longFaults": 1,
-    "terminations": 1,
+    "typed": 508,
+    "longFaults": 3,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -274,9 +274,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 395,
+    "typed": 516,
     "longFaults": 1,
-    "terminations": 0,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -286,9 +286,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 417,
-    "longFaults": 2,
-    "terminations": 2,
+    "typed": 401,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -298,9 +298,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 552,
-    "longFaults": 2,
-    "terminations": 1,
+    "typed": 419,
+    "longFaults": 1,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -310,8 +310,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 434,
-    "longFaults": 2,
+    "typed": 421,
+    "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
    }
@@ -322,9 +322,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 510,
+    "typed": 435,
     "longFaults": 2,
-    "terminations": 4,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -334,9 +334,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 454,
+    "typed": 424,
     "longFaults": 2,
-    "terminations": 3,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -346,9 +346,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 500,
+    "typed": 454,
     "longFaults": 1,
-    "terminations": 0,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -358,9 +358,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 428,
+    "typed": 484,
     "longFaults": 1,
-    "terminations": 3,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -372,7 +372,7 @@
    "metrics": {
     "typed": 421,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -382,9 +382,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 515,
+    "typed": 418,
     "longFaults": 1,
-    "terminations": 6,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -394,9 +394,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 528,
-    "longFaults": 3,
-    "terminations": 0,
+    "typed": 509,
+    "longFaults": 2,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -406,9 +406,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 549,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 463,
+    "longFaults": 0,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -418,9 +418,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 406,
-    "longFaults": 1,
-    "terminations": 0,
+    "typed": 462,
+    "longFaults": 2,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -430,9 +430,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 460,
+    "typed": 453,
     "longFaults": 2,
-    "terminations": 1,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -442,9 +442,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 449,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 465,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -454,8 +454,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 488,
-    "longFaults": 2,
+    "typed": 506,
+    "longFaults": 3,
     "terminations": 0,
     "sawFailed": true
    }
@@ -466,9 +466,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 508,
-    "longFaults": 2,
-    "terminations": 6,
+    "typed": 480,
+    "longFaults": 1,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -478,9 +478,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 460,
+    "typed": 528,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -490,9 +490,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 415,
+    "typed": 470,
     "longFaults": 2,
-    "terminations": 2,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -502,9 +502,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 484,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 549,
+    "longFaults": 1,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -514,9 +514,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 440,
-    "longFaults": 1,
-    "terminations": 0,
+    "typed": 402,
+    "longFaults": 0,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -526,9 +526,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 464,
-    "longFaults": 1,
-    "terminations": 1,
+    "typed": 437,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -538,8 +538,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 398,
-    "longFaults": 2,
+    "typed": 501,
+    "longFaults": 3,
     "terminations": 0,
     "sawFailed": true
    }
@@ -550,9 +550,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 403,
-    "longFaults": 2,
-    "terminations": 1,
+    "typed": 599,
+    "longFaults": 1,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -562,9 +562,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 475,
+    "typed": 440,
     "longFaults": 2,
-    "terminations": 6,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -574,9 +574,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 495,
-    "longFaults": 3,
-    "terminations": 0,
+    "typed": 415,
+    "longFaults": 2,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -586,9 +586,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 417,
-    "longFaults": 1,
-    "terminations": 4,
+    "typed": 429,
+    "longFaults": 0,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -598,8 +598,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 491,
-    "longFaults": 2,
+    "typed": 407,
+    "longFaults": 0,
     "terminations": 2,
     "sawFailed": true
    }
@@ -610,9 +610,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 446,
+    "typed": 427,
     "longFaults": 1,
-    "terminations": 2,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -622,7 +622,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 515,
+    "typed": 460,
     "longFaults": 2,
     "terminations": 0,
     "sawFailed": true
@@ -634,9 +634,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 427,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 495,
+    "longFaults": 1,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -646,8 +646,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 387,
-    "longFaults": 0,
+    "typed": 453,
+    "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
    }
@@ -658,7 +658,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 407,
+    "typed": 471,
     "longFaults": 2,
     "terminations": 2,
     "sawFailed": true
@@ -670,9 +670,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 432,
+    "typed": 447,
     "longFaults": 2,
-    "terminations": 1,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -682,7 +682,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 485,
+    "typed": 475,
     "longFaults": 2,
     "terminations": 0,
     "sawFailed": true
@@ -694,8 +694,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 556,
-    "longFaults": 1,
+    "typed": 416,
+    "longFaults": 2,
     "terminations": 1,
     "sawFailed": true
    }
@@ -706,9 +706,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 414,
+    "typed": 420,
     "longFaults": 1,
-    "terminations": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -718,9 +718,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 481,
-    "longFaults": 2,
-    "terminations": 1,
+    "typed": 511,
+    "longFaults": 3,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -730,9 +730,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 493,
-    "longFaults": 1,
-    "terminations": 5,
+    "typed": 491,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -742,9 +742,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 538,
-    "longFaults": 2,
-    "terminations": 1,
+    "typed": 419,
+    "longFaults": 0,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -754,9 +754,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 483,
+    "typed": 405,
     "longFaults": 2,
-    "terminations": 2,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -766,9 +766,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 483,
-    "longFaults": 3,
-    "terminations": 0,
+    "typed": 485,
+    "longFaults": 1,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -778,7 +778,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 412,
+    "typed": 475,
     "longFaults": 2,
     "terminations": 1,
     "sawFailed": true
@@ -790,9 +790,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 432,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 497,
+    "longFaults": 1,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -802,9 +802,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 419,
-    "longFaults": 0,
-    "terminations": 0,
+    "typed": 410,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -814,9 +814,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 459,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 476,
+    "longFaults": 0,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -826,9 +826,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 444,
-    "longFaults": 1,
-    "terminations": 2,
+    "typed": 518,
+    "longFaults": 2,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -838,7 +838,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 407,
+    "typed": 547,
     "longFaults": 1,
     "terminations": 5,
     "sawFailed": true
@@ -850,9 +850,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 383,
-    "longFaults": 1,
-    "terminations": 4,
+    "typed": 397,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -862,8 +862,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 406,
-    "longFaults": 2,
+    "typed": 482,
+    "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
    }
@@ -874,7 +874,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 522,
+    "typed": 535,
     "longFaults": 1,
     "terminations": 5,
     "sawFailed": true
@@ -886,9 +886,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 554,
-    "longFaults": 3,
-    "terminations": 0,
+    "typed": 439,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -898,9 +898,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 472,
-    "longFaults": 1,
-    "terminations": 3,
+    "typed": 445,
+    "longFaults": 2,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -910,9 +910,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 480,
+    "typed": 473,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -922,9 +922,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 463,
+    "typed": 428,
     "longFaults": 1,
-    "terminations": 2,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -934,9 +934,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 457,
+    "typed": 419,
     "longFaults": 1,
-    "terminations": 3,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -946,9 +946,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 471,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 548,
+    "longFaults": 1,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -958,7 +958,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 420,
+    "typed": 443,
     "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
@@ -970,9 +970,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 522,
-    "longFaults": 3,
-    "terminations": 4,
+    "typed": 408,
+    "longFaults": 1,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -982,9 +982,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 469,
+    "typed": 408,
     "longFaults": 1,
-    "terminations": 0,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -994,7 +994,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 478,
+    "typed": 460,
     "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
@@ -1006,9 +1006,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 436,
+    "typed": 427,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 3,
     "sawFailed": true
    }
   },
@@ -1018,9 +1018,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 416,
+    "typed": 495,
     "longFaults": 2,
-    "terminations": 0,
+    "terminations": 2,
     "sawFailed": true
    }
   },
@@ -1030,9 +1030,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 401,
+    "typed": 422,
     "longFaults": 1,
-    "terminations": 6,
+    "terminations": 5,
     "sawFailed": true
    }
   },
@@ -1042,9 +1042,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 409,
+    "typed": 440,
     "longFaults": 1,
-    "terminations": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -1054,9 +1054,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 453,
+    "typed": 468,
     "longFaults": 2,
-    "terminations": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -1066,8 +1066,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 453,
-    "longFaults": 1,
+    "typed": 570,
+    "longFaults": 2,
     "terminations": 0,
     "sawFailed": true
    }
@@ -1078,8 +1078,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 449,
-    "longFaults": 2,
+    "typed": 424,
+    "longFaults": 1,
     "terminations": 0,
     "sawFailed": true
    }
@@ -1090,9 +1090,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 415,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 446,
+    "longFaults": 0,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -1102,9 +1102,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 444,
-    "longFaults": 1,
-    "terminations": 2,
+    "typed": 439,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -1114,9 +1114,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 420,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 415,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -1126,7 +1126,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 474,
+    "typed": 517,
     "longFaults": 2,
     "terminations": 1,
     "sawFailed": true
@@ -1138,7 +1138,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 476,
+    "typed": 521,
     "longFaults": 2,
     "terminations": 2,
     "sawFailed": true
@@ -1150,9 +1150,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 475,
-    "longFaults": 2,
-    "terminations": 2,
+    "typed": 432,
+    "longFaults": 1,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -1162,9 +1162,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 415,
-    "longFaults": 2,
-    "terminations": 0,
+    "typed": 401,
+    "longFaults": 1,
+    "terminations": 1,
     "sawFailed": true
    }
   },
@@ -1174,9 +1174,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 540,
-    "longFaults": 3,
-    "terminations": 2,
+    "typed": 525,
+    "longFaults": 1,
+    "terminations": 4,
     "sawFailed": true
    }
   },
@@ -1186,9 +1186,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 399,
-    "longFaults": 1,
-    "terminations": 1,
+    "typed": 488,
+    "longFaults": 2,
+    "terminations": 0,
     "sawFailed": true
    }
   },
@@ -1198,14 +1198,14 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 517,
-    "longFaults": 2,
-    "terminations": 2,
+    "typed": 413,
+    "longFaults": 0,
+    "terminations": 5,
     "sawFailed": true
    }
   }
  ],
- "durationMs": 357760,
+ "durationMs": 317580,
  "total": 100,
  "passed": 100,
  "failed": 0

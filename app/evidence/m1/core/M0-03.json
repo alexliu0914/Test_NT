@@ -2,7 +2,7 @@
  "id": "M0-03",
  "title": "重放、確認遺失後重送、合併後重送（含刪除）：不重複寫入且待確認項目全部清除",
  "meta": {},
- "startedAt": "2026-10-31T11:17:21.626Z",
+ "startedAt": "2026-11-01T02:30:22.383Z",
  "iterations": [
   {
    "i": 0,
@@ -10,11 +10,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 214,
-    "deleted": 67,
-    "replays": 188,
-    "droppedAcks": 18,
-    "merges": 6
+    "typed": 243,
+    "deleted": 71,
+    "replays": 228,
+    "droppedAcks": 22,
+    "merges": 7
    }
   },
   {
@@ -23,11 +23,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 155,
-    "deleted": 61,
-    "replays": 158,
-    "droppedAcks": 11,
-    "merges": 3
+    "typed": 233,
+    "deleted": 79,
+    "replays": 222,
+    "droppedAcks": 26,
+    "merges": 5
    }
   },
   {
@@ -36,11 +36,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 218,
-    "deleted": 65,
-    "replays": 204,
-    "droppedAcks": 12,
-    "merges": 5
+    "typed": 238,
+    "deleted": 83,
+    "replays": 436,
+    "droppedAcks": 22,
+    "merges": 6
    }
   },
   {
@@ -49,11 +49,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 294,
-    "deleted": 101,
-    "replays": 438,
-    "droppedAcks": 20,
-    "merges": 5
+    "typed": 306,
+    "deleted": 88,
+    "replays": 460,
+    "droppedAcks": 33,
+    "merges": 7
    }
   },
   {
@@ -62,11 +62,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 274,
-    "deleted": 87,
-    "replays": 502,
-    "droppedAcks": 20,
-    "merges": 7
+    "typed": 220,
+    "deleted": 79,
+    "replays": 306,
+    "droppedAcks": 19,
+    "merges": 6
    }
   },
   {
@@ -75,11 +75,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 240,
-    "deleted": 78,
-    "replays": 212,
-    "droppedAcks": 18,
-    "merges": 7
+    "typed": 227,
+    "deleted": 77,
+    "replays": 354,
+    "droppedAcks": 22,
+    "merges": 8
    }
   },
   {
@@ -88,11 +88,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 231,
-    "deleted": 59,
-    "replays": 264,
-    "droppedAcks": 14,
-    "merges": 5
+    "typed": 290,
+    "deleted": 100,
+    "replays": 212,
+    "droppedAcks": 18,
+    "merges": 9
    }
   },
   {
@@ -101,11 +101,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 271,
-    "deleted": 85,
-    "replays": 360,
-    "droppedAcks": 23,
-    "merges": 4
+    "typed": 266,
+    "deleted": 83,
+    "replays": 248,
+    "droppedAcks": 25,
+    "merges": 8
    }
   },
   {
@@ -114,11 +114,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 208,
-    "deleted": 68,
-    "replays": 240,
+    "typed": 173,
+    "deleted": 57,
+    "replays": 166,
     "droppedAcks": 14,
-    "merges": 6
+    "merges": 4
    }
   },
   {
@@ -127,11 +127,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 199,
-    "deleted": 69,
-    "replays": 280,
-    "droppedAcks": 9,
-    "merges": 2
+    "typed": 185,
+    "deleted": 64,
+    "replays": 122,
+    "droppedAcks": 17,
+    "merges": 8
    }
   },
   {
@@ -140,11 +140,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 245,
-    "deleted": 73,
-    "replays": 386,
+    "typed": 194,
+    "deleted": 53,
+    "replays": 216,
     "droppedAcks": 16,
-    "merges": 4
+    "merges": 5
    }
   },
   {
@@ -153,11 +153,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 225,
-    "deleted": 65,
-    "replays": 276,
-    "droppedAcks": 23,
-    "merges": 4
+    "typed": 248,
+    "deleted": 93,
+    "replays": 252,
+    "droppedAcks": 24,
+    "merges": 6
    }
   },
   {
@@ -166,11 +166,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 216,
-    "deleted": 74,
-    "replays": 294,
-    "droppedAcks": 15,
-    "merges": 4
+    "typed": 218,
+    "deleted": 80,
+    "replays": 196,
+    "droppedAcks": 18,
+    "merges": 5
    }
   },
   {
@@ -179,11 +179,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 198,
-    "deleted": 64,
-    "replays": 172,
-    "droppedAcks": 15,
-    "merges": 5
+    "typed": 246,
+    "deleted": 73,
+    "replays": 202,
+    "droppedAcks": 13,
+    "merges": 6
    }
   },
   {
@@ -192,10 +192,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 236,
-    "deleted": 73,
-    "replays": 212,
-    "droppedAcks": 15,
+    "typed": 267,
+    "deleted": 71,
+    "replays": 352,
+    "droppedAcks": 23,
     "merges": 7
    }
   },
@@ -205,11 +205,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 247,
-    "deleted": 61,
-    "replays": 210,
+    "typed": 204,
+    "deleted": 65,
+    "replays": 260,
     "droppedAcks": 17,
-    "merges": 4
+    "merges": 5
    }
   },
   {
@@ -218,11 +218,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 194,
-    "deleted": 61,
-    "replays": 156,
-    "droppedAcks": 11,
-    "merges": 4
+    "typed": 215,
+    "deleted": 79,
+    "replays": 226,
+    "droppedAcks": 21,
+    "merges": 7
    }
   },
   {
@@ -231,11 +231,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 223,
-    "deleted": 73,
-    "replays": 230,
-    "droppedAcks": 12,
-    "merges": 3
+    "typed": 241,
+    "deleted": 85,
+    "replays": 278,
+    "droppedAcks": 21,
+    "merges": 10
    }
   },
   {
@@ -244,11 +244,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 225,
-    "deleted": 83,
-    "replays": 188,
-    "droppedAcks": 11,
-    "merges": 6
+    "typed": 212,
+    "deleted": 67,
+    "replays": 216,
+    "droppedAcks": 22,
+    "merges": 8
    }
   },
   {
@@ -257,11 +257,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 227,
-    "deleted": 59,
-    "replays": 310,
-    "droppedAcks": 19,
-    "merges": 4
+    "typed": 200,
+    "deleted": 65,
+    "replays": 256,
+    "droppedAcks": 17,
+    "merges": 6
    }
   },
   {
@@ -270,10 +270,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 239,
-    "deleted": 79,
-    "replays": 230,
-    "droppedAcks": 24,
+    "typed": 222,
+    "deleted": 80,
+    "replays": 270,
+    "droppedAcks": 21,
     "merges": 6
    }
   },
@@ -283,11 +283,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 228,
-    "deleted": 67,
-    "replays": 260,
-    "droppedAcks": 21,
-    "merges": 4
+    "typed": 218,
+    "deleted": 73,
+    "replays": 212,
+    "droppedAcks": 16,
+    "merges": 3
    }
   },
   {
@@ -296,11 +296,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 173,
-    "deleted": 56,
-    "replays": 214,
-    "droppedAcks": 16,
-    "merges": 4
+    "typed": 157,
+    "deleted": 54,
+    "replays": 210,
+    "droppedAcks": 15,
+    "merges": 6
    }
   },
   {
@@ -309,11 +309,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 209,
-    "deleted": 61,
-    "replays": 158,
-    "droppedAcks": 14,
-    "merges": 5
+    "typed": 218,
+    "deleted": 57,
+    "replays": 246,
+    "droppedAcks": 17,
+    "merges": 6
    }
   },
   {
@@ -322,11 +322,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 197,
-    "deleted": 69,
-    "replays": 144,
-    "droppedAcks": 11,
-    "merges": 6
+    "typed": 246,
+    "deleted": 81,
+    "replays": 358,
+    "droppedAcks": 24,
+    "merges": 8
    }
   },
   {
@@ -335,11 +335,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 252,
-    "deleted": 79,
-    "replays": 336,
-    "droppedAcks": 16,
-    "merges": 4
+    "typed": 265,
+    "deleted": 80,
+    "replays": 458,
+    "droppedAcks": 23,
+    "merges": 6
    }
   },
   {
@@ -348,11 +348,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 272,
-    "deleted": 80,
-    "replays": 376,
-    "droppedAcks": 17,
-    "merges": 7
+    "typed": 281,
+    "deleted": 109,
+    "replays": 288,
+    "droppedAcks": 20,
+    "merges": 8
    }
   },
   {
@@ -361,11 +361,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 245,
-    "deleted": 88,
-    "replays": 254,
-    "droppedAcks": 21,
-    "merges": 7
+    "typed": 217,
+    "deleted": 76,
+    "replays": 268,
+    "droppedAcks": 22,
+    "merges": 8
    }
   },
   {
@@ -374,11 +374,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 197,
-    "deleted": 59,
-    "replays": 230,
-    "droppedAcks": 12,
-    "merges": 4
+    "typed": 256,
+    "deleted": 86,
+    "replays": 222,
+    "droppedAcks": 23,
+    "merges": 8
    }
   },
   {
@@ -388,10 +388,10 @@
    "fails": [],
    "metrics": {
     "typed": 232,
-    "deleted": 70,
-    "replays": 240,
-    "droppedAcks": 16,
-    "merges": 7
+    "deleted": 79,
+    "replays": 146,
+    "droppedAcks": 22,
+    "merges": 10
    }
   },
   {
@@ -400,11 +400,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 196,
-    "deleted": 65,
-    "replays": 178,
-    "droppedAcks": 16,
-    "merges": 6
+    "typed": 195,
+    "deleted": 62,
+    "replays": 222,
+    "droppedAcks": 14,
+    "merges": 5
    }
   },
   {
@@ -413,11 +413,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 228,
-    "deleted": 74,
-    "replays": 198,
-    "droppedAcks": 17,
-    "merges": 6
+    "typed": 213,
+    "deleted": 69,
+    "replays": 202,
+    "droppedAcks": 20,
+    "merges": 8
    }
   },
   {
@@ -426,11 +426,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 141,
-    "deleted": 52,
-    "replays": 124,
-    "droppedAcks": 10,
-    "merges": 5
+    "typed": 156,
+    "deleted": 62,
+    "replays": 112,
+    "droppedAcks": 12,
+    "merges": 8
    }
   },
   {
@@ -439,10 +439,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 202,
-    "deleted": 64,
-    "replays": 142,
-    "droppedAcks": 10,
+    "typed": 196,
+    "deleted": 67,
+    "replays": 282,
+    "droppedAcks": 18,
     "merges": 7
    }
   },
@@ -452,11 +452,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 233,
-    "deleted": 69,
-    "replays": 228,
-    "droppedAcks": 15,
-    "merges": 6
+    "typed": 211,
+    "deleted": 66,
+    "replays": 190,
+    "droppedAcks": 17,
+    "merges": 9
    }
   },
   {
@@ -465,11 +465,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 222,
-    "deleted": 70,
-    "replays": 208,
-    "droppedAcks": 21,
-    "merges": 4
+    "typed": 256,
+    "deleted": 62,
+    "replays": 352,
+    "droppedAcks": 20,
+    "merges": 7
    }
   },
   {
@@ -478,11 +478,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 237,
-    "deleted": 77,
-    "replays": 240,
-    "droppedAcks": 19,
-    "merges": 6
+    "typed": 252,
+    "deleted": 67,
+    "replays": 252,
+    "droppedAcks": 17,
+    "merges": 4
    }
   },
   {
@@ -491,11 +491,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 246,
-    "deleted": 71,
-    "replays": 374,
-    "droppedAcks": 15,
-    "merges": 5
+    "typed": 264,
+    "deleted": 86,
+    "replays": 268,
+    "droppedAcks": 23,
+    "merges": 6
    }
   },
   {
@@ -504,11 +504,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 213,
-    "deleted": 69,
-    "replays": 222,
-    "droppedAcks": 17,
-    "merges": 5
+    "typed": 259,
+    "deleted": 87,
+    "replays": 302,
+    "droppedAcks": 26,
+    "merges": 10
    }
   },
   {
@@ -517,10 +517,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 286,
-    "deleted": 99,
-    "replays": 226,
-    "droppedAcks": 18,
+    "typed": 285,
+    "deleted": 92,
+    "replays": 222,
+    "droppedAcks": 16,
     "merges": 7
    }
   },
@@ -530,10 +530,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 205,
-    "deleted": 61,
-    "replays": 296,
-    "droppedAcks": 16,
+    "typed": 184,
+    "deleted": 78,
+    "replays": 268,
+    "droppedAcks": 12,
     "merges": 5
    }
   },
@@ -543,11 +543,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 191,
-    "deleted": 60,
-    "replays": 126,
-    "droppedAcks": 8,
-    "merges": 6
+    "typed": 194,
+    "deleted": 71,
+    "replays": 150,
+    "droppedAcks": 12,
+    "merges": 7
    }
   },
   {
@@ -556,11 +556,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 238,
-    "deleted": 81,
-    "replays": 386,
-    "droppedAcks": 16,
-    "merges": 5
+    "typed": 204,
+    "deleted": 74,
+    "replays": 216,
+    "droppedAcks": 20,
+    "merges": 4
    }
   },
   {
@@ -569,11 +569,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 271,
-    "deleted": 70,
-    "replays": 316,
-    "droppedAcks": 19,
-    "merges": 5
+    "typed": 249,
+    "deleted": 74,
+    "replays": 298,
+    "droppedAcks": 16,
+    "merges": 6
    }
   },
   {
@@ -582,10 +582,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 276,
-    "deleted": 95,
-    "replays": 388,
-    "droppedAcks": 19,
+    "typed": 213,
+    "deleted": 76,
+    "replays": 256,
+    "droppedAcks": 18,
     "merges": 7
    }
   },
@@ -595,11 +595,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 244,
-    "deleted": 74,
-    "replays": 314,
-    "droppedAcks": 16,
-    "merges": 2
+    "typed": 280,
+    "deleted": 75,
+    "replays": 244,
+    "droppedAcks": 19,
+    "merges": 9
    }
   },
   {
@@ -608,11 +608,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 272,
-    "deleted": 90,
-    "replays": 336,
-    "droppedAcks": 25,
-    "merges": 5
+    "typed": 265,
+    "deleted": 119,
+    "replays": 216,
+    "droppedAcks": 20,
+    "merges": 7
    }
   },
   {
@@ -621,11 +621,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 248,
-    "deleted": 91,
-    "replays": 414,
-    "droppedAcks": 15,
-    "merges": 1
+    "typed": 249,
+    "deleted": 75,
+    "replays": 352,
+    "droppedAcks": 25,
+    "merges": 8
    }
   },
   {
@@ -634,11 +634,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 271,
-    "deleted": 90,
-    "replays": 430,
-    "droppedAcks": 15,
-    "merges": 5
+    "typed": 245,
+    "deleted": 68,
+    "replays": 210,
+    "droppedAcks": 21,
+    "merges": 6
    }
   },
   {
@@ -647,11 +647,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 207,
-    "deleted": 80,
-    "replays": 318,
-    "droppedAcks": 10,
-    "merges": 3
+    "typed": 213,
+    "deleted": 59,
+    "replays": 252,
+    "droppedAcks": 19,
+    "merges": 6
    }
   },
   {
@@ -660,11 +660,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 275,
-    "deleted": 84,
+    "typed": 286,
+    "deleted": 93,
     "replays": 426,
-    "droppedAcks": 20,
-    "merges": 5
+    "droppedAcks": 29,
+    "merges": 9
    }
   },
   {
@@ -673,11 +673,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 218,
-    "deleted": 77,
-    "replays": 328,
-    "droppedAcks": 16,
-    "merges": 2
+    "typed": 206,
+    "deleted": 74,
+    "replays": 342,
+    "droppedAcks": 21,
+    "merges": 5
    }
   },
   {
@@ -686,10 +686,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 268,
-    "deleted": 84,
-    "replays": 396,
-    "droppedAcks": 14,
+    "typed": 253,
+    "deleted": 85,
+    "replays": 398,
+    "droppedAcks": 31,
     "merges": 5
    }
   },
@@ -699,11 +699,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 235,
-    "deleted": 72,
-    "replays": 390,
-    "droppedAcks": 16,
-    "merges": 2
+    "typed": 249,
+    "deleted": 101,
+    "replays": 272,
+    "droppedAcks": 25,
+    "merges": 6
    }
   },
   {
@@ -712,11 +712,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 219,
-    "deleted": 73,
-    "replays": 276,
-    "droppedAcks": 13,
-    "merges": 5
+    "typed": 202,
+    "deleted": 61,
+    "replays": 158,
+    "droppedAcks": 15,
+    "merges": 4
    }
   },
   {
@@ -725,11 +725,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 191,
-    "deleted": 65,
-    "replays": 220,
-    "droppedAcks": 7,
-    "merges": 2
+    "typed": 254,
+    "deleted": 84,
+    "replays": 240,
+    "droppedAcks": 24,
+    "merges": 7
    }
   },
   {
@@ -738,11 +738,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 229,
-    "deleted": 69,
-    "replays": 202,
-    "droppedAcks": 19,
-    "merges": 7
+    "typed": 225,
+    "deleted": 74,
+    "replays": 290,
+    "droppedAcks": 23,
+    "merges": 10
    }
   },
   {
@@ -751,11 +751,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 170,
-    "deleted": 55,
-    "replays": 162,
-    "droppedAcks": 14,
-    "merges": 5
+    "typed": 182,
+    "deleted": 59,
+    "replays": 138,
+    "droppedAcks": 20,
+    "merges": 7
    }
   },
   {
@@ -764,11 +764,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 235,
-    "deleted": 74,
-    "replays": 264,
-    "droppedAcks": 13,
-    "merges": 4
+    "typed": 284,
+    "deleted": 79,
+    "replays": 274,
+    "droppedAcks": 22,
+    "merges": 6
    }
   },
   {
@@ -777,11 +777,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 179,
-    "deleted": 75,
-    "replays": 164,
-    "droppedAcks": 13,
-    "merges": 6
+    "typed": 167,
+    "deleted": 64,
+    "replays": 186,
+    "droppedAcks": 16,
+    "merges": 5
    }
   },
   {
@@ -790,11 +790,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 173,
-    "deleted": 62,
-    "replays": 184,
-    "droppedAcks": 13,
-    "merges": 4
+    "typed": 167,
+    "deleted": 63,
+    "replays": 144,
+    "droppedAcks": 10,
+    "merges": 2
    }
   },
   {
@@ -803,11 +803,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 245,
-    "deleted": 94,
-    "replays": 260,
-    "droppedAcks": 17,
-    "merges": 8
+    "typed": 283,
+    "deleted": 107,
+    "replays": 432,
+    "droppedAcks": 25,
+    "merges": 10
    }
   },
   {
@@ -816,11 +816,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 292,
-    "deleted": 94,
-    "replays": 510,
-    "droppedAcks": 32,
-    "merges": 5
+    "typed": 290,
+    "deleted": 103,
+    "replays": 460,
+    "droppedAcks": 23,
+    "merges": 7
    }
   },
   {
@@ -829,11 +829,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 263,
-    "deleted": 83,
-    "replays": 378,
-    "droppedAcks": 16,
-    "merges": 4
+    "typed": 261,
+    "deleted": 91,
+    "replays": 330,
+    "droppedAcks": 20,
+    "merges": 5
    }
   },
   {
@@ -842,11 +842,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 235,
-    "deleted": 98,
-    "replays": 314,
-    "droppedAcks": 22,
-    "merges": 7
+    "typed": 202,
+    "deleted": 66,
+    "replays": 170,
+    "droppedAcks": 10,
+    "merges": 4
    }
   },
   {
@@ -855,11 +855,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 285,
-    "deleted": 79,
-    "replays": 368,
-    "droppedAcks": 27,
-    "merges": 7
+    "typed": 260,
+    "deleted": 83,
+    "replays": 158,
+    "droppedAcks": 18,
+    "merges": 9
    }
   },
   {
@@ -868,11 +868,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 312,
-    "deleted": 96,
-    "replays": 338,
-    "droppedAcks": 21,
-    "merges": 7
+    "typed": 315,
+    "deleted": 113,
+    "replays": 432,
+    "droppedAcks": 33,
+    "merges": 9
    }
   },
   {
@@ -881,11 +881,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 251,
-    "deleted": 81,
-    "replays": 284,
-    "droppedAcks": 17,
-    "merges": 6
+    "typed": 227,
+    "deleted": 62,
+    "replays": 174,
+    "droppedAcks": 11,
+    "merges": 5
    }
   },
   {
@@ -894,11 +894,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 284,
-    "deleted": 99,
-    "replays": 314,
-    "droppedAcks": 16,
-    "merges": 7
+    "typed": 297,
+    "deleted": 101,
+    "replays": 258,
+    "droppedAcks": 22,
+    "merges": 9
    }
   },
   {
@@ -907,11 +907,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 214,
-    "deleted": 79,
-    "replays": 236,
-    "droppedAcks": 13,
-    "merges": 5
+    "typed": 212,
+    "deleted": 81,
+    "replays": 178,
+    "droppedAcks": 16,
+    "merges": 7
    }
   },
   {
@@ -920,11 +920,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 211,
-    "deleted": 78,
-    "replays": 334,
-    "droppedAcks": 16,
-    "merges": 3
+    "typed": 267,
+    "deleted": 85,
+    "replays": 452,
+    "droppedAcks": 22,
+    "merges": 6
    }
   },
   {
@@ -933,11 +933,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 289,
-    "deleted": 88,
-    "replays": 372,
-    "droppedAcks": 21,
-    "merges": 8
+    "typed": 281,
+    "deleted": 84,
+    "replays": 320,
+    "droppedAcks": 24,
+    "merges": 7
    }
   },
   {
@@ -946,11 +946,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 267,
-    "deleted": 83,
-    "replays": 326,
-    "droppedAcks": 16,
-    "merges": 6
+    "typed": 248,
+    "deleted": 102,
+    "replays": 266,
+    "droppedAcks": 21,
+    "merges": 8
    }
   },
   {
@@ -959,11 +959,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 177,
-    "deleted": 57,
-    "replays": 172,
-    "droppedAcks": 14,
-    "merges": 4
+    "typed": 190,
+    "deleted": 53,
+    "replays": 174,
+    "droppedAcks": 16,
+    "merges": 5
    }
   },
   {
@@ -972,10 +972,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 247,
-    "deleted": 78,
-    "replays": 276,
-    "droppedAcks": 20,
+    "typed": 272,
+    "deleted": 102,
+    "replays": 206,
+    "droppedAcks": 24,
     "merges": 7
    }
   },
@@ -985,11 +985,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 282,
-    "deleted": 94,
-    "replays": 266,
-    "droppedAcks": 13,
-    "merges": 6
+    "typed": 240,
+    "deleted": 81,
+    "replays": 180,
+    "droppedAcks": 14,
+    "merges": 7
    }
   },
   {
@@ -998,11 +998,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 213,
-    "deleted": 63,
-    "replays": 242,
-    "droppedAcks": 16,
-    "merges": 5
+    "typed": 282,
+    "deleted": 97,
+    "replays": 284,
+    "droppedAcks": 21,
+    "merges": 6
    }
   },
   {
@@ -1011,11 +1011,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 275,
-    "deleted": 87,
-    "replays": 470,
-    "droppedAcks": 17,
-    "merges": 4
+    "typed": 236,
+    "deleted": 93,
+    "replays": 198,
+    "droppedAcks": 20,
+    "merges": 7
    }
   },
   {
@@ -1024,11 +1024,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 290,
-    "deleted": 93,
-    "replays": 470,
-    "droppedAcks": 23,
-    "merges": 5
+    "typed": 237,
+    "deleted": 73,
+    "replays": 240,
+    "droppedAcks": 18,
+    "merges": 8
    }
   },
   {
@@ -1037,11 +1037,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 178,
-    "deleted": 60,
-    "replays": 150,
-    "droppedAcks": 13,
-    "merges": 3
+    "typed": 165,
+    "deleted": 50,
+    "replays": 134,
+    "droppedAcks": 9,
+    "merges": 4
    }
   },
   {
@@ -1050,11 +1050,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 283,
-    "deleted": 102,
-    "replays": 330,
-    "droppedAcks": 28,
-    "merges": 5
+    "typed": 319,
+    "deleted": 103,
+    "replays": 300,
+    "droppedAcks": 25,
+    "merges": 7
    }
   },
   {
@@ -1063,11 +1063,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 291,
-    "deleted": 91,
-    "replays": 248,
-    "droppedAcks": 17,
-    "merges": 8
+    "typed": 255,
+    "deleted": 83,
+    "replays": 260,
+    "droppedAcks": 24,
+    "merges": 4
    }
   },
   {
@@ -1076,11 +1076,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 213,
-    "deleted": 58,
-    "replays": 284,
-    "droppedAcks": 16,
-    "merges": 4
+    "typed": 259,
+    "deleted": 83,
+    "replays": 242,
+    "droppedAcks": 22,
+    "merges": 7
    }
   },
   {
@@ -1089,11 +1089,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 304,
-    "deleted": 85,
-    "replays": 284,
-    "droppedAcks": 24,
-    "merges": 9
+    "typed": 282,
+    "deleted": 70,
+    "replays": 402,
+    "droppedAcks": 27,
+    "merges": 12
    }
   },
   {
@@ -1102,11 +1102,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 222,
-    "deleted": 78,
-    "replays": 166,
-    "droppedAcks": 11,
-    "merges": 7
+    "typed": 205,
+    "deleted": 72,
+    "replays": 282,
+    "droppedAcks": 22,
+    "merges": 5
    }
   },
   {
@@ -1115,11 +1115,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 217,
-    "deleted": 70,
-    "replays": 240,
-    "droppedAcks": 16,
-    "merges": 8
+    "typed": 253,
+    "deleted": 84,
+    "replays": 258,
+    "droppedAcks": 24,
+    "merges": 9
    }
   },
   {
@@ -1128,9 +1128,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 241,
-    "deleted": 87,
-    "replays": 166,
+    "typed": 210,
+    "deleted": 72,
+    "replays": 204,
     "droppedAcks": 13,
     "merges": 5
    }
@@ -1141,11 +1141,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 240,
-    "deleted": 94,
-    "replays": 378,
-    "droppedAcks": 22,
-    "merges": 4
+    "typed": 233,
+    "deleted": 79,
+    "replays": 234,
+    "droppedAcks": 20,
+    "merges": 8
    }
   },
   {
@@ -1154,11 +1154,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 181,
-    "deleted": 59,
-    "replays": 194,
+    "typed": 195,
+    "deleted": 62,
+    "replays": 172,
     "droppedAcks": 17,
-    "merges": 2
+    "merges": 5
    }
   },
   {
@@ -1167,11 +1167,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 216,
-    "deleted": 70,
-    "replays": 218,
-    "droppedAcks": 14,
-    "merges": 5
+    "typed": 206,
+    "deleted": 69,
+    "replays": 194,
+    "droppedAcks": 12,
+    "merges": 4
    }
   },
   {
@@ -1180,11 +1180,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 214,
-    "deleted": 58,
-    "replays": 282,
-    "droppedAcks": 17,
-    "merges": 6
+    "typed": 197,
+    "deleted": 64,
+    "replays": 208,
+    "droppedAcks": 19,
+    "merges": 7
    }
   },
   {
@@ -1193,11 +1193,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 288,
-    "deleted": 92,
-    "replays": 290,
-    "droppedAcks": 24,
-    "merges": 9
+    "typed": 229,
+    "deleted": 85,
+    "replays": 330,
+    "droppedAcks": 19,
+    "merges": 6
    }
   },
   {
@@ -1206,9 +1206,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 249,
-    "deleted": 92,
-    "replays": 340,
+    "typed": 285,
+    "deleted": 100,
+    "replays": 514,
     "droppedAcks": 19,
     "merges": 7
    }
@@ -1219,11 +1219,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 228,
-    "deleted": 73,
-    "replays": 166,
-    "droppedAcks": 14,
-    "merges": 7
+    "typed": 267,
+    "deleted": 78,
+    "replays": 386,
+    "droppedAcks": 27,
+    "merges": 6
    }
   },
   {
@@ -1232,10 +1232,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 261,
-    "deleted": 80,
-    "replays": 184,
-    "droppedAcks": 17,
+    "typed": 265,
+    "deleted": 82,
+    "replays": 250,
+    "droppedAcks": 23,
     "merges": 8
    }
   },
@@ -1245,11 +1245,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 240,
-    "deleted": 80,
-    "replays": 362,
-    "droppedAcks": 17,
-    "merges": 4
+    "typed": 249,
+    "deleted": 68,
+    "replays": 264,
+    "droppedAcks": 21,
+    "merges": 5
    }
   },
   {
@@ -1258,11 +1258,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 270,
-    "deleted": 83,
-    "replays": 212,
-    "droppedAcks": 27,
-    "merges": 8
+    "typed": 274,
+    "deleted": 87,
+    "replays": 400,
+    "droppedAcks": 23,
+    "merges": 10
    }
   },
   {
@@ -1271,10 +1271,10 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 217,
-    "deleted": 72,
-    "replays": 246,
-    "droppedAcks": 18,
+    "typed": 163,
+    "deleted": 60,
+    "replays": 162,
+    "droppedAcks": 9,
     "merges": 4
    }
   },
@@ -1284,11 +1284,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 221,
-    "deleted": 71,
-    "replays": 288,
-    "droppedAcks": 15,
-    "merges": 3
+    "typed": 248,
+    "deleted": 93,
+    "replays": 318,
+    "droppedAcks": 18,
+    "merges": 6
    }
   },
   {
@@ -1297,15 +1297,15 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "typed": 251,
-    "deleted": 68,
-    "replays": 268,
+    "typed": 230,
+    "deleted": 79,
+    "replays": 188,
     "droppedAcks": 13,
-    "merges": 5
+    "merges": 4
    }
   }
  ],
- "durationMs": 147345,
+ "durationMs": 135795,
  "total": 100,
  "passed": 100,
  "failed": 0

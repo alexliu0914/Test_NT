@@ -2,7 +2,7 @@
  "id": "M0-17",
  "title": "資料庫失效 1～3 秒＋小佇列上限：佇列有界、回覆 busy、可監控、恢復後零遺失",
  "meta": {},
- "startedAt": "2026-10-31T11:34:08.647Z",
+ "startedAt": "2026-11-01T02:45:17.977Z",
  "iterations": [
   {
    "i": 0,
@@ -10,11 +10,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1760,
-    "typed": 1362,
-    "busy": 18,
+    "outMs": 2800,
+    "typed": 2178,
+    "busy": 25,
     "maxInbox": 25,
-    "retries": 7
+    "retries": 11
    }
   },
   {
@@ -23,11 +23,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1481,
-    "typed": 1338,
-    "busy": 10,
+    "outMs": 1893,
+    "typed": 1754,
+    "busy": 19,
     "maxInbox": 25,
-    "retries": 7
+    "retries": 9
    }
   },
   {
@@ -36,11 +36,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2827,
-    "typed": 2244,
-    "busy": 27,
+    "outMs": 1386,
+    "typed": 1412,
+    "busy": 16,
     "maxInbox": 25,
-    "retries": 11
+    "retries": 7
    }
   },
   {
@@ -49,11 +49,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2026,
-    "typed": 1715,
-    "busy": 21,
+    "outMs": 2911,
+    "typed": 2550,
+    "busy": 26,
     "maxInbox": 25,
-    "retries": 9
+    "retries": 11
    }
   },
   {
@@ -62,11 +62,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2812,
-    "typed": 2331,
-    "busy": 31,
+    "outMs": 2639,
+    "typed": 2314,
+    "busy": 24,
     "maxInbox": 25,
-    "retries": 11
+    "retries": 10
    }
   },
   {
@@ -75,11 +75,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2868,
-    "typed": 2276,
-    "busy": 31,
+    "outMs": 2653,
+    "typed": 2312,
+    "busy": 24,
     "maxInbox": 25,
-    "retries": 11
+    "retries": 10
    }
   },
   {
@@ -88,9 +88,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1629,
-    "typed": 1519,
-    "busy": 22,
+    "outMs": 1189,
+    "typed": 1195,
+    "busy": 10,
     "maxInbox": 25,
     "retries": 7
    }
@@ -101,11 +101,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2743,
-    "typed": 2062,
-    "busy": 22,
+    "outMs": 1752,
+    "typed": 1510,
+    "busy": 26,
     "maxInbox": 25,
-    "retries": 11
+    "retries": 8
    }
   },
   {
@@ -114,11 +114,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2292,
-    "typed": 1869,
-    "busy": 28,
+    "outMs": 1577,
+    "typed": 1474,
+    "busy": 17,
     "maxInbox": 25,
-    "retries": 9
+    "retries": 8
    }
   },
   {
@@ -127,11 +127,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1854,
-    "typed": 1505,
-    "busy": 20,
+    "outMs": 1236,
+    "typed": 1136,
+    "busy": 12,
     "maxInbox": 25,
-    "retries": 8
+    "retries": 7
    }
   },
   {
@@ -140,11 +140,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2475,
-    "typed": 1958,
-    "busy": 25,
+    "outMs": 1931,
+    "typed": 1586,
+    "busy": 23,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 9
    }
   },
   {
@@ -153,8 +153,8 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2663,
-    "typed": 2183,
+    "outMs": 2375,
+    "typed": 2126,
     "busy": 27,
     "maxInbox": 25,
     "retries": 10
@@ -166,11 +166,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2372,
-    "typed": 2012,
-    "busy": 26,
+    "outMs": 1218,
+    "typed": 1144,
+    "busy": 12,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 7
    }
   },
   {
@@ -179,11 +179,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2059,
-    "typed": 1761,
-    "busy": 18,
+    "outMs": 2887,
+    "typed": 2396,
+    "busy": 27,
     "maxInbox": 25,
-    "retries": 8
+    "retries": 11
    }
   },
   {
@@ -192,11 +192,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1309,
-    "typed": 1267,
-    "busy": 18,
+    "outMs": 2546,
+    "typed": 2193,
+    "busy": 22,
     "maxInbox": 25,
-    "retries": 7
+    "retries": 10
    }
   },
   {
@@ -205,11 +205,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2410,
-    "typed": 1994,
-    "busy": 24,
+    "outMs": 2275,
+    "typed": 1862,
+    "busy": 18,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 9
    }
   },
   {
@@ -218,11 +218,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1386,
-    "typed": 1357,
-    "busy": 13,
+    "outMs": 2731,
+    "typed": 2272,
+    "busy": 28,
     "maxInbox": 25,
-    "retries": 6
+    "retries": 11
    }
   },
   {
@@ -231,11 +231,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1456,
-    "typed": 1405,
-    "busy": 11,
+    "outMs": 1878,
+    "typed": 1772,
+    "busy": 20,
     "maxInbox": 25,
-    "retries": 7
+    "retries": 9
    }
   },
   {
@@ -244,11 +244,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2982,
-    "typed": 2321,
-    "busy": 32,
+    "outMs": 2911,
+    "typed": 2389,
+    "busy": 30,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 11
    }
   },
   {
@@ -258,8 +258,8 @@
    "fails": [],
    "metrics": {
     "outMs": 2646,
-    "typed": 2116,
-    "busy": 22,
+    "typed": 2216,
+    "busy": 23,
     "maxInbox": 25,
     "retries": 10
    }
@@ -270,11 +270,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2347,
-    "typed": 1990,
-    "busy": 18,
+    "outMs": 2548,
+    "typed": 2129,
+    "busy": 23,
     "maxInbox": 25,
-    "retries": 8
+    "retries": 10
    }
   },
   {
@@ -283,11 +283,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 3000,
-    "typed": 2334,
-    "busy": 30,
+    "outMs": 1317,
+    "typed": 1234,
+    "busy": 11,
     "maxInbox": 25,
-    "retries": 11
+    "retries": 7
    }
   },
   {
@@ -296,11 +296,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2348,
-    "typed": 1990,
-    "busy": 23,
+    "outMs": 2986,
+    "typed": 2482,
+    "busy": 25,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 11
    }
   },
   {
@@ -309,11 +309,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1640,
-    "typed": 1435,
-    "busy": 17,
+    "outMs": 2000,
+    "typed": 1698,
+    "busy": 15,
     "maxInbox": 25,
-    "retries": 8
+    "retries": 9
    }
   },
   {
@@ -322,11 +322,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2263,
-    "typed": 1862,
-    "busy": 19,
+    "outMs": 1763,
+    "typed": 1590,
+    "busy": 18,
     "maxInbox": 25,
-    "retries": 9
+    "retries": 8
    }
   },
   {
@@ -335,11 +335,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2300,
-    "typed": 1934,
-    "busy": 25,
+    "outMs": 1026,
+    "typed": 950,
+    "busy": 6,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 6
    }
   },
   {
@@ -348,11 +348,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1259,
-    "typed": 1120,
-    "busy": 16,
+    "outMs": 1780,
+    "typed": 1552,
+    "busy": 20,
     "maxInbox": 25,
-    "retries": 6
+    "retries": 8
    }
   },
   {
@@ -361,9 +361,9 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1254,
-    "typed": 1250,
-    "busy": 17,
+    "outMs": 1058,
+    "typed": 1254,
+    "busy": 10,
     "maxInbox": 25,
     "retries": 7
    }
@@ -374,11 +374,11 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 2879,
-    "typed": 2259,
-    "busy": 26,
+    "outMs": 1277,
+    "typed": 1243,
+    "busy": 13,
     "maxInbox": 25,
-    "retries": 10
+    "retries": 7
    }
   },
   {
@@ -387,15 +387,15 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "outMs": 1255,
-    "typed": 1143,
-    "busy": 12,
+    "outMs": 2142,
+    "typed": 1885,
+    "busy": 14,
     "maxInbox": 25,
-    "retries": 6
+    "retries": 9
    }
   }
  ],
- "durationMs": 102806,
+ "durationMs": 98491,
  "total": 30,
  "passed": 30,
  "failed": 0

@@ -1,7 +1,7 @@
 {
- "startedAt": "2026-10-31T11:09:14.241Z",
+ "startedAt": "2026-11-01T02:23:09.525Z",
  "command": "node test/run.js M0-01=100 M0-02=100 M0-03=100 M0-04=100 M0-05=100 M0-06=100 M0-07=100 M0-08=100 M0-09=40 M0-10=25 M0-11=100 M0-17=30",
- "commit": "a8b10670d3bb96dedf35a05bb01af24eccb4ed37",
+ "commit": "5f7bd0404496117d5f0dde491850bd28239359fe",
  "dirty": false,
  "env": {
   "node": "v22.23.4",
@@ -30,7 +30,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 128720
+   "durationMs": 114709
   },
   {
    "id": "M0-02",
@@ -41,7 +41,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 357760
+   "durationMs": 317580
   },
   {
    "id": "M0-03",
@@ -52,7 +52,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 147345
+   "durationMs": 135795
   },
   {
    "id": "M0-04",
@@ -63,7 +63,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 66987
+   "durationMs": 55162
   },
   {
    "id": "M0-05",
@@ -74,7 +74,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 159445
+   "durationMs": 147386
   },
   {
    "id": "M0-06",
@@ -85,7 +85,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 74667
+   "durationMs": 63776
   },
   {
    "id": "M0-07",
@@ -96,7 +96,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 102722
+   "durationMs": 90028
   },
   {
    "id": "M0-08",
@@ -107,7 +107,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 101029
+   "durationMs": 91812
   },
   {
    "id": "M0-09",
@@ -118,7 +118,7 @@
    "passed": 200,
    "failed": 0,
    "iterations": 200,
-   "durationMs": 259140
+   "durationMs": 223084
   },
   {
    "id": "M0-10",
@@ -129,7 +129,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 54359
+   "durationMs": 51569
   },
   {
    "id": "M0-11",
@@ -140,7 +140,7 @@
    "passed": 100,
    "failed": 0,
    "iterations": 100,
-   "durationMs": 39338
+   "durationMs": 35587
   },
   {
    "id": "M0-17",
@@ -151,9 +151,9 @@
    "passed": 30,
    "failed": 0,
    "iterations": 30,
-   "durationMs": 102806
+   "durationMs": 98491
   }
  ],
- "finishedAt": "2026-10-31T11:35:51.454Z",
+ "finishedAt": "2026-11-01T02:46:56.468Z",
  "exitCode": 0
 }

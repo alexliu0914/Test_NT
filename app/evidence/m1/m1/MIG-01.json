@@ -2,7 +2,7 @@
  "id": "MIG-01",
  "title": "資料庫遷移回滾驗證",
  "meta": {},
- "startedAt": "2026-10-31T11:06:39.225Z",
+ "startedAt": "2026-11-01T02:21:16.642Z",
  "iterations": [
   {
    "i": 0,
@@ -65,7 +65,7 @@
    }
   }
  ],
- "durationMs": 1905,
+ "durationMs": 1592,
  "total": 3,
  "passed": 3,
  "failed": 0

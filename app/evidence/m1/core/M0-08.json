@@ -2,7 +2,7 @@
  "id": "M0-08",
  "title": "A、B 同時還原到不同版本，C 同時輸入：依佇列順序套用，結果一致",
  "meta": {},
- "startedAt": "2026-10-31T11:26:33.918Z",
+ "startedAt": "2026-11-01T02:38:35.286Z",
  "iterations": [
   {
    "i": 0,
@@ -11,7 +11,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -31,7 +31,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -71,7 +71,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -91,7 +91,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -251,7 +251,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -291,7 +291,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -391,7 +391,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -471,7 +471,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -571,7 +571,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -591,7 +591,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -651,7 +651,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -671,7 +671,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -731,7 +731,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -871,7 +871,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v2>v1"
+    "order": "v1>v2"
    }
   },
   {
@@ -931,7 +931,7 @@
    "fails": [],
    "metrics": {
     "withTyping": true,
-    "order": "v1>v2"
+    "order": "v2>v1"
    }
   },
   {
@@ -1005,7 +1005,7 @@
    }
   }
  ],
- "durationMs": 101029,
+ "durationMs": 91812,
  "total": 100,
  "passed": 100,
  "failed": 0

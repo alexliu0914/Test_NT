@@ -2,7 +2,7 @@
  "id": "M0-07",
  "title": "還原後多次 Undo／Redo 不會恢復還原前的內容",
  "meta": {},
- "startedAt": "2026-10-31T11:24:50.975Z",
+ "startedAt": "2026-11-01T02:37:05.112Z",
  "iterations": [
   {
    "i": 0,
@@ -710,7 +710,7 @@
   "resurrected": 27,
   "note": "不清空 Undo 堆疊時，還原前的內容被 Undo 加回的次數"
  },
- "durationMs": 102722,
+ "durationMs": 90028,
  "total": 100,
  "passed": 100,
  "failed": 0

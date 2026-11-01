@@ -2,7 +2,7 @@
  "id": "PAGE-02",
  "title": "把頁面移到自己或子孫底下：拒絕且頁面樹不變；兩人同時交叉移動不會形成循環",
  "meta": {},
- "startedAt": "2026-10-31T11:08:12.188Z",
+ "startedAt": "2026-11-01T02:22:30.182Z",
  "iterations": [
   {
    "i": 0,
@@ -145,7 +145,7 @@
    "metrics": {}
   }
  ],
- "durationMs": 6716,
+ "durationMs": 4408,
  "total": 20,
  "passed": 20,
  "failed": 0

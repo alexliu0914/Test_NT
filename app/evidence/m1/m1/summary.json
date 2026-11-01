@@ -1,7 +1,7 @@
 {
- "startedAt": "2026-10-31T11:06:39.193Z",
+ "startedAt": "2026-11-01T02:21:16.614Z",
  "command": "node test/run.js MIG-01=3 AUTH-01=10 AUTH-02=10 AUTH-03=10 AUTH-04=10 AUTH-05=9 AUTH-06=10 AUTH-07=10 SEC-01=5 SEC-02=20 SEC-03=3 SEC-05=3 SEC-06=10 PAGE-01=20 PAGE-02=20 PAGE-03=10 PAGE-04=5 PAGE-05=60",
- "commit": "a8b10670d3bb96dedf35a05bb01af24eccb4ed37",
+ "commit": "5f7bd0404496117d5f0dde491850bd28239359fe",
  "dirty": false,
  "env": {
   "node": "v22.23.4",
@@ -30,7 +30,7 @@
    "passed": 3,
    "failed": 0,
    "iterations": 3,
-   "durationMs": 1905
+   "durationMs": 1592
   },
   {
    "id": "AUTH-01",
@@ -41,7 +41,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 6368
+   "durationMs": 4821
   },
   {
    "id": "AUTH-02",
@@ -52,7 +52,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 5327
+   "durationMs": 5007
   },
   {
    "id": "AUTH-03",
@@ -63,7 +63,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 3141
+   "durationMs": 2718
   },
   {
    "id": "AUTH-04",
@@ -74,7 +74,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 5789
+   "durationMs": 4822
   },
   {
    "id": "AUTH-05",
@@ -85,7 +85,7 @@
    "passed": 9,
    "failed": 0,
    "iterations": 9,
-   "durationMs": 6779
+   "durationMs": 5344
   },
   {
    "id": "AUTH-06",
@@ -96,7 +96,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 7915
+   "durationMs": 6315
   },
   {
    "id": "AUTH-07",
@@ -107,7 +107,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 4442
+   "durationMs": 3450
   },
   {
    "id": "SEC-01",
@@ -118,7 +118,7 @@
    "passed": 5,
    "failed": 0,
    "iterations": 5,
-   "durationMs": 13309
+   "durationMs": 10772
   },
   {
    "id": "SEC-02",
@@ -129,7 +129,7 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 14239
+   "durationMs": 11116
   },
   {
    "id": "SEC-03",
@@ -140,7 +140,7 @@
    "passed": 3,
    "failed": 0,
    "iterations": 3,
-   "durationMs": 3824
+   "durationMs": 2840
   },
   {
    "id": "SEC-05",
@@ -151,7 +151,7 @@
    "passed": 3,
    "failed": 0,
    "iterations": 3,
-   "durationMs": 4154
+   "durationMs": 3269
   },
   {
    "id": "SEC-06",
@@ -162,7 +162,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 6605
+   "durationMs": 4706
   },
   {
    "id": "PAGE-01",
@@ -173,7 +173,7 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 8629
+   "durationMs": 6459
   },
   {
    "id": "PAGE-02",
@@ -184,7 +184,7 @@
    "passed": 20,
    "failed": 0,
    "iterations": 20,
-   "durationMs": 6716
+   "durationMs": 4408
   },
   {
    "id": "PAGE-03",
@@ -195,7 +195,7 @@
    "passed": 10,
    "failed": 0,
    "iterations": 10,
-   "durationMs": 6288
+   "durationMs": 4254
   },
   {
    "id": "PAGE-04",
@@ -206,7 +206,7 @@
    "passed": 5,
    "failed": 0,
    "iterations": 5,
-   "durationMs": 7878
+   "durationMs": 5592
   },
   {
    "id": "PAGE-05",
@@ -217,9 +217,9 @@
    "passed": 60,
    "failed": 0,
    "iterations": 60,
-   "durationMs": 40895
+   "durationMs": 24940
   }
  ],
- "finishedAt": "2026-10-31T11:09:14.141Z",
+ "finishedAt": "2026-11-01T02:23:09.460Z",
  "exitCode": 0
 }

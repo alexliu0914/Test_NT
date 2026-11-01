@@ -2,7 +2,7 @@
  "id": "M0-04",
  "title": "離線大量編輯（含刪除）後關閉並重開瀏覽器，重新連線補送",
  "meta": {},
- "startedAt": "2026-10-31T11:19:49.227Z",
+ "startedAt": "2026-11-01T02:32:38.326Z",
  "iterations": [
   {
    "i": 0,
@@ -78,7 +78,7 @@
    "metrics": {
     "offlineOps": 213,
     "offlinePending": 213,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -133,7 +133,7 @@
    "metrics": {
     "offlineOps": 141,
     "offlinePending": 141,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -144,7 +144,7 @@
    "metrics": {
     "offlineOps": 68,
     "offlinePending": 68,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -188,7 +188,7 @@
    "metrics": {
     "offlineOps": 243,
     "offlinePending": 243,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -309,7 +309,7 @@
    "metrics": {
     "offlineOps": 108,
     "offlinePending": 108,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -320,7 +320,7 @@
    "metrics": {
     "offlineOps": 149,
     "offlinePending": 149,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -331,7 +331,7 @@
    "metrics": {
     "offlineOps": 274,
     "offlinePending": 274,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -375,7 +375,7 @@
    "metrics": {
     "offlineOps": 171,
     "offlinePending": 171,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -408,7 +408,7 @@
    "metrics": {
     "offlineOps": 252,
     "offlinePending": 252,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -419,7 +419,7 @@
    "metrics": {
     "offlineOps": 286,
     "offlinePending": 286,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -452,7 +452,7 @@
    "metrics": {
     "offlineOps": 156,
     "offlinePending": 156,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -474,7 +474,7 @@
    "metrics": {
     "offlineOps": 293,
     "offlinePending": 293,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -485,7 +485,7 @@
    "metrics": {
     "offlineOps": 220,
     "offlinePending": 220,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -573,7 +573,7 @@
    "metrics": {
     "offlineOps": 261,
     "offlinePending": 261,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -584,7 +584,7 @@
    "metrics": {
     "offlineOps": 181,
     "offlinePending": 181,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -672,7 +672,7 @@
    "metrics": {
     "offlineOps": 154,
     "offlinePending": 154,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -683,7 +683,7 @@
    "metrics": {
     "offlineOps": 222,
     "offlinePending": 222,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -793,7 +793,7 @@
    "metrics": {
     "offlineOps": 161,
     "offlinePending": 161,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -837,7 +837,7 @@
    "metrics": {
     "offlineOps": 246,
     "offlinePending": 246,
-    "merged": false
+    "merged": true
    }
   },
   {
@@ -903,7 +903,7 @@
    "metrics": {
     "offlineOps": 230,
     "offlinePending": 230,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -980,7 +980,7 @@
    "metrics": {
     "offlineOps": 166,
     "offlinePending": 166,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -1079,7 +1079,7 @@
    "metrics": {
     "offlineOps": 277,
     "offlinePending": 277,
-    "merged": true
+    "merged": false
    }
   },
   {
@@ -1101,11 +1101,11 @@
    "metrics": {
     "offlineOps": 293,
     "offlinePending": 293,
-    "merged": false
+    "merged": true
    }
   }
  ],
- "durationMs": 66987,
+ "durationMs": 55162,
  "total": 100,
  "passed": 100,
  "failed": 0

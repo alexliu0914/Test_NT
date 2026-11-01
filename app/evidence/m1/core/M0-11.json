@@ -2,7 +2,7 @@
  "id": "M0-11",
  "title": "協作中撤銷登入：2 秒內中斷，舊憑證無法重新連線",
  "meta": {},
- "startedAt": "2026-10-31T11:33:29.083Z",
+ "startedAt": "2026-11-01T02:44:42.222Z",
  "iterations": [
   {
    "i": 0,
@@ -10,7 +10,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -19,7 +19,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -28,7 +28,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -37,7 +37,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -46,7 +46,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 8
+    "latencyMs": 2
    }
   },
   {
@@ -55,7 +55,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -64,7 +64,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -73,7 +73,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -82,7 +82,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 2
    }
   },
   {
@@ -91,7 +91,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -100,7 +100,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -109,7 +109,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -118,7 +118,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -127,7 +127,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -136,7 +136,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 4
    }
   },
   {
@@ -154,7 +154,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -163,7 +163,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -172,7 +172,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -181,7 +181,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 2
    }
   },
   {
@@ -190,7 +190,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -199,7 +199,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -208,7 +208,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 2
    }
   },
   {
@@ -217,7 +217,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -235,7 +235,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -244,7 +244,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -253,7 +253,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -262,7 +262,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -289,7 +289,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -343,7 +343,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -352,7 +352,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -361,7 +361,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -379,7 +379,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -388,7 +388,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -397,7 +397,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -406,7 +406,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -415,7 +415,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 9
+    "latencyMs": 3
    }
   },
   {
@@ -424,7 +424,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -433,7 +433,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -442,7 +442,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 3
    }
   },
   {
@@ -451,7 +451,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -478,7 +478,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -487,7 +487,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -496,7 +496,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -505,7 +505,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 4
    }
   },
   {
@@ -514,7 +514,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -523,7 +523,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 4
    }
   },
   {
@@ -532,7 +532,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -541,7 +541,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -550,7 +550,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -559,7 +559,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 4
    }
   },
   {
@@ -568,7 +568,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -577,7 +577,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -595,7 +595,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -613,7 +613,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -622,7 +622,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 10
+    "latencyMs": 7
    }
   },
   {
@@ -631,7 +631,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -649,7 +649,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 2
    }
   },
   {
@@ -658,7 +658,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 16
+    "latencyMs": 3
    }
   },
   {
@@ -667,7 +667,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -676,7 +676,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 3
    }
   },
   {
@@ -694,7 +694,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -703,7 +703,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 4
    }
   },
   {
@@ -712,7 +712,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 2
    }
   },
   {
@@ -721,7 +721,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 2
    }
   },
   {
@@ -730,7 +730,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 2
    }
   },
   {
@@ -748,7 +748,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -766,7 +766,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 6
+    "latencyMs": 3
    }
   },
   {
@@ -775,7 +775,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -784,7 +784,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 5
    }
   },
   {
@@ -793,7 +793,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -802,7 +802,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -811,7 +811,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -829,7 +829,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 5
+    "latencyMs": 3
    }
   },
   {
@@ -838,7 +838,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -847,7 +847,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -865,7 +865,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 4
    }
   },
   {
@@ -874,7 +874,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 6
    }
   },
   {
@@ -883,7 +883,7 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 4
+    "latencyMs": 3
    }
   },
   {
@@ -901,16 +901,16 @@
    "pass": true,
    "fails": [],
    "metrics": {
-    "latencyMs": 3
+    "latencyMs": 6
    }
   }
  ],
  "latency": {
-  "p50": 4,
-  "p95": 6,
-  "max": 16
+  "p50": 3,
+  "p95": 4,
+  "max": 7
  },
- "durationMs": 39338,
+ "durationMs": 35587,
  "total": 100,
  "passed": 100,
  "failed": 0

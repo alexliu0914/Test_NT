@@ -2,7 +2,7 @@
  "id": "AUTH-05",
  "title": "啟用 TOTP 後只輸入密碼會要求驗證碼；同一組備援碼第二次失效；錯誤驗證碼被拒",
  "meta": {},
- "startedAt": "2026-10-31T11:07:01.946Z",
+ "startedAt": "2026-11-01T02:21:35.713Z",
  "iterations": [
   {
    "i": 0,
@@ -68,7 +68,7 @@
    "metrics": {}
   }
  ],
- "durationMs": 6779,
+ "durationMs": 5344,
  "total": 9,
  "passed": 9,
  "failed": 0

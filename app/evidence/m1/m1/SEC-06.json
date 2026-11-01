@@ -2,7 +2,7 @@
  "id": "SEC-06",
  "title": "過期、竄改、其他頁面、錯誤金鑰、已撤銷 session、已刪除頁面的協作憑證都被拒",
  "meta": {},
- "startedAt": "2026-10-31T11:07:56.882Z",
+ "startedAt": "2026-11-01T02:22:18.968Z",
  "iterations": [
   {
    "i": 0,
@@ -75,7 +75,7 @@
    "metrics": {}
   }
  ],
- "durationMs": 6605,
+ "durationMs": 4706,
  "total": 10,
  "passed": 10,
  "failed": 0

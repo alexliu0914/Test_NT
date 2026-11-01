@@ -2,7 +2,7 @@
  "id": "M0-09",
  "title": "在還原流程各步驟之間強制終止，以同一 restore_id 重試：完全未套用或只套用一次",
  "meta": {},
- "startedAt": "2026-10-31T11:28:15.140Z",
+ "startedAt": "2026-11-01T02:40:07.255Z",
  "iterations": [
   {
    "i": 0,
@@ -1805,7 +1805,7 @@
    }
   }
  ],
- "durationMs": 259140,
+ "durationMs": 223084,
  "total": 200,
  "passed": 200,
  "failed": 0

@@ -7,7 +7,7 @@
    {
     "case": "M0-01=15",
     "total": 15,
-    "failed": 9,
+    "failed": 6,
     "caught": true,
     "example": [
      "A: content shown as saved is missing after crash",
@@ -17,11 +17,11 @@
    {
     "case": "M0-02=6",
     "total": 6,
-    "failed": 5,
+    "failed": 4,
     "caught": true,
     "example": [
      "client != database",
-     "final tokens: missing=[A89],[B95],[A90],[B96],[A91] extra=[A68],[B37],[A13],[B34],[B4]"
+     "final tokens: missing=[B112],[A114],[B113],[A115],[B114] extra=[A79],[A67],[A109],[A48],[B107]"
     ]
    }
   ]
@@ -37,7 +37,7 @@
     "failed": 10,
     "caught": true,
     "example": [
-     "283 rows written for already-stored updates"
+     "521 rows written for already-stored updates"
     ]
    }
   ]
@@ -76,7 +76,7 @@
    {
     "case": "M0-01=15",
     "total": 15,
-    "failed": 11,
+    "failed": 9,
     "caught": true,
     "example": [
      "A: content shown as saved is missing after crash",
@@ -131,7 +131,7 @@
     "failed": 15,
     "caught": true,
     "example": [
-     "silently lost: [Ac25],[Ac26],[Ac27],[Ac28],[Ac29] (5)"
+     "silently lost: [Ac25],[Ac26],[Ac27],[Ac28],[Ac29] (6)"
     ]
    },
    {
@@ -157,7 +157,7 @@
     "failed": 3,
     "caught": true,
     "example": [
-     "待寫入佇列超過上限 903 > 25",
+     "待寫入佇列超過上限 1489 > 25",
      "沒有觸發 busy 背壓（測試未達目的）"
     ]
    }
@@ -209,7 +209,7 @@
     "caught": true,
     "example": [
      "https://evil.example POST /api/pages 沒有被拒 201",
-     "https://evil.example PATCH /api/pages/e31147b6-63b3-430c-ae75-8f54734b2740 沒有被拒 200"
+     "https://evil.example PATCH /api/pages/58b1d816-3775-4067-bf0f-3430f694a17b 沒有被拒 200"
     ]
    }
   ]
@@ -309,7 +309,7 @@
     "caught": true,
     "example": [
      "協作連線沒有以 4001 中斷：timeout",
-     "協作連線中斷超過 2 秒：3029"
+     "協作連線中斷超過 2 秒：3022"
     ]
    }
   ]
@@ -375,7 +375,7 @@
     "failed": 1,
     "caught": true,
     "example": [
-     "批次的根仍掛在垃圾桶裡的頁面底下 {\"id\":\"d4d409c2-7335-40b2-b7e0-4cb6eea9ec12\",\"parentId\":\"2c07adbe-12e9-4364-8cc8-7102f7a763e6\",\"title\":\"K1\",\"icon\":\"📌\",\"position\":\"a1\",\"updatedAt\":\"2026-10-31T12:04:49.537Z\"}",
+     "批次的根仍掛在垃圾桶裡的頁面底下 {\"id\":\"333bd6b4-a3b1-4d56-8b1c-94f3bf9e592d\",\"parentId\":\"9cd2dfe4-5d39-42cb-9677-b12400f4c1be\",\"title\":\"K1\",\"icon\":\"📌\",\"position\":\"a1\",\"updatedAt\":\"2026-11-01T03:12:32.974Z\"}",
      "有頁面掛在已刪除的頁面底下"
     ]
    }
@@ -409,7 +409,7 @@
     "failed": 1,
     "caught": true,
     "example": [
-     "6a-收到還原後編輯器 Undo 堆疊未清空 {\"managers\":1,\"depth\":2}"
+     "6a-收到還原後編輯器 Undo 堆疊未清空 {\"managers\":1,\"depth\":3}"
     ]
    }
   ]
@@ -475,8 +475,8 @@
     "failed": 4,
     "caught": true,
     "example": [
-     "A 輸入的字消失：甲乙丙",
-     "B page error: RangeError: Position 14 out of range"
+     "A 輸入的字消失：甲乙丙丁戊",
+     "B 輸入的字消失：天地玄黃"
     ]
    }
   ]

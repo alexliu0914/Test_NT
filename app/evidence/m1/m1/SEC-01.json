@@ -2,7 +2,7 @@
  "id": "SEC-01",
  "title": "同一帳號或 IP 在 15 分鐘內失敗 5 次，第 6 次起暫停（即使密碼正確）；15 分鐘後恢復",
  "meta": {},
- "startedAt": "2026-10-31T11:07:21.224Z",
+ "startedAt": "2026-11-01T02:21:50.886Z",
  "iterations": [
   {
    "i": 0,
@@ -40,7 +40,7 @@
    "metrics": {}
   }
  ],
- "durationMs": 13309,
+ "durationMs": 10772,
  "total": 5,
  "passed": 5,
  "failed": 0
