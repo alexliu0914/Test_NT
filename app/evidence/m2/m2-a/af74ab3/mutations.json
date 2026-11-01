@@ -1,0 +1,573 @@
+{
+ "stage": "m2-a",
+ "results": [
+  {
+   "id": "MUT-1",
+   "title": "提交前就確認並廣播",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-01=15",
+     "total": 15,
+     "failed": 7,
+     "caught": true,
+     "example": [
+      "A: content shown as saved is missing after crash",
+      "A: received remote content not persisted"
+     ]
+    },
+    {
+     "case": "M0-02=6",
+     "total": 6,
+     "failed": 2,
+     "caught": true,
+     "example": [
+      "client != database",
+      "final tokens: missing=[B167],[A159],[A160],[B169],[B170] extra=[A85],[A101],[B156],[B11],[A16]"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-2",
+   "title": "移除 update_id 去重",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-03=10",
+     "total": 10,
+     "failed": 10,
+     "caught": true,
+     "example": [
+      "543 rows written for already-stored updates"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-3",
+   "title": "衝突副本在套用伺服器狀態之後才保存",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-06=10",
+     "total": 10,
+     "failed": 10,
+     "caught": true,
+     "example": [
+      "conflict copy differs from offline content"
+     ]
+    },
+    {
+     "case": "BR-01=2",
+     "total": 2,
+     "failed": 2,
+     "caught": true,
+     "example": [
+      "7-衝突副本缺少離線內容: B0o0,B0o1",
+      "7-遺失: B0o0,B0o1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-4",
+   "title": "收到任何確認就清空待確認清單",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-01=15",
+     "total": 15,
+     "failed": 7,
+     "caught": true,
+     "example": [
+      "A: content shown as saved is missing after crash",
+      "B: content shown as saved is missing after crash"
+     ]
+    },
+    {
+     "case": "M0-03=10",
+     "total": 10,
+     "failed": 8,
+     "caught": true,
+     "example": [
+      "clients diverged",
+      "client != database"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-5",
+   "title": "重新連線後不重送待確認項目",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-04=10",
+     "total": 10,
+     "failed": 10,
+     "caught": true,
+     "example": [
+      "exception: timeout waiting for quiesce"
+     ]
+    },
+    {
+     "case": "M0-01=15",
+     "total": 15,
+     "failed": 15,
+     "caught": true,
+     "example": [
+      "exception: timeout waiting for quiesce"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-6",
+   "title": "線上收到還原時不另存衝突副本",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-05=15",
+     "total": 15,
+     "failed": 14,
+     "caught": true,
+     "example": [
+      "silently lost: [Ac25],[Ac26],[Ac27],[Ac28],[Ac29] (7)"
+     ]
+    },
+    {
+     "case": "BR-01=2",
+     "total": 2,
+     "failed": 2,
+     "caught": true,
+     "example": [
+      "5-遺失（不在現況／還原前版本／衝突副本）: B0c2,B0c3,B0c4,B0c5",
+      "7-遺失: B0c2,B0c3,B0c4,B0c5"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-7",
+   "title": "伺服器不限制待寫入佇列（無背壓）",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-17=3",
+     "total": 3,
+     "failed": 3,
+     "caught": true,
+     "example": [
+      "待寫入佇列超過上限 1970 > 25",
+      "沒有觸發 busy 背壓（測試未達目的）"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-8",
+   "title": "用戶端收到 busy 就丟掉該筆修改",
+   "caught": true,
+   "runs": [
+    {
+     "case": "M0-17=3",
+     "total": 3,
+     "failed": 3,
+     "caught": true,
+     "example": [
+      "clients diverged",
+      "client != database"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A1",
+   "title": "API 不檢查兩步驟驗證",
+   "caught": true,
+   "runs": [
+    {
+     "case": "AUTH-06=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "未設定兩步驟驗證仍可讀取頁面 200",
+      "未設定兩步驟驗證仍可取得協作憑證 200"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A2",
+   "title": "不檢查請求來源（CSRF）",
+   "caught": true,
+   "runs": [
+    {
+     "case": "SEC-03=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "https://evil.example POST /api/pages 沒有被拒 201",
+      "https://evil.example PATCH /api/pages/fd6d7c10-9279-4375-a7ec-3c16ddc5771b 沒有被拒 200"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A3",
+   "title": "登入失敗不鎖定",
+   "caught": true,
+   "runs": [
+    {
+     "case": "SEC-01=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "帳號鎖定沒有生效 200",
+      "不存在帳號的鎖定回應與真實帳號不同"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A4",
+   "title": "公開註冊端點沒有關閉",
+   "caught": true,
+   "runs": [
+    {
+     "case": "AUTH-03=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "公開註冊端點沒有被拒絕 200",
+      "帳號數改變 1 → 2"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A5",
+   "title": "邀請可重複使用",
+   "caught": true,
+   "runs": [
+    {
+     "case": "AUTH-04=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "第二次使用沒有被拒絕 409",
+      "過期邀請沒有被拒絕 201"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A6",
+   "title": "協作伺服器不檢查兩步驟驗證",
+   "caught": true,
+   "runs": [
+    {
+     "case": "AUTH-06=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "協作伺服器接受了未啟用兩步驟驗證的帳號 {\"msg\":\"welcome\"}"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A7",
+   "title": "協作憑證不檢查頁面",
+   "caught": true,
+   "runs": [
+    {
+     "case": "SEC-06=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "otherPage: 預期 4003，實際 welcome"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-A8",
+   "title": "協作伺服器沒有即時處理撤銷通知（只靠 60 秒複查）",
+   "caught": true,
+   "runs": [
+    {
+     "case": "SEC-02=2",
+     "total": 2,
+     "failed": 2,
+     "caught": true,
+     "example": [
+      "協作連線沒有以 4001 中斷：timeout",
+      "協作連線中斷超過 2 秒：3025"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-P1",
+   "title": "移動時不檢查循環",
+   "caught": true,
+   "runs": [
+    {
+     "case": "PAGE-02=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "移到 自己 沒有被拒 200",
+      "移到 子孫 沒有被拒 200"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-P2",
+   "title": "刪除時只刪除該頁、不含子頁面",
+   "caught": true,
+   "runs": [
+    {
+     "case": "PAGE-03=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "刪除數量不正確 {\"trashed\":1}",
+      "刪除後子頁面仍在頁面樹"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-P3",
+   "title": "清理時不看 30 天期限",
+   "caught": true,
+   "runs": [
+    {
+     "case": "PAGE-04=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "未滿 30 天的頁面被刪除"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-P5",
+   "title": "還原時只檢查指定頁面的上層，不檢查整批",
+   "caught": true,
+   "runs": [
+    {
+     "case": "PAGE-03=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "批次的根仍掛在垃圾桶裡的頁面底下 {\"id\":\"f55876cf-accd-4a47-b3ce-33c509196309\",\"parentId\":\"5d7616d0-2435-44b3-a35d-85e7386df50c\",\"title\":\"K1\",\"icon\":\"📌\",\"position\":\"a1\",\"updatedAt\":\"2026-11-01T05:32:41.292Z\"}",
+      "有頁面掛在已刪除的頁面底下"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-P4",
+   "title": "頁面變動沒有推送",
+   "caught": true,
+   "runs": [
+    {
+     "case": "PAGE-01=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "改名：2 秒內沒有收到推送",
+      "圖示：2 秒內沒有收到推送"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B1",
+   "title": "還原時不清空編輯器的 Undo 堆疊",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-01=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "6a-收到還原後編輯器 Undo 堆疊未清空 {\"managers\":1,\"depth\":3}"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B2",
+   "title": "BlockNote 協作選項未經 withCollaboration 包裝",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-01=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "exception: page.waitForFunction: Timeout 20000ms exceeded."
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B3",
+   "title": "本機尚未寫入完成時不顯示「尚未存到此裝置」",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-02=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "S6-本機寫入尚未完成，狀態卻顯示 saving",
+      "S6-狀態顯示「saving」但關閉後內容遺失（狀態不誠實）"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B4",
+   "title": "只檢查同一份文件、不檢查整台裝置的其他帳號草稿",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-02=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "S5-另一帳號未被封鎖，狀態 saving",
+      "S5-被封鎖時仍顯示編輯器"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B5",
+   "title": "新頁面沒有固定的文件骨架（兩人同時開始輸入時各自建立）",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-04=4",
+     "total": 4,
+     "failed": 4,
+     "caught": true,
+     "example": [
+      "A 輸入的字消失：甲乙"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-C6",
+   "title": "貼上時不過濾連結協定",
+   "caught": true,
+   "runs": [
+    {
+     "case": "SEC-04=1",
+     "total": 1,
+     "failed": 1,
+     "caught": true,
+     "example": [
+      "貼上清理保留了危險連結（第 3 種）：javascript:window.__xss=(window.__xss||0)+1",
+      "貼上清理保留了危險連結（第 4 種）： JaVa\tScRiPt:window.__xss=(window.__xss||0)+1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B6",
+   "title": "同一區塊有多個內容節點時不容許（y-prosemirror 刪除整個區塊）",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-05=7",
+     "total": 7,
+     "failed": 3,
+     "caught": true,
+     "example": [
+      "B 的paste內容消失：乙2題",
+      "乙2 貼上的標題不存在"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "MUT-B7",
+   "title": "不檢查作者，每個用戶端都搬移多出來的內容節點",
+   "caught": true,
+   "runs": [
+    {
+     "case": "BR-05=14",
+     "total": 14,
+     "failed": 2,
+     "caught": true,
+     "example": [
+      "B 的paste內容重複 2 次：乙2題"
+     ]
+    }
+   ]
+  }
+ ],
+ "notApplicable": [
+  {
+   "id": "MUT-C1",
+   "stage": "m2-b",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C2",
+   "stage": "m2-b",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C3",
+   "stage": "m2-b",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C8",
+   "stage": "m2-b",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C4",
+   "stage": "m2-c",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C5",
+   "stage": "m2-c",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "MUT-C7",
+   "stage": "m2-c",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  }
+ ]
+}

@@ -1,0 +1,47 @@
+{
+ "id": "PAGE-04",
+ "title": "垃圾桶超過 30 天的頁面（含子頁面與協作資料）被永久刪除；未滿 30 天的保留（附件部分屬 M3）",
+ "meta": {},
+ "startedAt": "2026-11-01T04:40:32.562Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 5720,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}

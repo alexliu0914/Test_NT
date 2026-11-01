@@ -1,0 +1,57 @@
+{
+ "id": "SEC-04",
+ "title": "貼上、同步、重新整理、頁面連結都不執行程式、不留下危險連結；安全連結保留、內容不無提示消失",
+ "meta": {},
+ "startedAt": "2026-11-01T05:15:07.632Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 19
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 19
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 19
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 19
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 19
+   }
+  }
+ ],
+ "durationMs": 12560,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}
