@@ -1,0 +1,61 @@
+{
+ "id": "BR-03",
+ "title": "正式介面：邀請→設定密碼→強制兩步驟驗證→重新登入→兩人同時操作頁面樹（2 秒內同步）→未同步時登出確認",
+ "meta": {},
+ "startedAt": "2026-11-01T06:12:35.813Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "secretLen": 52
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "secretLen": 52
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "secretLen": 52
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "secretLen": 52
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "secretLen": 52
+   }
+  }
+ ],
+ "latency": {
+  "p50": 164,
+  "max": 211
+ },
+ "durationMs": 39362,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}

@@ -1,0 +1,170 @@
+{
+ "startedAt": "2026-11-01T04:41:04.627Z",
+ "command": "node test/run.js --stage m2-a --group core --full",
+ "stage": "m2-a",
+ "group": "core",
+ "mode": "full",
+ "commit": "af74ab30ab834b97030ccee4bfd66057eceb1611",
+ "tested_sha": "af74ab30ab834b97030ccee4bfd66057eceb1611",
+ "dirty": false,
+ "env": {
+  "node": "v22.23.4",
+  "platform": "linux x64",
+  "database": "notes_test",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "packages": {
+   "next": "16.4.2",
+   "better-auth": "1.7.10",
+   "drizzle-orm": "0.45.4",
+   "yjs": "13.6.33",
+   "ws": "8.22.0",
+   "pg": "8.23.1",
+   "@blocknote/core": "0.56.0",
+   "@blocknote/mantine": "0.56.0",
+   "playwright": "1.63.0"
+  },
+  "chromium": "153.0.8010.12"
+ },
+ "cases": [
+  {
+   "id": "M0-01",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 114644
+  },
+  {
+   "id": "M0-02",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 323769
+  },
+  {
+   "id": "M0-03",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 138043
+  },
+  {
+   "id": "M0-04",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 56271
+  },
+  {
+   "id": "M0-05",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 149030
+  },
+  {
+   "id": "M0-06",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 64709
+  },
+  {
+   "id": "M0-07",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 89811
+  },
+  {
+   "id": "M0-08",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 92014
+  },
+  {
+   "id": "M0-09",
+   "requested": 40,
+   "status": "pass",
+   "expected": 200,
+   "total": 200,
+   "passed": 200,
+   "failed": 0,
+   "iterations": 200,
+   "durationMs": 237251
+  },
+  {
+   "id": "M0-10",
+   "requested": 25,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 49888
+  },
+  {
+   "id": "M0-11",
+   "requested": 100,
+   "status": "pass",
+   "expected": 100,
+   "total": 100,
+   "passed": 100,
+   "failed": 0,
+   "iterations": 100,
+   "durationMs": 35264
+  },
+  {
+   "id": "M0-17",
+   "requested": 30,
+   "status": "pass",
+   "expected": 30,
+   "total": 30,
+   "passed": 30,
+   "failed": 0,
+   "iterations": 30,
+   "durationMs": 99716
+  }
+ ],
+ "notApplicable": [],
+ "counts": {
+  "executed": 12,
+  "passed": 12,
+  "notApplicable": 0
+ },
+ "finishedAt": "2026-11-01T05:05:17.676Z",
+ "exitCode": 0
+}

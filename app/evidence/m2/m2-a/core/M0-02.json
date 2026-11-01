@@ -1,0 +1,1212 @@
+{
+ "id": "M0-02",
+ "title": "資料庫寫入失敗或連線被終止時不送確認、不廣播；恢復後補寫",
+ "meta": {},
+ "startedAt": "2026-11-01T05:42:53.065Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 20200,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 435,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 1,
+   "seed": 20201,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 444,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 2,
+   "seed": 20202,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 404,
+    "longFaults": 1,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 3,
+   "seed": 20203,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 478,
+    "longFaults": 0,
+    "terminations": 8,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 4,
+   "seed": 20204,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 454,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 5,
+   "seed": 20205,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 515,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 6,
+   "seed": 20206,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 505,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 7,
+   "seed": 20207,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 476,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 8,
+   "seed": 20208,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 447,
+    "longFaults": 1,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 9,
+   "seed": 20209,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 417,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 10,
+   "seed": 20210,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 413,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 11,
+   "seed": 20211,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 475,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 12,
+   "seed": 20212,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 465,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 13,
+   "seed": 20213,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 490,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 14,
+   "seed": 20214,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 408,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 15,
+   "seed": 20215,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 442,
+    "longFaults": 3,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 16,
+   "seed": 20216,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 443,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 17,
+   "seed": 20217,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 450,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 18,
+   "seed": 20218,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 452,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 19,
+   "seed": 20219,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 467,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 20,
+   "seed": 20220,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 412,
+    "longFaults": 0,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 21,
+   "seed": 20221,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 446,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 22,
+   "seed": 20222,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 465,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 23,
+   "seed": 20223,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 460,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 24,
+   "seed": 20224,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 492,
+    "longFaults": 2,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 25,
+   "seed": 20225,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 432,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 26,
+   "seed": 20226,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 455,
+    "longFaults": 1,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 27,
+   "seed": 20227,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 499,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 28,
+   "seed": 20228,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 573,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 29,
+   "seed": 20229,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 419,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 30,
+   "seed": 20230,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 463,
+    "longFaults": 1,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 31,
+   "seed": 20231,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 461,
+    "longFaults": 1,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 32,
+   "seed": 20232,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 517,
+    "longFaults": 2,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 33,
+   "seed": 20233,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 513,
+    "longFaults": 3,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 34,
+   "seed": 20234,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 398,
+    "longFaults": 1,
+    "terminations": 7,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 35,
+   "seed": 20235,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 399,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 36,
+   "seed": 20236,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 608,
+    "longFaults": 3,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 37,
+   "seed": 20237,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 428,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 38,
+   "seed": 20238,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 459,
+    "longFaults": 1,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 39,
+   "seed": 20239,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 569,
+    "longFaults": 2,
+    "terminations": 6,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 40,
+   "seed": 20240,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 573,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 41,
+   "seed": 20241,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 431,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 42,
+   "seed": 20242,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 419,
+    "longFaults": 0,
+    "terminations": 6,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 43,
+   "seed": 20243,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 496,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 44,
+   "seed": 20244,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 526,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 45,
+   "seed": 20245,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 495,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 46,
+   "seed": 20246,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 508,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 47,
+   "seed": 20247,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 444,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 48,
+   "seed": 20248,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 418,
+    "longFaults": 1,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 49,
+   "seed": 20249,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 409,
+    "longFaults": 0,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 50,
+   "seed": 20250,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 425,
+    "longFaults": 0,
+    "terminations": 6,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 51,
+   "seed": 20251,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 443,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 52,
+   "seed": 20252,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 419,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 53,
+   "seed": 20253,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 417,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 54,
+   "seed": 20254,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 437,
+    "longFaults": 0,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 55,
+   "seed": 20255,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 577,
+    "longFaults": 3,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 56,
+   "seed": 20256,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 445,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 57,
+   "seed": 20257,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 485,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 58,
+   "seed": 20258,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 446,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 59,
+   "seed": 20259,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 598,
+    "longFaults": 3,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 60,
+   "seed": 20260,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 406,
+    "longFaults": 0,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 61,
+   "seed": 20261,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 416,
+    "longFaults": 1,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 62,
+   "seed": 20262,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 482,
+    "longFaults": 0,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 63,
+   "seed": 20263,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 460,
+    "longFaults": 1,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 64,
+   "seed": 20264,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 515,
+    "longFaults": 1,
+    "terminations": 6,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 65,
+   "seed": 20265,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 481,
+    "longFaults": 1,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 66,
+   "seed": 20266,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 425,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 67,
+   "seed": 20267,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 544,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 68,
+   "seed": 20268,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 535,
+    "longFaults": 3,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 69,
+   "seed": 20269,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 411,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 70,
+   "seed": 20270,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 401,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 71,
+   "seed": 20271,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 418,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 72,
+   "seed": 20272,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 574,
+    "longFaults": 2,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 73,
+   "seed": 20273,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 438,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 74,
+   "seed": 20274,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 436,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 75,
+   "seed": 20275,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 532,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 76,
+   "seed": 20276,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 409,
+    "longFaults": 1,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 77,
+   "seed": 20277,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 541,
+    "longFaults": 2,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 78,
+   "seed": 20278,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 476,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 79,
+   "seed": 20279,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 430,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 80,
+   "seed": 20280,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 405,
+    "longFaults": 2,
+    "terminations": 5,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 81,
+   "seed": 20281,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 427,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 82,
+   "seed": 20282,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 475,
+    "longFaults": 1,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 83,
+   "seed": 20283,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 409,
+    "longFaults": 2,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 84,
+   "seed": 20284,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 403,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 85,
+   "seed": 20285,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 418,
+    "longFaults": 1,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 86,
+   "seed": 20286,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 565,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 87,
+   "seed": 20287,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 450,
+    "longFaults": 1,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 88,
+   "seed": 20288,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 503,
+    "longFaults": 2,
+    "terminations": 3,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 89,
+   "seed": 20289,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 423,
+    "longFaults": 1,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 90,
+   "seed": 20290,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 535,
+    "longFaults": 2,
+    "terminations": 2,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 91,
+   "seed": 20291,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 446,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 92,
+   "seed": 20292,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 478,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 93,
+   "seed": 20293,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 494,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 94,
+   "seed": 20294,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 453,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 95,
+   "seed": 20295,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 417,
+    "longFaults": 2,
+    "terminations": 4,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 96,
+   "seed": 20296,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 401,
+    "longFaults": 1,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 97,
+   "seed": 20297,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 425,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 98,
+   "seed": 20298,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 439,
+    "longFaults": 2,
+    "terminations": 1,
+    "sawFailed": true
+   }
+  },
+  {
+   "i": 99,
+   "seed": 20299,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typed": 543,
+    "longFaults": 2,
+    "terminations": 0,
+    "sawFailed": true
+   }
+  }
+ ],
+ "durationMs": 326113,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

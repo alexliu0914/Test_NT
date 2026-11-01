@@ -1,0 +1,196 @@
+{
+ "id": "SEC-02",
+ "title": "撤銷另一台裝置：下一個請求即失效，協作連線 2 秒內以 4001 中斷；登出其他所有裝置",
+ "meta": {},
+ "startedAt": "2026-11-01T04:39:55.765Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 20
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 11
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 11
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 10
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 10
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 15
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 9
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 11
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 13
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 22
+   }
+  },
+  {
+   "i": 10,
+   "seed": 10,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 9
+   }
+  },
+  {
+   "i": 11,
+   "seed": 11,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 10
+   }
+  },
+  {
+   "i": 12,
+   "seed": 12,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 9
+   }
+  },
+  {
+   "i": 13,
+   "seed": 13,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 10
+   }
+  },
+  {
+   "i": 14,
+   "seed": 14,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 9
+   }
+  },
+  {
+   "i": 15,
+   "seed": 15,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 11
+   }
+  },
+  {
+   "i": 16,
+   "seed": 16,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 9
+   }
+  },
+  {
+   "i": 17,
+   "seed": 17,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 13
+   }
+  },
+  {
+   "i": 18,
+   "seed": 18,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 29
+   }
+  },
+  {
+   "i": 19,
+   "seed": 19,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "closeMs": 11
+   }
+  }
+ ],
+ "latency": {
+  "p50": 11,
+  "max": 29
+ },
+ "durationMs": 10981,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

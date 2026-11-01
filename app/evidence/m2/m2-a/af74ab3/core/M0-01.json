@@ -1,0 +1,1312 @@
+{
+ "id": "M0-01",
+ "title": "打字中隨機強制終止協作伺服器；已儲存與已接收的內容在重啟後必須都存在",
+ "meta": {},
+ "startedAt": "2026-11-01T04:41:05.390Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 10100,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 218,
+    "deleted": 44,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 1,
+   "seed": 10101,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 78,
+    "deleted": 10,
+    "pendingAtCrash": 37,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 2,
+   "seed": 10102,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 130,
+    "deleted": 15,
+    "pendingAtCrash": 34,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 3,
+   "seed": 10103,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 188,
+    "deleted": 30,
+    "pendingAtCrash": 21,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 4,
+   "seed": 10104,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 135,
+    "deleted": 27,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 5,
+   "seed": 10105,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 51,
+    "deleted": 14,
+    "pendingAtCrash": 10,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 6,
+   "seed": 10106,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 135,
+    "deleted": 17,
+    "pendingAtCrash": 20,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 7,
+   "seed": 10107,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 87,
+    "deleted": 19,
+    "pendingAtCrash": 26,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 8,
+   "seed": 10108,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 21,
+    "deleted": 3,
+    "pendingAtCrash": 16,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 9,
+   "seed": 10109,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 145,
+    "deleted": 17,
+    "pendingAtCrash": 15,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 10,
+   "seed": 10110,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 106,
+    "deleted": 15,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 11,
+   "seed": 10111,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 88,
+    "deleted": 14,
+    "pendingAtCrash": 39,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 12,
+   "seed": 10112,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 254,
+    "deleted": 47,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 13,
+   "seed": 10113,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 61,
+    "deleted": 7,
+    "pendingAtCrash": 24,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 14,
+   "seed": 10114,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 101,
+    "deleted": 21,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 15,
+   "seed": 10115,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 315,
+    "deleted": 53,
+    "pendingAtCrash": 24,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 16,
+   "seed": 10116,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 33,
+    "deleted": 6,
+    "pendingAtCrash": 14,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 17,
+   "seed": 10117,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 96,
+    "deleted": 17,
+    "pendingAtCrash": 18,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 18,
+   "seed": 10118,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 190,
+    "deleted": 32,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 19,
+   "seed": 10119,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 103,
+    "deleted": 18,
+    "pendingAtCrash": 20,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 20,
+   "seed": 10120,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 88,
+    "deleted": 18,
+    "pendingAtCrash": 10,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 21,
+   "seed": 10121,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 90,
+    "deleted": 13,
+    "pendingAtCrash": 34,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 22,
+   "seed": 10122,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 104,
+    "deleted": 23,
+    "pendingAtCrash": 39,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 23,
+   "seed": 10123,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 118,
+    "deleted": 28,
+    "pendingAtCrash": 40,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 24,
+   "seed": 10124,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 169,
+    "deleted": 26,
+    "pendingAtCrash": 28,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 25,
+   "seed": 10125,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 101,
+    "deleted": 29,
+    "pendingAtCrash": 38,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 26,
+   "seed": 10126,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 34,
+    "deleted": 7,
+    "pendingAtCrash": 27,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 27,
+   "seed": 10127,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 251,
+    "deleted": 49,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 28,
+   "seed": 10128,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 136,
+    "deleted": 25,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 29,
+   "seed": 10129,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 62,
+    "deleted": 10,
+    "pendingAtCrash": 19,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 30,
+   "seed": 10130,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 90,
+    "deleted": 16,
+    "pendingAtCrash": 17,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 31,
+   "seed": 10131,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 138,
+    "deleted": 23,
+    "pendingAtCrash": 22,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 32,
+   "seed": 10132,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 118,
+    "deleted": 35,
+    "pendingAtCrash": 33,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 33,
+   "seed": 10133,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 274,
+    "deleted": 55,
+    "pendingAtCrash": 9,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 34,
+   "seed": 10134,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 54,
+    "deleted": 8,
+    "pendingAtCrash": 13,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 35,
+   "seed": 10135,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 146,
+    "deleted": 23,
+    "pendingAtCrash": 16,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 36,
+   "seed": 10136,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 271,
+    "deleted": 40,
+    "pendingAtCrash": 30,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 37,
+   "seed": 10137,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 94,
+    "deleted": 19,
+    "pendingAtCrash": 37,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 38,
+   "seed": 10138,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 102,
+    "deleted": 12,
+    "pendingAtCrash": 35,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 39,
+   "seed": 10139,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 43,
+    "deleted": 11,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 40,
+   "seed": 10140,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 88,
+    "deleted": 17,
+    "pendingAtCrash": 19,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 41,
+   "seed": 10141,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 119,
+    "deleted": 24,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 42,
+   "seed": 10142,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 259,
+    "deleted": 46,
+    "pendingAtCrash": 31,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 43,
+   "seed": 10143,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 110,
+    "deleted": 24,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 44,
+   "seed": 10144,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 67,
+    "deleted": 8,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 45,
+   "seed": 10145,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 289,
+    "deleted": 47,
+    "pendingAtCrash": 21,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 46,
+   "seed": 10146,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 58,
+    "deleted": 11,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 47,
+   "seed": 10147,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 77,
+    "deleted": 11,
+    "pendingAtCrash": 30,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 48,
+   "seed": 10148,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 192,
+    "deleted": 25,
+    "pendingAtCrash": 25,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 49,
+   "seed": 10149,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 27,
+    "deleted": 2,
+    "pendingAtCrash": 16,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 50,
+   "seed": 10150,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 134,
+    "deleted": 23,
+    "pendingAtCrash": 34,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 51,
+   "seed": 10151,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 282,
+    "deleted": 36,
+    "pendingAtCrash": 21,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 52,
+   "seed": 10152,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 58,
+    "deleted": 7,
+    "pendingAtCrash": 42,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 53,
+   "seed": 10153,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 66,
+    "deleted": 11,
+    "pendingAtCrash": 40,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 54,
+   "seed": 10154,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 203,
+    "deleted": 26,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 55,
+   "seed": 10155,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 134,
+    "deleted": 19,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 56,
+   "seed": 10156,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 45,
+    "deleted": 3,
+    "pendingAtCrash": 11,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 57,
+   "seed": 10157,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 304,
+    "deleted": 58,
+    "pendingAtCrash": 22,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 58,
+   "seed": 10158,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 59,
+    "deleted": 23,
+    "pendingAtCrash": 29,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 59,
+   "seed": 10159,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 72,
+    "deleted": 13,
+    "pendingAtCrash": 26,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 60,
+   "seed": 10160,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 121,
+    "deleted": 25,
+    "pendingAtCrash": 20,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 61,
+   "seed": 10161,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 93,
+    "deleted": 21,
+    "pendingAtCrash": 23,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 62,
+   "seed": 10162,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 134,
+    "deleted": 17,
+    "pendingAtCrash": 29,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 63,
+   "seed": 10163,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 229,
+    "deleted": 38,
+    "pendingAtCrash": 12,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 64,
+   "seed": 10164,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 131,
+    "deleted": 22,
+    "pendingAtCrash": 13,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 65,
+   "seed": 10165,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 38,
+    "deleted": 8,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 66,
+   "seed": 10166,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 166,
+    "deleted": 33,
+    "pendingAtCrash": 11,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 67,
+   "seed": 10167,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 45,
+    "deleted": 6,
+    "pendingAtCrash": 36,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 68,
+   "seed": 10168,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 47,
+    "deleted": 4,
+    "pendingAtCrash": 17,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 69,
+   "seed": 10169,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 181,
+    "deleted": 31,
+    "pendingAtCrash": 15,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 70,
+   "seed": 10170,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 166,
+    "deleted": 21,
+    "pendingAtCrash": 26,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 71,
+   "seed": 10171,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 76,
+    "deleted": 6,
+    "pendingAtCrash": 36,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 72,
+   "seed": 10172,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 228,
+    "deleted": 35,
+    "pendingAtCrash": 26,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 73,
+   "seed": 10173,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 121,
+    "deleted": 20,
+    "pendingAtCrash": 41,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 74,
+   "seed": 10174,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 67,
+    "deleted": 7,
+    "pendingAtCrash": 39,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 75,
+   "seed": 10175,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 92,
+    "deleted": 16,
+    "pendingAtCrash": 11,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 76,
+   "seed": 10176,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 57,
+    "deleted": 11,
+    "pendingAtCrash": 25,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 77,
+   "seed": 10177,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 163,
+    "deleted": 30,
+    "pendingAtCrash": 34,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 78,
+   "seed": 10178,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 77,
+    "deleted": 8,
+    "pendingAtCrash": 13,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 79,
+   "seed": 10179,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 93,
+    "deleted": 18,
+    "pendingAtCrash": 37,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 80,
+   "seed": 10180,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 62,
+    "deleted": 6,
+    "pendingAtCrash": 26,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 81,
+   "seed": 10181,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 291,
+    "deleted": 51,
+    "pendingAtCrash": 27,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 82,
+   "seed": 10182,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 64,
+    "deleted": 10,
+    "pendingAtCrash": 11,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 83,
+   "seed": 10183,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 157,
+    "deleted": 23,
+    "pendingAtCrash": 27,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 84,
+   "seed": 10184,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 116,
+    "deleted": 20,
+    "pendingAtCrash": 9,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 85,
+   "seed": 10185,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 157,
+    "deleted": 25,
+    "pendingAtCrash": 32,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 86,
+   "seed": 10186,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 36,
+    "deleted": 5,
+    "pendingAtCrash": 27,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 87,
+   "seed": 10187,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 52,
+    "deleted": 14,
+    "pendingAtCrash": 8,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 88,
+   "seed": 10188,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 54,
+    "deleted": 10,
+    "pendingAtCrash": 36,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 89,
+   "seed": 10189,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 134,
+    "deleted": 26,
+    "pendingAtCrash": 24,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 90,
+   "seed": 10190,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 81,
+    "deleted": 13,
+    "pendingAtCrash": 13,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 91,
+   "seed": 10191,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 75,
+    "deleted": 9,
+    "pendingAtCrash": 24,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 92,
+   "seed": 10192,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 153,
+    "deleted": 27,
+    "pendingAtCrash": 25,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 93,
+   "seed": 10193,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 56,
+    "deleted": 8,
+    "pendingAtCrash": 4,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 94,
+   "seed": 10194,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 112,
+    "deleted": 22,
+    "pendingAtCrash": 37,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 95,
+   "seed": 10195,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 148,
+    "deleted": 16,
+    "pendingAtCrash": 29,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 96,
+   "seed": 10196,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 137,
+    "deleted": 26,
+    "pendingAtCrash": 8,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 97,
+   "seed": 10197,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:before_commit",
+    "typed": 69,
+    "deleted": 17,
+    "pendingAtCrash": 33,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 98,
+   "seed": 10198,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "flush:after_commit",
+    "typed": 87,
+    "deleted": 18,
+    "pendingAtCrash": 22,
+    "savedClaims": 2
+   }
+  },
+  {
+   "i": 99,
+   "seed": 10199,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "mode": "kill9",
+    "typed": 275,
+    "deleted": 43,
+    "pendingAtCrash": 24,
+    "savedClaims": 2
+   }
+  }
+ ],
+ "durationMs": 114644,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

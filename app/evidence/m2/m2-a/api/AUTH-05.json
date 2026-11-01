@@ -1,0 +1,75 @@
+{
+ "id": "AUTH-05",
+ "title": "啟用 TOTP 後只輸入密碼會要求驗證碼；同一組備援碼第二次失效；錯誤驗證碼被拒",
+ "meta": {},
+ "startedAt": "2026-11-01T05:39:25.260Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 5161,
+ "total": 9,
+ "passed": 9,
+ "failed": 0
+}
