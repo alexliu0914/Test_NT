@@ -222,6 +222,7 @@ const { children, expanded, setExpanded, currentId, drop, setDrop, editing, setE
   const open = expanded.has(p.id);
   const active = p.id === currentId;
   const marker = drop?.id === p.id ? drop.where : null;
+  const [iconOpen, setIconOpen] = useState(false);
   return (
     <Box>
       <Group gap={2} wrap="nowrap" pl={8 + depth * 14} pr={4} draggable data-page-id={p.id} data-testid="tree-row"
@@ -243,11 +244,11 @@ const { children, expanded, setExpanded, currentId, drop, setDrop, editing, setE
         }}>
         <ActionIcon variant="subtle" size="sm" color="gray" aria-label={open ? '收合' : '展開'} onClick={() => setExpanded(s => { const n = new Set(s); if (n.has(p.id)) n.delete(p.id); else n.add(p.id); return n; })}
           style={{ visibility: kids.length ? 'visible' : 'hidden' }}>{open ? '▾' : '▸'}</ActionIcon>
-        <Popover position="bottom-start" withArrow shadow="md">
-          <Popover.Target><ActionIcon variant="subtle" size="sm" color="gray" aria-label="設定圖示">{p.icon || '📄'}</ActionIcon></Popover.Target>
+        <Popover position="bottom-start" withArrow shadow="md" opened={iconOpen} onChange={setIconOpen}>
+          <Popover.Target><ActionIcon variant="subtle" size="sm" color="gray" aria-label="設定圖示" onClick={() => setIconOpen(o => !o)}>{p.icon || '📄'}</ActionIcon></Popover.Target>
           <Popover.Dropdown>
-            <SimpleGrid cols={8} spacing={2}>{ICONS.map(i => <ActionIcon key={i} variant="subtle" onClick={() => setIcon(p.id, i)} aria-label={'圖示 ' + i}>{i}</ActionIcon>)}</SimpleGrid>
-            <Button size="compact-xs" variant="subtle" mt={6} onClick={() => setIcon(p.id, null)}>移除圖示</Button>
+            <SimpleGrid cols={8} spacing={2}>{ICONS.map(i => <ActionIcon key={i} variant="subtle" onClick={() => { setIconOpen(false); setIcon(p.id, i); }} aria-label={'圖示 ' + i}>{i}</ActionIcon>)}</SimpleGrid>
+            <Button size="compact-xs" variant="subtle" mt={6} onClick={() => { setIconOpen(false); setIcon(p.id, null); }}>移除圖示</Button>
           </Popover.Dropdown>
         </Popover>
         {editing === p.id ? (

@@ -120,7 +120,8 @@ export async function acl04(N) {
         const idb = await idbDoc(P.B, priv);
         if (idb && idb.docUpdates) fails.push('失去權限後 IndexedDB 仍保存伺服器的文件狀態 ' + JSON.stringify(idb));
         if (await P.B.locator('.bn-editor').count()) fails.push('失去權限後仍顯示文件內容');
-        if ((await P.B.getByTestId('save-status').getAttribute('data-state')) !== 'denied') fails.push('狀態列沒有顯示已無法存取');
+        const st = await P.B.waitForFunction(() => document.querySelector('[data-testid="save-status"]')?.dataset.state === 'denied', null, { timeout: 2000 }).then(() => true, () => false);
+        if (!st) fails.push('狀態列沒有顯示已無法存取：' + await P.B.getByTestId('save-status').getAttribute('data-state'));
         // 連結立即變成無法開啟
         await P.B.goto(`${env.base}/p/${pub}`);
         await waitReady(P.B);
