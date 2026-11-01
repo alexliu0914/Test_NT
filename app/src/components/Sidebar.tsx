@@ -3,6 +3,7 @@
 // 另一位使用者的變更經 /api/pages/events 推送，2 秒內出現（PAGE-01）。
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { pageRegistry } from '@shared/page-registry.js';
 import { ActionIcon, Box, Button, Collapse, Group, Menu, Popover, ScrollArea, SimpleGrid, Stack, Text, TextInput, UnstyledButton } from '@mantine/core';
 
 export type TreePage = { id: string; parentId: string | null; title: string; icon: string | null; position: string };
@@ -40,10 +41,13 @@ export default function Sidebar({ currentId, onCurrent, onNavigate }: { currentI
   const load = useCallback(async () => {
     const r = await api('/api/pages');
     if (r.status === 401) { router.replace('/login'); return; }
-    if (r.ok) setPages(r.data.pages);
+    if (r.ok) { setPages(r.data.pages); pageRegistry.set(r.data.pages); }
     const t = await api('/api/pages/trash');
     if (t.ok) setTrash(t.data.items);
   }, [router]);
+
+  // 頁面連結區塊點擊時以站內導覽開啟（不重新載入整頁）
+  useEffect(() => { pageRegistry.setNavigate(p => router.push(p)); }, [router]);
 
   useEffect(() => {
     load();

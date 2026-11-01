@@ -65,6 +65,32 @@ export class Client extends Emitter {
     });
   }
 
+  // 套用伺服器送來的更新（M2 F-M2-01）
+  // - Yjs 先整合資料再呼叫觀察者；觀察者（編輯器繫結）丟出的例外不影響已整合的資料，不能讓它中斷協定處理
+  //   （例如重新連線時套用狀態後停在未就緒、待確認項目永遠不重送）
+  // - this.repair（選用）在同一個交易中修復結構，觀察者只會看到修復後的文件；修復的內容另外當作本機更新送出
+  applyRemote(data) {
+    let sv = null;
+    let repaired = 0;
+    try {
+      this.ydoc.transact(() => {
+        Y.applyUpdate(this.ydoc, data);
+        if (this.repair) { sv = Y.encodeStateVector(this.ydoc); repaired = this.repair(this.ydoc); }
+      }, REMOTE);
+    } catch (e) {
+      this.emit('observer_error', e);
+    }
+    if (repaired) this.enqueueLocal(Y.encodeStateAsUpdate(this.ydoc, sv));
+  }
+
+  enqueueLocal(u) {
+    const entry = { id: uuid(), data: u, at: Date.now() };
+    this.storage.pending.push(entry);
+    entry.v = this.touch();
+    this.emit('local', entry);
+    this.sendUpdate(entry);
+  }
+
   // ---- 本機儲存 ----
   touch() {
     this.version += 1;
@@ -209,7 +235,7 @@ export class Client extends Emitter {
       return;
     }
     const state = fromB64(m.state);
-    Y.applyUpdate(this.ydoc, state, REMOTE);
+    this.applyRemote(state);
     if (this.trackReceived) this.received.push(state);
     if (known !== null && m.epoch > known) this.clearUndo();
     st.knownEpoch = m.epoch;
@@ -244,7 +270,7 @@ export class Client extends Emitter {
         this.emit('conflict_copy_sent', { ...copy, kind: 'online' });
         this.raw({ t: 'conflict_copy', ...copy });
       }
-      Y.applyUpdate(this.ydoc, data, REMOTE);
+      this.applyRemote(data);
       st.knownEpoch = m.restore.epoch;
       this.touch();
       this.clearUndo();
@@ -253,7 +279,7 @@ export class Client extends Emitter {
       this.emit('restored', m.restore);
       return;
     }
-    Y.applyUpdate(this.ydoc, data, REMOTE);
+    this.applyRemote(data);
     if (this.trackReceived) this.received.push(data);
     this.markSavedIfClean();
     this.emit('remote', m);

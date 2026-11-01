@@ -3,3 +3,9 @@ body { margin: 0; }
 .app-audio { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-block: 4px; }
 .app-audio audio { max-width: 100%; flex: 1 1 220px; }
 .app-audio select { font: inherit; padding: 4px 6px; border-radius: 6px; }
+
+/* M2 W1：頁面連結區塊與尚未支援的區塊 */
+.app-page-link { display: inline-flex; gap: 4px; padding: 2px 6px; border-radius: 4px; text-decoration: none; color: inherit; cursor: pointer; }
+.app-page-link:hover { background: var(--mantine-color-gray-1); }
+.app-page-link[data-unavailable] { color: var(--mantine-color-dimmed); cursor: default; }
+.app-unsupported { padding: 8px 12px; border: 1px dashed var(--mantine-color-gray-4); border-radius: 6px; color: var(--mantine-color-dimmed); font-size: 14px; }

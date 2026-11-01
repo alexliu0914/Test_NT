@@ -8,7 +8,7 @@
   "m2-d"
  ],
  "final": "m2-d",
- "current": "m1",
+ "current": "m2-a",
  "groups": [
   "api",
   "core",
@@ -538,6 +538,14 @@
   {
    "id": "MUT-C7",
    "stage": "m2-c"
+  },
+  {
+   "id": "MUT-B6",
+   "stage": "m2-a"
+  },
+  {
+   "id": "MUT-B7",
+   "stage": "m2-a"
   }
  ]
 }

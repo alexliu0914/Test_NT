@@ -10,6 +10,9 @@ export interface ClientOptions {
 export class Client {
   constructor(opts: ClientOptions);
   url: string; docId: string; token: string; userId: string; ydoc: Y.Doc; storage: Record<string, any>;
+  repair?: (ydoc: Y.Doc) => number;
+  applyRemote(data: Uint8Array): void;
+  enqueueLocal(u: Uint8Array): void;
   ready: boolean; revoked: boolean; blocked: string | null; pageClosed: boolean; version: number; persistedVersion: number;
   extraUndoManagers: Set<any>; awaitingOfflineCopy: string | null | undefined;
   on(ev: string, fn: Listener): void; off(ev: string, fn: Listener): void; once(ev: string, fn: Listener): void; emit(ev: string, ...a: any[]): void;

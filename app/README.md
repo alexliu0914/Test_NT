@@ -42,7 +42,7 @@ COLLAB_PUBLIC_URL=ws://127.0.0.1:27601 npx next build
 npx playwright install --with-deps chromium
 node test/runner-selftest.mjs                      # 執行器自我測試（12 項）
 node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=60 M0-01=100 BR-01=20 BR-04=20 ...
-python3 test/mutations.py                          # 26 個植入缺陷都必須被抓到
+python3 test/mutations.py --stage m2-a              # 該階段的植入缺陷都必須被抓到（M1 26 個＋M2-a 3 個）
 ```
 
 ### 分段執行（M2 起）
@@ -64,6 +64,9 @@ CI（`.github/workflows/app.yml`）推送時用 manifest 的 `current` 階段跑
 | PAGE-01～05 | 對方 2 秒內看到變更、不能移到自己的子頁面、整批刪除與還原、30 天永久刪除、兩人隨機操作的不變量 |
 | M0-01～11、M0-17 | M0 協作核心測試，改在正式協作伺服器與正式 session 上執行 |
 | BR-01～04 | 真正的 Chromium：兩人編輯與還原、IndexedDB（含正式登入撤銷、不同帳號）、正式介面流程（邀請→兩步驟驗證→頁面樹）、兩人同時開始編輯新頁面 |
+| EDIT-01、EDIT-02（M2-a） | 每種區塊建立、編輯、刪除、重新整理後一致；頁面連結不顯示已刪除頁面的標題；斜線指令（繁中）、Markdown 快捷輸入、拖曳 |
+| BR-05（M2-a） | 兩人同一位置同時建立表格、巢狀清單、貼上多區塊（含同步前、離線、同時改同一區塊的類型，F-M2-01） |
+| SEC-04（M2-a） | 貼上、同步、重新整理時不執行任何程式、不留下危險連結（script、事件屬性、javascript:／data:／vbscript:、SVG、MathML） |
 
 瀏覽器測試的網頁固定在 27600、協作伺服器在 27601；網頁的 CSP 在建置時寫入協作網址，所以建置時要設定 `COLLAB_PUBLIC_URL=ws://127.0.0.1:27601`。
 

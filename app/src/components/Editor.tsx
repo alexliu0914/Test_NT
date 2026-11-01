@@ -1,18 +1,25 @@
 'use client';
 // 頁面編輯器：BlockNote（正式 UI）＋ 協作用戶端（M0 驗證過的協定）＋ IndexedDB 草稿
 // M1 範圍：沿用 M0 的儲存、離線、還原與衝突副本行為，改用正式登入與 5 分鐘協作憑證。
-// 完整的協作體驗（游標、版本歷史介面等）屬於 M2。
+// M2-a：繁體中文介面、斜線選單只提供 FR-04 的區塊與頁面連結、所有連結與貼上內容經安全規則檢查（W1、W6）。
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { BlockNoteEditor } from '@blocknote/core';
+import { BlockNoteEditor, filterSuggestionItems, insertOrUpdateBlockForSlashMenu } from '@blocknote/core';
+import { dictionary, PAGE_LINK_TITLE } from '@shared/editor-dictionary.js';
 import { withCollaboration, yDocToBlocks } from '@blocknote/core/yjs';
 import { BlockNoteView } from '@blocknote/mantine';
+import { SuggestionMenuController, getDefaultReactSlashMenuItems, FormattingToolbarController, FormattingToolbar, blockTypeSelectItems } from '@blocknote/react';
+import PageLinkPicker from './PageLinkPicker';
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
 import { useComputedColorScheme } from '@mantine/core';
 import { Awareness } from 'y-protocols/awareness';
 import { Client } from '@shared/client.js';
 import { IdbStore } from '@shared/idb-store.js';
-import { makeSchema, FRAGMENT } from '@shared/blocknote-schema.js';
+import { makeSchema, FRAGMENT, SLASH_ITEMS } from '@shared/blocknote-schema.js';
+import { isSafeHref } from '@shared/link-policy.js';
+import { safePasteHandler, sanitizeHTML } from '@shared/paste-sanitize.js';
+import { pageRegistry } from '@shared/page-registry.js';
+import { tolerateMultiContent, repairByAuthor, ownClientIds, findMultiContent } from '@shared/structure-repair.js';
 import { initialDocUpdate } from '@shared/initial-doc.js';
 import * as Y from 'yjs';
 
@@ -56,12 +63,23 @@ export default function Editor(props: Props) {
         if (client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
         const editor = BlockNoteEditor.create(withCollaboration({
           schema,
+          dictionary,
+          links: { isValidLink: isSafeHref },
+          pasteHandler: safePasteHandler as never,
           collaboration: {
             fragment: client.ydoc.getXmlFragment(FRAGMENT),
             user: { name: user.name, color: '#0ca678' },
             provider: { awareness: new Awareness(client.ydoc) },
           },
         }));
+        // F-M2-01：兩人同時改同一個區塊的類型時，不讓 y-prosemirror 刪掉整個區塊（修復與暫停編輯在 Bound）
+        tolerateMultiContent(editor.pmSchema);
+        // 收到伺服器的更新時，在同一個交易中由作者修復（編輯器只會看到修復後的文件）
+        const c = client;
+        c.repair = (ydoc: Y.Doc) => {
+          const mine = ownClientIds(ydoc, c.storage.pending.map((e: { data: Uint8Array }) => e.data));
+          return repairByAuthor(ydoc, ydoc.getXmlFragment(FRAGMENT), (id: number) => mine.has(id), () => crypto.randomUUID());
+        };
         setReady({ client, editor, store, foreign });
       } catch (e) {
         setFatal(String((e as Error).message || e));
@@ -75,7 +93,7 @@ export default function Editor(props: Props) {
   return <Bound {...props} ready={ready} />;
 }
 
-function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
+function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
   const { client, editor, store, foreign } = ready;
   const scheme = useComputedColorScheme('light');
   const viewRef = useRef<HTMLDivElement>(null);
@@ -83,6 +101,43 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
   const [banner, setBanner] = useState<string | null>(null);
   const deviceBlocked = foreign.length > 0 || !!client.blocked;
   const flags = useMemo(() => ({ revoked: false, pageClosed: false, unbound: false }), []);
+  const [picker, setPicker] = useState(false);
+  const [merging, setMerging] = useState(false);
+  // F-M2-01：區塊有多個內容節點時，作者立刻搬到新區塊；不是作者就暫停編輯等待，3 秒後仍未修復才自己修復
+  useEffect(() => {
+    if (deviceBlocked) return;
+    const frag = client.ydoc.getXmlFragment(FRAGMENT);
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    let stopped = false;
+    const check = () => {
+      if (stopped) return;
+      const mine = ownClientIds(client.ydoc, client.storage.pending.map((e: { data: Uint8Array }) => e.data));
+      repairByAuthor(client.ydoc, frag, (id: number) => mine.has(id), () => crypto.randomUUID());
+      if (findMultiContent(frag).length) {
+        setMerging(true);
+        timer ||= setTimeout(() => { timer = null; repairByAuthor(client.ydoc, frag, () => true, () => crypto.randomUUID()); check(); }, 3000);
+      } else {
+        setMerging(false);
+        if (timer) { clearTimeout(timer); timer = null; }
+      }
+    };
+    const onTr = (tr: Y.Transaction) => { if (tr.origin === 'remote' || tr.origin === 'load') queueMicrotask(check); };
+    client.ydoc.on('afterTransaction', onTr);
+    check();
+    return () => { stopped = true; client.ydoc.off('afterTransaction', onTr); if (timer) clearTimeout(timer); };
+  }, [client, deviceBlocked]);
+  // 斜線選單：FR-04 允許的區塊＋頁面連結（M2 W1）
+  const slashItems = useMemo(() => [
+    ...getDefaultReactSlashMenuItems(editor).filter(i => SLASH_ITEMS.includes((i as unknown as { key: string }).key)),
+    { key: 'page_link', title: PAGE_LINK_TITLE, subtext: '連到工作區中的另一個頁面', aliases: ['page', 'link', 'yemian', 'lianjie', '頁面', '連結'],
+      group: '其他', icon: <span aria-hidden>🔗</span>, onItemClick: () => setPicker(true) },
+  ], [editor]);
+  // 格式工具列的區塊類型選單：只留段落、標題 1～3、引言、三種清單
+  const typeItems = useMemo(() => blockTypeSelectItems(editor).filter(i => {
+    const pr = (i.props || {}) as { level?: number; isToggleable?: boolean };
+    if (i.type === 'heading') return (pr.level ?? 1) <= 3 && !pr.isToggleable;
+    return ['paragraph', 'quote', 'bulletListItem', 'numberedListItem', 'checkListItem'].includes(i.type);
+  }), [editor]);
 
   useEffect(() => {
     if (deviceBlocked) return;
@@ -139,6 +194,11 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
         client.on('restore_result', h);
       }),
       undoInfo: () => ({ managers: client.extraUndoManagers.size, depth: [...client.extraUndoManagers].reduce((n, um) => n + um.undoStack.length + um.redoStack.length, 0) }),
+      // M2-a 安全測試（SEC-04）直接檢查各層：貼上清理、連結規則、頁面標題表
+      sanitizeHTML, isSafeHref, pageRegistryLoaded: () => pageRegistry.loaded(),
+      // F-M2-01 測試用：目前有多個內容節點的區塊（作者的 clientID）
+      multiContent: () => findMultiContent(client.ydoc.getXmlFragment(FRAGMENT)).map(x => ({ id: x.container.getAttribute('id'), extras: x.extras.map((e: { _item: { id: { client: number } } }) => e._item.id.client) })),
+      clientId: () => client.ydoc.clientID,
       foreignDrafts: () => describeForeign(foreign),
       discardForeign: async () => { await IdbStore.deleteKeys(foreign.map(f => f.key)); if (client.blocked) await client.discardAndLogout({ confirm: true }); },
     };
@@ -149,7 +209,12 @@ function Bound({ ready, onStatus, user }: Props & { ready: Ready }) {
   return (
     <div ref={viewRef}>
       {banner && <div role="status" style={{ padding: '8px 54px', color: 'var(--mantine-color-orange-7)' }}>{banner}</div>}
-      <BlockNoteView editor={editor} editable={!readOnly} theme={scheme === 'dark' ? 'dark' : 'light'} />
+      {merging && !banner && <div role="status" data-testid="merging" style={{ padding: '8px 54px', color: 'var(--mantine-color-dimmed)' }}>正在合併另一位使用者同時做的修改…</div>}
+      <BlockNoteView editor={editor} editable={!readOnly && !merging} theme={scheme === 'dark' ? 'dark' : 'light'} slashMenu={false} formattingToolbar={false}>
+        <SuggestionMenuController triggerCharacter="/" getItems={async q => filterSuggestionItems(slashItems as never, q)} />
+        <FormattingToolbarController formattingToolbar={() => <FormattingToolbar blockTypeSelectItems={typeItems} />} />
+      </BlockNoteView>
+      <PageLinkPicker exclude={pageId} opened={picker} onClose={() => setPicker(false)} onPick={id => { setPicker(false); insertOrUpdateBlockForSlashMenu(editor, { type: 'pageLink', props: { pageId: id } } as never); }} />
       <span hidden data-user={user.id} />
     </div>
   );

@@ -76,6 +76,13 @@ MUTANTS = [
      "        const foreign = await IdbStore.otherUserDrafts(user.id);", "        const foreign: { key: string; value: Record<string, unknown> }[] = [];", ['BR-02=1']),
     ('MUT-B5', '新頁面沒有固定的文件骨架（兩人同時開始輸入時各自建立）', 'shared/initial-doc.js',
      "export const INITIAL_DOC_B64 = 'AQcB", "export const INITIAL_DOC_B64 = 'AAA=';\nexport const UNUSED_B64 = 'AQcB", ['BR-04=4']),
+    # ---- M2-a：編輯器（M2 計畫 v0.4 §4.2；MUT-B6、B7 為 F-M2-01 新增） ----
+    ('MUT-C6', '貼上時不過濾連結協定', 'shared/paste-sanitize.js',
+     "      if (child.hasAttribute('href') && !isSafeHref(child.getAttribute('href'))) child.removeAttribute('href');\n", "", ['SEC-04=1']),
+    ('MUT-B6', '同一區塊有多個內容節點時不容許（y-prosemirror 刪除整個區塊）', 'shared/structure-repair.js',
+     "  if (pmSchema.__multiContentTolerant) return;\n  const original = pmSchema.node;", "  return;\n  const original = pmSchema.node;", ['BR-05=7']),
+    ('MUT-B7', '不檢查作者，每個用戶端都搬移多出來的內容節點', 'shared/structure-repair.js',
+     "extras.filter(e => isMine(e._item.id.client))", "extras.filter(() => true)", ['BR-05=7']),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')
