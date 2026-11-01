@@ -82,7 +82,7 @@ MUTANTS = [
     ('MUT-B6', '同一區塊有多個內容節點時不容許（y-prosemirror 刪除整個區塊）', 'shared/structure-repair.js',
      "  if (pmSchema.__multiContentTolerant) return;\n  const original = pmSchema.node;", "  return;\n  const original = pmSchema.node;", ['BR-05=7']),
     ('MUT-B7', '不檢查作者，每個用戶端都搬移多出來的內容節點', 'shared/structure-repair.js',
-     "extras.filter(e => isMine(e._item.id.client))", "extras.filter(() => true)", ['BR-05=7']),
+     "extras.filter(e => isMine(e._item.id.client))", "extras.filter(() => true)", ["BR-05=14"]),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')
