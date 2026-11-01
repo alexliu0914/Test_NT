@@ -112,12 +112,16 @@ ALTER TABLE "pages" ADD CONSTRAINT "pages_space_id_spaces_id_fk" FOREIGN KEY ("s
 CREATE INDEX "pages_space_idx" ON "pages" USING btree ("space_id") WHERE deleted_at is null;
 --> statement-breakpoint
 -- 子頁面必須與上層同空間（提交時檢查，讓搬移整棵子樹的多筆更新可以在同一個交易中完成）
+-- 延後執行時 NEW 是當初那次更新的列版本，之後同一交易可能又改了 parent_id，所以一律重新讀取頁面目前的值再檢查
 CREATE FUNCTION check_page_space() RETURNS trigger AS $$
+DECLARE cur record;
 BEGIN
-  IF NEW.parent_id IS NOT NULL AND EXISTS (SELECT 1 FROM pages p WHERE p.id = NEW.parent_id AND p.space_id <> NEW.space_id) THEN
+  SELECT id, parent_id, space_id INTO cur FROM pages WHERE id = NEW.id;
+  IF NOT FOUND THEN RETURN NULL; END IF;
+  IF cur.parent_id IS NOT NULL AND EXISTS (SELECT 1 FROM pages p WHERE p.id = cur.parent_id AND p.space_id <> cur.space_id) THEN
     RAISE EXCEPTION 'child page must be in the same space as its parent' USING ERRCODE = 'check_violation';
   END IF;
-  IF EXISTS (SELECT 1 FROM pages c WHERE c.parent_id = NEW.id AND c.space_id <> NEW.space_id) THEN
+  IF EXISTS (SELECT 1 FROM pages c WHERE c.parent_id = cur.id AND c.space_id <> cur.space_id) THEN
     RAISE EXCEPTION 'child page must be in the same space as its parent' USING ERRCODE = 'check_violation';
   END IF;
   RETURN NULL;

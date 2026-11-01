@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M1 變異測試：在程式複本中植入已知缺陷，相關測試必須抓到（任一輪失敗即算抓到）。
 - MUT-1～8：M0 的協作核心缺陷，移植到 M1 的協作伺服器與用戶端
-- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端
+- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）
 改到 Next.js 會用到的程式（src/、shared/、migrations/）時，複本會重新建置。
 用法：python3 test/mutations.py [編號 ...]
       python3 test/mutations.py --stage m2-a   依 test/manifest.json 執行該階段（含之前）的全部變異；
@@ -62,8 +62,10 @@ MUTANTS = [
     ('MUT-P5', '還原時只檢查指定頁面的上層，不檢查整批', 'src/lib/pages.ts',
      "        where c.id = any($1::uuid[]) and p.deleted_at is not null order by c.position, c.id`, [restored]))",
      "        where c.id = $2::uuid and p.deleted_at is not null and c.parent_id <> all($1::uuid[]) order by c.position, c.id`, [restored, id]))", ['PAGE-03=1']),
-    ('MUT-P4', '頁面變動沒有推送', 'migrations/0001_triggers.sql',
-     "  PERFORM pg_notify('pages_changed', COALESCE(NEW.workspace_id, OLD.workspace_id)::text);", "  NULL;", ['PAGE-01=1']),
+    # M2-s：遷移 0002 以帶空間 id 的版本取代 0001 的 notify_pages_changed，植入位置改到目前生效的函式（缺陷相同；T-M2-03）
+    ('MUT-P4', '頁面變動沒有推送', 'migrations/0002_spaces.sql',
+     "CREATE OR REPLACE FUNCTION notify_pages_changed() RETURNS trigger AS $$\nBEGIN\n",
+     "CREATE OR REPLACE FUNCTION notify_pages_changed() RETURNS trigger AS $$\nBEGIN\n  RETURN NULL;\n", ['PAGE-01=1']),
     # ---- 瀏覽器端 ----
     ('MUT-B1', '還原時不清空編輯器的 Undo 堆疊', 'src/components/Editor.tsx',
      "url: '', docId: pageId, token: '', userId: user.id, name: user.name, storage, persist: store,",
@@ -83,6 +85,28 @@ MUTANTS = [
      "  if (pmSchema.__multiContentTolerant) return;\n  const original = pmSchema.node;", "  return;\n  const original = pmSchema.node;", ['BR-05=7']),
     ('MUT-B7', '不檢查作者，每個用戶端都搬移多出來的內容節點', 'shared/structure-repair.js',
      "extras.filter(e => isMine(e._item.id.client))", "extras.filter(() => true)", ["BR-05=14"]),
+    # ---- M2-s：空間與權限（M2-s 增修文件「新增變異」；S8、S9 為審核修訂新增） ----
+    ('MUT-S1', '頁面樹 API 不依空間過濾', 'src/lib/pages.ts',
+     "      where deleted_at is null and space_id in (select space_id from space_members where user_id = $1)\n      order by space_id",
+     "      where deleted_at is null and $1::text is not null\n      order by space_id", ['ACL-01=1']),
+    ('MUT-S2', '協作憑證不檢查成員身分', 'src/lib/access.ts',
+     "`select 1 from pages p join space_members m on m.space_id = p.space_id and m.user_id = $2",
+     "`select 1 from pages p join (select $2::text as user_id) m on true", ['ACL-01=1']),
+    ('MUT-S3', '協作伺服器建立連線時不檢查成員身分', 'collab/server.mjs',
+     "      if (!(await isMember(m.docId.toLowerCase(), s.user_id))) return ws.close(4004, 'page not found');\n", "", ['ACL-01=1']),
+    ('MUT-S4', '移除成員時不中斷協作連線', 'collab/server.mjs',
+     "        else if (n.channel === 'space_access_changed') onAccessChanged(n.payload);\n", "", ['ACL-02=1']),
+    ('MUT-S5', '即時推送發給所有人', 'src/app/api/pages/events/route.ts',
+     "        ready.then(() => { if (mine.has(payload)) fire(); });", "        ready.then(() => { fire(); });", ['ACL-01=1']),
+    ('MUT-S6', '移動時不檢查目的空間的成員身分', 'src/lib/pages.ts',
+     "    if (cross && !(await lockMembership(c, userId, [dst]))) throw", "    if (cross && false) throw", ['ACL-03=3']),
+    ('MUT-S7', '非建立者可以管理成員', 'src/lib/spaces.ts',
+     "  if (s.owner_id !== userId) throw new AccessError(403, 'owner_only', '只有空間的建立者可以管理成員');\n", "", ['ACL-02=1']),
+    ('MUT-S8', '只在連線時檢查成員身分，提交時不重新授權', 'collab/server.mjs',
+     "      for (const it of items) it.denied = !auth.allowed.has(it.userId);\n", "      for (const it of items) it.denied = false;\n", ['ACL-02=1']),
+    ('MUT-S9', '帳號上限沒有在新增帳號的交易中強制（只在建立邀請時檢查）', 'migrations/0002_spaces.sql',
+     "  PERFORM pg_advisory_xact_lock(hashtext('notes:accounts'));\n  SELECT count(*) INTO n FROM \"user\";\n",
+     "  n := 0;\n", ['AUTH-08=1']),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')

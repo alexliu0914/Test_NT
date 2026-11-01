@@ -1,14 +1,15 @@
 {
- "_doc": "測試分段啟用清單（M2 計畫 v0.4 §5）。stage 之前（含）的案例與變異都必須執行；之後的記為 NOT_APPLICABLE_NOT_IMPLEMENTED。M1 的案例與變異受 m1-baseline.json 保護，不能移除、改階段或減少完整輪數。",
+ "_doc": "測試分段啟用清單（M2 計畫 v0.5 §5；M2-s 插在 M2-a 與 M2-b 之間）。stage 之前（含）的案例與變異都必須執行；之後的記為 NOT_APPLICABLE_NOT_IMPLEMENTED。M1 的案例與變異受 m1-baseline.json 保護，不能移除、改階段或減少完整輪數。",
  "stages": [
   "m1",
   "m2-a",
+  "m2-s",
   "m2-b",
   "m2-c",
   "m2-d"
  ],
  "final": "m2-d",
- "current": "m2-a",
+ "current": "m2-s",
  "groups": [
   "api",
   "core",
@@ -283,6 +284,48 @@
    "quick": 1
   },
   {
+   "id": "ACL-01",
+   "stage": "m2-s",
+   "group": "api",
+   "full": 10,
+   "quick": 2
+  },
+  {
+   "id": "ACL-02",
+   "stage": "m2-s",
+   "group": "api",
+   "full": 20,
+   "quick": 2
+  },
+  {
+   "id": "ACL-03",
+   "stage": "m2-s",
+   "group": "api",
+   "full": 30,
+   "quick": 3
+  },
+  {
+   "id": "MIG-02",
+   "stage": "m2-s",
+   "group": "api",
+   "full": 3,
+   "quick": 1
+  },
+  {
+   "id": "AUTH-08",
+   "stage": "m2-s",
+   "group": "api",
+   "full": 5,
+   "quick": 1
+  },
+  {
+   "id": "ACL-04",
+   "stage": "m2-s",
+   "group": "browser",
+   "full": 5,
+   "quick": 1
+  },
+  {
    "id": "COL-01",
    "stage": "m2-b",
    "group": "browser",
@@ -546,6 +589,42 @@
   {
    "id": "MUT-B7",
    "stage": "m2-a"
+  },
+  {
+   "id": "MUT-S1",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S2",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S3",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S4",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S5",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S6",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S7",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S8",
+   "stage": "m2-s"
+  },
+  {
+   "id": "MUT-S9",
+   "stage": "m2-s"
   }
  ]
 }

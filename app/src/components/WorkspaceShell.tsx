@@ -17,14 +17,15 @@ const STATUS: Record<SaveState, { label: string; color: string }> = {
   readonly: { label: '處理衝突中', color: 'orange' },
   blocked: { label: '有其他帳號的草稿', color: 'orange' },
   revoked: { label: '登入已失效', color: 'red' },
-  page_closed: { label: '頁面已移到垃圾桶', color: 'gray' },
+  page_closed: { label: '無法開啟這個頁面', color: 'gray' },
+  denied: { label: '已無法存取', color: 'red' },
   error: { label: '錯誤：無法儲存', color: 'red' },
 };
 
 const StatusCtx = createContext<(s: SaveState) => void>(() => {});
 export const useReportStatus = () => useContext(StatusCtx);
 
-export default function WorkspaceShell({ children }: { children: React.ReactNode }) {
+export default function WorkspaceShell({ children, userId }: { children: React.ReactNode; userId: string }) {
   const params = useParams<{ id?: string }>();
   const pageId = params?.id ? String(params.id).toLowerCase() : null;
   const [opened, { toggle, close }] = useDisclosure();
@@ -49,7 +50,7 @@ export default function WorkspaceShell({ children }: { children: React.ReactNode
           </Group>
         </AppShell.Header>
         <AppShell.Navbar>
-          <Sidebar currentId={pageId} onCurrent={setCurrent} onNavigate={close} />
+          <Sidebar currentId={pageId} userId={userId} onCurrent={setCurrent} onNavigate={close} />
         </AppShell.Navbar>
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>

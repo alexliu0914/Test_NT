@@ -201,7 +201,7 @@ export async function page05(n) {
           const r = rnd();
           let res;
           if (r < 0.3 || ids.length < 3) {
-            res = await ag.post('/api/pages', { parentId: rnd() < 0.5 ? pick() : null, title: 't' + k });
+            res = await ag.post('/api/pages', { parentId: rnd() < 0.5 ? pick() : null, title: 't' + k, spaceId: env.shared });
             if (res.status === 201) ids.push(res.json.page.id);
           } else if (r < 0.55) res = await ag.patch(`/api/pages/${pick()}`, { parentId: rnd() < 0.2 ? null : pick(), afterId: undefined });
           else if (r < 0.7) res = await ag.patch(`/api/pages/${pick()}`, { title: '改' + k });
@@ -218,6 +218,9 @@ export async function page05(n) {
           select count(*)::int as n from walk where parent_id = id`)) fails.push('出現循環');
       if (await q(`select count(*)::int as n from pages c join pages p on p.id = c.parent_id where c.deleted_at is null and p.deleted_at is not null`)) fails.push('有頁面掛在已刪除的頁面底下');
       if (await q(`select count(*)::int as n from pages where (deleted_at is null) <> (trash_batch is null)`)) fails.push('deleted_at 與 trash_batch 不一致');
+      // M2-s：子頁面與上層同空間；所有頁面都在兩人共同所屬的共享空間
+      if (await q(`select count(*)::int as n from pages c join pages p on p.id = c.parent_id where c.space_id <> p.space_id`)) fails.push('子頁面與上層不在同一個空間');
+      if ((await db.query('select count(*)::int as n from pages where space_id <> $1', [env.shared])).rows[0].n) fails.push('有頁面不在共享空間');
       const api = (await tree(env.users[1].agent)).map(p => p.id).sort();
       const dbIds = (await db.query('select id from pages where deleted_at is null order by id')).rows.map(r => r.id).sort();
       if (JSON.stringify(api) !== JSON.stringify(dbIds)) fails.push('API 頁面樹與資料庫不一致');

@@ -2,6 +2,12 @@
 // 連線認證：hello 帶協作憑證（/api/pages/:id/collab-token，5 分鐘），伺服器驗證簽章、頁面、session 仍存在且已啟用兩步驟驗證。
 // 撤銷：Better Auth 刪除 session 時資料庫觸發 NOTIFY session_revoked，立即以 4001 中斷；另有定期複查作為保險。
 // 頁面移入垃圾桶：NOTIFY page_closed，以 4004 中斷該頁的所有連線。
+// M2-s 空間權限（FR-20、P0-01）：使用者必須是頁面所屬空間的成員。
+//  - 建立連線時檢查；不是成員時以 4004（與頁面不存在相同）關閉，不透露頁面是否存在
+//  - 每批寫入在同一個交易內以 FOR SHARE 鎖住空間列、作者的成員列、頁面列後重新授權（鎖定順序 spaces → space_members → pages → 協作資料）；
+//    撤銷類操作（移除成員、退出、跨空間搬移、刪除空間）以 FOR UPDATE 修改同一些列，兩者必定一前一後。
+//    無權限作者的修改不寫入、不廣播、不確認，回 denied 並以 4005 關閉；同一批中其他作者照常提交。還原、存版、衝突副本套用同一個檢查
+//  - NOTIFY space_access_changed（成員變動、跨空間搬移）與 60 秒複查：中斷已失去權限的連線（4005）
 // 核心規則：
 //  1. 每份文件只有一條處理佇列（Room.enqueue）；連線初始化、一般編輯、版本還原都依序通過。
 //  2. 更新先在一個資料庫交易中寫入，提交成功後才套用到伺服器文件、廣播給其他連線、回覆確認。
@@ -22,6 +28,8 @@ const FAULT_POINT = process.env.FAULT_POINT || '';
 const BATCH_MS = Number(process.env.BATCH_MS || 20);
 const COMPACT_EVERY = Number(process.env.COMPACT_EVERY || 200);
 const SESSION_RECHECK_MS = Number(process.env.SESSION_RECHECK_MS || 60000);
+// 測試用（ACL-02「在途修改」）：延後處理權限變動通知，讓被移除者在連線中斷前繼續送出修改，驗證提交時的重新授權
+const ACCESS_NOTIFY_DELAY_MS = Number(process.env.ACCESS_NOTIFY_DELAY_MS || 0);
 // 背壓：每份文件待寫入的更新上限；超過時回覆 busy，用戶端保留在待確認清單並稍後重送
 const MAX_INBOX = Number(process.env.MAX_INBOX || 2000);
 const REMOTE = 'server';
@@ -64,6 +72,7 @@ class Room {
     this.inbox = [];
     this.flushScheduled = false;
     this.sinceCompact = 0;
+    this.spaceId = null;
   }
   enqueue(fn) {
     const p = this.queue.then(fn);
@@ -110,7 +119,7 @@ async function loadRoom(room) {
   await withRetry(async () => {
     const c = await checkout();
     try {
-      const p = (await c.query('select restore_epoch, last_seq from pages where id=$1 and deleted_at is null', [room.id])).rows[0];
+      const p = (await c.query('select restore_epoch, last_seq, space_id from pages where id=$1 and deleted_at is null', [room.id])).rows[0];
       if (!p) { room.missing = true; return; }
       const st = (await c.query('select state, up_to_seq from doc_states where page_id=$1', [room.id])).rows[0];
       const ups = (await c.query(
@@ -122,6 +131,7 @@ async function loadRoom(room) {
       room.ydoc = ydoc;
       room.seq = Number(p.last_seq);
       room.epoch = p.restore_epoch;
+      room.spaceId = p.space_id;
     } finally { c.release(); }
   });
 }
@@ -140,6 +150,30 @@ function scheduleFlush(room) {
   }, BATCH_MS);
 }
 
+// 提交時重新授權（P0-01）：依鎖定順序以 FOR SHARE 鎖住空間列 → 作者的成員列 → 頁面列，回傳此刻仍有權限的作者。
+// 取鎖期間頁面被搬到其他空間時放開重來（丟出可重試的錯誤，由 withRetry 重新開始整個交易）。
+class Moved extends Error { constructor() { super('page moved during authorization'); this.code = 'MOVED'; } }
+async function authorize(c, pageId, userIds) {
+  const sp = (await c.query('select space_id from pages where id=$1', [pageId])).rows[0];
+  if (!sp) return { spaceId: null, allowed: new Set() };
+  await c.query('select id from spaces where id=$1 for share', [sp.space_id]);
+  const authors = [...new Set(userIds)].sort();
+  const ok = (await c.query(
+    'select user_id from space_members where space_id=$1 and user_id = any($2::text[]) order by space_id, user_id for share',
+    [sp.space_id, authors])).rows.map(r => r.user_id);
+  const now = (await c.query('select space_id from pages where id=$1 for share', [pageId])).rows[0];
+  if (!now || now.space_id !== sp.space_id) throw new Moved();
+  return { spaceId: sp.space_id, allowed: new Set(ok) };
+}
+
+// 失去權限：回覆被拒的 update_id（用戶端標為「無權限」保留在本機、不再重送）並以 4005 關閉
+function denyConn(conn, ids) {
+  if (ids && ids.length) send(conn, { t: 'denied', ids });
+  if (conn.room) conn.room.conns.delete(conn);
+  conn.denied = true;
+  if (conn.ws.readyState === 1) conn.ws.close(4005, 'access revoked');
+}
+
 async function flush(room) {
   const items = room.inbox;
   room.inbox = [];
@@ -150,11 +184,14 @@ async function flush(room) {
     let failed = false;
     try {
       await c.query('begin');
+      const auth = await authorize(c, room.id, items.map(it => it.userId));
       await c.query('select pg_advisory_xact_lock(hashtext($1))', [room.id]);
       let seq = room.seq;
       const inserted = [];
       const seenInBatch = new Set();
+      for (const it of items) it.denied = !auth.allowed.has(it.userId);
       for (const it of items) {
+        if (it.denied) continue;
         const ids = [it.updateId, ...(it.covers || [])];
         const existing = new Set((await c.query(
           'select update_id from doc_update_ids where page_id=$1 and update_id = any($2)',
@@ -184,6 +221,8 @@ async function flush(room) {
   });
   faultPoint('flush:after_commit');
   room.seq = result.seq;
+  // 失去權限的連線先移出房間，不再收到任何廣播
+  for (const it of items) if (it.denied) room.conns.delete(it.conn);
   // 提交成功後：依序套用、廣播給其他連線、回覆確認
   for (const it of result.inserted) {
     Y.applyUpdate(room.ydoc, it.data, REMOTE);
@@ -191,7 +230,12 @@ async function flush(room) {
       if (other !== it.conn) send(other, { t: 'remote', data: b64(it.data), seq: it.seq });
     }
   }
-  for (const it of items) send(it.conn, { t: 'ack', ids: it.ackIds, seq: room.seq });
+  const deniedConns = new Map();
+  for (const it of items) {
+    if (it.denied) { const ids = deniedConns.get(it.conn) || []; ids.push(it.updateId, ...(it.covers || [])); deniedConns.set(it.conn, ids); continue; }
+    send(it.conn, { t: 'ack', ids: it.ackIds, seq: room.seq });
+  }
+  for (const [conn, ids] of deniedConns) denyConn(conn, ids);
   room.sinceCompact += result.inserted.length;
   if (room.sinceCompact >= COMPACT_EVERY) await compact(room);
 }
@@ -219,12 +263,34 @@ async function compact(room) {
 }
 
 // ---- 版本 ----
+// 在授權交易中執行一個寫入（存版、衝突副本）：作者此刻必須仍是成員，否則不寫入並以 4005 關閉
+async function authorizedWrite(room, conn, fn) {
+  const ok = await withRetry(async () => {
+    const c = await checkout();
+    let failed = false;
+    try {
+      await c.query('begin');
+      const auth = await authorize(c, room.id, [conn.userId]);
+      if (!auth.allowed.has(conn.userId)) { await c.query('rollback'); return false; }
+      await fn(c);
+      await c.query('commit');
+      return true;
+    } catch (e) {
+      failed = true;
+      try { await c.query('rollback'); } catch { /* ignore */ }
+      throw e;
+    } finally { c.release(failed); }
+  });
+  if (!ok) denyConn(conn, []);
+  return ok;
+}
+
 async function makeVersion(room, conn, versionId) {
-  await withRetry(() => pool.query(
+  const ok = await authorizedWrite(room, conn, c => c.query(
     `insert into page_versions(id, page_id, state, up_to_seq, reason) values ($1,$2,$3,$4,'auto')
      on conflict do nothing`,
     [versionId, room.id, Buffer.from(Y.encodeStateAsUpdate(room.ydoc)), room.seq]));
-  send(conn, { t: 'version_ok', versionId, json: docJSON(room.ydoc) });
+  if (ok) send(conn, { t: 'version_ok', versionId, json: docJSON(room.ydoc) });
 }
 
 // ---- 版本還原 ----
@@ -250,6 +316,8 @@ async function restore(room, conn, restoreId, versionId) {
     let failed = false;
     try {
       await c.query('begin');
+      const auth = await authorize(c, room.id, [conn.userId]);
+      if (!auth.allowed.has(conn.userId)) { await c.query('rollback'); return { denied: true }; }
       await c.query('select pg_advisory_xact_lock(hashtext($1))', [room.id]);
       const again = (await c.query('select 1 from restore_jobs where id=$1', [restoreId])).rows[0];
       if (again) { await c.query('rollback'); return { already: true }; }
@@ -277,6 +345,7 @@ async function restore(room, conn, restoreId, versionId) {
       throw e;
     } finally { c.release(failed); }
   });
+  if (r.denied) { denyConn(conn, []); return; }
   if (r.already) { send(conn, { t: 'restore_result', restoreId, status: 'already_applied' }); return; }
   faultPoint('restore:after_commit');
   Y.applyUpdate(room.ydoc, upd, REMOTE);
@@ -293,11 +362,11 @@ async function restore(room, conn, restoreId, versionId) {
 async function saveConflictCopy(room, conn, m) {
   if (typeof m.copyId !== 'string' || typeof m.state !== 'string' || typeof m.json !== 'string'
       || m.copyId.length > 100 || m.json.length > 5_000_000 || (m.basedEpoch !== null && !Number.isInteger(m.basedEpoch))) return;
-  await withRetry(() => pool.query(
+  const ok = await authorizedWrite(room, conn, c => c.query(
     `insert into conflict_copies(id, page_id, user_id, based_epoch, state, content_json)
      values ($1,$2,$3,$4,$5,$6) on conflict do nothing`,
     [m.copyId, room.id, conn.userId, m.basedEpoch, Buffer.from(fromB64(m.state)), m.json]));
-  send(conn, { t: 'cc_ack', copyId: m.copyId });
+  if (ok) send(conn, { t: 'cc_ack', copyId: m.copyId });
 }
 
 // ---- HTTP：健康檢查（不含任何資料內容） ----
@@ -325,6 +394,13 @@ async function sessionUser(sessionId) {
   return r.rows[0] || null;
 }
 
+async function isMember(pageId, userId) {
+  const r = await withRetry(() => pool.query(
+    `select 1 from pages p join space_members m on m.space_id = p.space_id and m.user_id = $2
+      where p.id = $1 and p.deleted_at is null`, [pageId, userId]));
+  return !!r.rows[0];
+}
+
 wss.on('connection', ws => {
   const conn = { ws, room: null, userId: null, sessionId: null, joined: false };
   let authing = false;
@@ -341,6 +417,8 @@ wss.on('connection', ws => {
       const s = await sessionUser(v.claims.sid);
       if (!s || s.user_id !== v.claims.uid) return ws.close(4001, 'unauthorized');
       if (!s.tfa) return ws.close(4001, 'two-factor required');
+      // 必須是頁面所屬空間的成員；不是時與頁面不存在相同（4004），不透露頁面是否存在
+      if (!(await isMember(m.docId.toLowerCase(), s.user_id))) return ws.close(4004, 'page not found');
       if (ws.readyState !== 1) return undefined;
       conn.userId = s.user_id;
       conn.sessionId = v.claims.sid;
@@ -361,6 +439,7 @@ wss.on('connection', ws => {
     if (!conn.joined) return undefined;
     switch (m.t) {
       case 'update':
+        if (conn.denied) break;
         if (typeof m.id !== 'string' || typeof m.data !== 'string' || m.id.length > 100) break;
         try { Y.decodeUpdate(fromB64(m.data)); } catch { send(conn, { t: 'reject', ids: [m.id], reason: 'malformed update' }); break; }
         if (room.inbox.length >= MAX_INBOX) {
@@ -410,13 +489,54 @@ async function listenNotifications() {
       c.on('notification', n => {
         if (n.channel === 'session_revoked') closeSession(n.payload);
         else if (n.channel === 'page_closed') closePage(n.payload);
+        else if (n.channel === 'space_access_changed') onAccessChanged(n.payload);
       });
       await c.query('listen session_revoked');
       await c.query('listen page_closed');
+      await c.query('listen space_access_changed');
       // 重新連上之後補查一次，避免斷線期間漏掉的撤銷
       recheckSessions();
+      recheckAccess();
       await new Promise((_, rej) => { c.on('error', rej); c.on('end', () => rej(new Error('end'))); });
     } catch (e) { log('listen error', e.message); await sleep(200); }
+  }
+}
+
+// 權限變動（成員移除、退出、空間刪除、跨空間搬移）：重新檢查受影響頁面上每條連線的成員身分，失去權限的以 4005 中斷
+function onAccessChanged(payload) {
+  let msg;
+  try { msg = JSON.parse(payload); } catch { return; }
+  const run = () => {
+    const targets = new Set();
+    for (const conn of authed) {
+      const room = conn.room;
+      if (!room) continue;
+      if ((msg.page && room.id === msg.page) || (msg.space && (room.spaceId === msg.space || room.spaceId === null))) targets.add(room.id);
+    }
+    if (targets.size) recheckAccess([...targets]);
+  };
+  if (ACCESS_NOTIFY_DELAY_MS > 0) setTimeout(run, ACCESS_NOTIFY_DELAY_MS); else run();
+}
+
+// 重新檢查指定頁面（預設：所有有連線的頁面）的連線；同時更新房間記住的空間
+async function recheckAccess(pageIds = null) {
+  const ids = pageIds || [...new Set([...authed].filter(c => c.room).map(c => c.room.id))];
+  if (ids.length === 0) return;
+  let rows;
+  try {
+    rows = (await pool.query(
+      `select p.id, p.space_id, m.user_id from pages p left join space_members m on m.space_id = p.space_id
+        where p.id = any($1::uuid[])`, [ids])).rows;
+  } catch { return; /* 下一輪再查 */ }
+  const allowed = new Map(ids.map(id => [id, new Set()]));
+  for (const r of rows) {
+    if (r.user_id) allowed.get(r.id).add(r.user_id);
+    const room = rooms.get(r.id);
+    if (room) room.spaceId = r.space_id;
+  }
+  for (const conn of authed) {
+    if (!conn.room || !allowed.has(conn.room.id)) continue;
+    if (!allowed.get(conn.room.id).has(conn.userId)) denyConn(conn, []);
   }
 }
 
@@ -429,7 +549,7 @@ async function recheckSessions() {
     for (const id of ids) if (!alive.has(id)) closeSession(id);
   } catch { /* 下一輪再查 */ }
 }
-setInterval(recheckSessions, SESSION_RECHECK_MS).unref();
+setInterval(() => { recheckSessions(); recheckAccess(); }, SESSION_RECHECK_MS).unref();
 
 listenNotifications();
 server.listen(PORT, process.env.HOST || '127.0.0.1', () => console.log('READY ' + PORT));

@@ -27,10 +27,34 @@ export const invites = pgTable('invites', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
+// 空間（M2-s，遷移 0002）：每個帳號一個個人空間；共享空間由建立者管理成員。
+// 約束（每個帳號一個個人空間、每個空間一個 owner、個人空間只有本人、帳號上限）在遷移 0002 以索引與觸發器實作
+export const spaces = pgTable('spaces', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  kind: text('kind').notNull(),
+  name: text('name').notNull().default(''),
+  ownerId: text('owner_id').notNull().references(() => user.id, { onDelete: 'restrict' }),
+  membersVersion: integer('members_version').notNull().default(0),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+export const spaceMembers = pgTable('space_members', {
+  spaceId: uuid('space_id').notNull().references(() => spaces.id, { onDelete: 'cascade' }),
+  userId: text('user_id').notNull().references(() => user.id, { onDelete: 'restrict' }),
+  role: text('role').notNull(),
+  addedBy: text('added_by').references(() => user.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+}, t => [
+  primaryKey({ name: 'space_members_pk', columns: [t.spaceId, t.userId] }),
+  index('space_members_user_idx').on(t.userId),
+]);
+
 // 頁面樹：position 為分數排序鍵（fractional index）；刪除時整棵子樹標上同一個 trash_batch，還原時一起回來
 export const pages = pgTable('pages', {
   id: uuid('id').primaryKey().defaultRandom(),
   workspaceId: uuid('workspace_id').notNull().references(() => workspaces.id),
+  // 所屬空間（M2-s）：子頁面必須與上層同空間（遷移 0002 的延後檢查觸發器）
+  spaceId: uuid('space_id').notNull().references(() => spaces.id, { onDelete: 'restrict' }),
   parentId: uuid('parent_id').references((): AnyPgColumn => pages.id, { onDelete: 'cascade' }),
   kind: text('kind').notNull().default('page'),
   title: text('title').notNull().default(''),
@@ -46,6 +70,7 @@ export const pages = pgTable('pages', {
 }, t => [
   index('pages_parent_idx').on(t.workspaceId, t.parentId).where(sql`deleted_at is null`),
   index('pages_trash_idx').on(t.trashBatch).where(sql`trash_batch is not null`),
+  index('pages_space_idx').on(t.spaceId).where(sql`deleted_at is null`),
 ]);
 
 // ---- 協作（沿用 M0 已驗證的資料表；page_id 改為參照 pages） ----

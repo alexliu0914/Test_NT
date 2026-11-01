@@ -20,4 +20,8 @@ export class Client {
   registerUndoManager(um: any): void; restore(versionId: string, restoreId?: string): string; makeVersion(versionId: string): Promise<any>;
   logout(o?: { waitMs?: number }): Promise<{ status: string }>; discardAndLogout(o?: { confirm?: boolean }): Promise<{ status: string }>;
   downloadUnsynced(): any; hasUnsynced(): boolean;
+  // M2-s：失去權限（4005）
+  accessDenied: boolean;
+  deniedDraft(): { userId: string; docId: string; text: string; updates: { id: string; covers?: string[]; data: string; at: number }[] };
+  saveDeniedAsCopy(): string | null; discardDenied(): void;
 }

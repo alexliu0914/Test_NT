@@ -1,6 +1,6 @@
 // 認證與安全：AUTH-01～07、SEC-01／02／03／05／06（計畫書 11.3；SEC-02、SEC-06 也是第四輪審核要求以正式認證重跑的項目）
 import WS from 'ws';
-import { db, Agent, PASSWORD, signIn, newDevice, newPage, collabToken, totp, SECRETS, sleep, enableTwoFactor } from '../lib/harness.mjs';
+import { db, Agent, PASSWORD, signIn, newDevice, newPage, collabToken, totp, SECRETS, sleep, enableTwoFactor, removeUsersExcept } from '../lib/harness.mjs';
 import { Recorder, runRound, within } from '../lib/recorder.mjs';
 import { bootEnv, COLLAB_PORT } from '../lib/env.mjs';
 import { signCollabToken } from '../../shared/collab-token.mjs';
@@ -102,6 +102,7 @@ export async function auth04(n) {
   for (let i = 0; i < n; i++) {
     await runRound(rec, i, i, async () => {
       const fails = [];
+      await removeUsersExcept(env.users);   // M2-s：最多四個帳號，刪除前幾輪建立的帳號（T-M2-03）
       const t1 = await invite(admin, `reuse${i}@example.test`);
       const a = await new Agent(env.base).post(`/api/invites/${t1}/accept`, { name: 'a', password: PASSWORD });
       const b = await new Agent(env.base).post(`/api/invites/${t1}/accept`, { name: 'b', password: PASSWORD });
@@ -160,6 +161,7 @@ export async function auth06(n) {
   for (let i = 0; i < n; i++) {
     await runRound(rec, i, i, async () => {
       const fails = [];
+      await removeUsersExcept(env.users);   // M2-s：最多四個帳號（T-M2-03）
       const email = `no2fa${i}@example.test`;
       const t = await invite(admin, email);
       await new Agent(env.base).post(`/api/invites/${t}/accept`, { name: 'n', password: PASSWORD });
@@ -193,6 +195,7 @@ export async function auth07(n) {
   for (let i = 0; i < n; i++) {
     await runRound(rec, i, i, async () => {
       const fails = [];
+      await removeUsersExcept(env.users);   // M2-s：最多四個帳號（T-M2-03）
       const t = await invite(env.users[0].agent, `pw${i}@example.test`);
       const short = await new Agent(env.base).post(`/api/invites/${t}/accept`, { name: 'p', password: 'a'.repeat(11) });
       const long = await new Agent(env.base).post(`/api/invites/${t}/accept`, { name: 'p', password: 'a'.repeat(129) });
@@ -320,11 +323,16 @@ export async function sec05(n) {
   const rec = new Recorder('SEC-05', '未登入呼叫每個 API 端點都被拒（health 除外且不含資料）；一般成員不能建立邀請');
   const env = await bootEnv({ users: 2 });
   const pid = await newPage(env.users[0].agent);
+  const sp = env.shared;
   const sid = (await db.query('select id from "session" limit 1')).rows[0].id;
   const endpoints = [
     ['GET', '/api/pages'], ['POST', '/api/pages', {}], ['PATCH', `/api/pages/${pid}`, { title: 'x' }], ['DELETE', `/api/pages/${pid}`],
     ['POST', `/api/pages/${pid}/restore`, {}], ['GET', '/api/pages/trash'], ['GET', '/api/pages/events'], ['POST', `/api/pages/${pid}/collab-token`, {}],
     ['GET', '/api/sessions'], ['DELETE', `/api/sessions/${sid}`], ['POST', '/api/sessions/revoke-others', {}], ['POST', '/api/invites', { email: 'x@example.test' }],
+    // M2-s：空間相關的新 API
+    ['GET', '/api/spaces'], ['POST', '/api/spaces', { name: 'x' }], ['PATCH', `/api/spaces/${sp}`, { name: 'x' }], ['DELETE', `/api/spaces/${sp}`],
+    ['POST', `/api/spaces/${sp}/members`, { userId: 'x' }], ['DELETE', `/api/spaces/${sp}/members/x`], ['POST', `/api/spaces/${sp}/leave`, {}],
+    ['GET', '/api/users'], ['GET', `/api/pages/${pid}/move-preview?space=${sp}`],
   ];
   for (let i = 0; i < n; i++) {
     await runRound(rec, i, i, async () => {

@@ -7,6 +7,17 @@ import { pool } from './db';
 import { workspaceId } from './pages';
 
 export const INVITE_HOURS = 72;
+// 帳號上限（M2-s P0-05）：最多四個帳號，管理者與停用的帳號都計入。
+// 真正的強制在資料庫：新增帳號的交易中先取得帳號專用的 advisory lock 再計數（migrations/0002 enforce_account_limit）；
+// 建立邀請時的檢查只是提早告知，不保留名額（兑換時仍會再檢查）。
+export const MAX_ACCOUNTS = 4;
+export const accountLimitError = () => new AccountError(409, 'account_limit', `帳號已達上限（最多 ${MAX_ACCOUNTS} 個，含管理者與停用的帳號）`);
+const isAccountLimit = (e: unknown): boolean => {
+  for (let x = e as { message?: string; cause?: unknown } | undefined, i = 0; x && i < 5; x = x.cause as typeof x, i++) {
+    if (typeof x.message === 'string' && x.message.includes('account_limit')) return true;
+  }
+  return false;
+};
 export class AccountError extends Error {
   constructor(public status: number, public code: string, message: string) { super(message); }
 }
@@ -28,7 +39,13 @@ export async function createUserWithPassword(email: string, name: string, passwo
   validatePassword(password);
   if (await ctx.internalAdapter.findUserByEmail(normalized)) throw new AccountError(409, 'email_taken', '這個 Email 已經有帳號');
   const hash = await ctx.password.hash(password);
-  const user = await ctx.internalAdapter.createUser({ email: normalized, name: name.trim() || normalized, emailVerified: true, role }, { method: 'email-password' });
+  let user;
+  try {
+    user = await ctx.internalAdapter.createUser({ email: normalized, name: name.trim() || normalized, emailVerified: true, role }, { method: 'email-password' });
+  } catch (e) {
+    if (isAccountLimit(e)) throw accountLimitError();
+    throw e;
+  }
   if (!user) throw new AccountError(500, 'create_failed', '建立帳號失敗');
   await ctx.internalAdapter.linkAccount({ userId: user.id, providerId: 'credential', accountId: user.id, password: hash });
   return user;
@@ -36,6 +53,8 @@ export async function createUserWithPassword(email: string, name: string, passwo
 
 export async function createInvite(createdBy: string, email: unknown) {
   if (typeof email !== 'string' || !EMAIL_RE.test(email.trim())) throw new AccountError(400, 'bad_email', 'Email 格式不正確');
+  const n = (await pool.query('select count(*)::int as n from "user"')).rows[0].n as number;
+  if (n >= MAX_ACCOUNTS) throw accountLimitError();
   const token = randomBytes(32).toString('base64url');
   const ws = await workspaceId();
   const r = await pool.query(

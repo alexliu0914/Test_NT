@@ -200,7 +200,7 @@ export async function setupUsers(base, n = 2) {
   let r = await signIn(admin, adminEmail);
   if (r.status !== 200) throw new Error('admin sign-in failed ' + r.status + r.text);
   const a2 = await enableTwoFactor(admin);
-  users.push({ email: adminEmail, agent: admin, ...a2, role: 'admin' });
+  users.push({ email: adminEmail, agent: admin, ...a2, role: 'admin', id: await userIdOf(adminEmail) });
   for (let i = 1; i < n; i++) {
     const email = `user${i}@example.test`;
     const inv = await admin.post('/api/invites', { email });
@@ -213,7 +213,7 @@ export async function setupUsers(base, n = 2) {
     r = await signIn(ag, email);
     if (r.status !== 200) throw new Error('sign-in failed ' + r.text);
     const tf = await enableTwoFactor(ag);
-    users.push({ email, agent: ag, ...tf, role: 'member' });
+    users.push({ email, agent: ag, ...tf, role: 'member', id: await userIdOf(email) });
   }
   return users;
 }
@@ -226,8 +226,47 @@ export async function newDevice(base, u) {
   return ag;
 }
 
-export async function newPage(agent, title = '測試頁') {
-  const r = await agent.post('/api/pages', { title });
+// M2-s：多人測試的頁面預設建在 bootEnv 建立的共享空間（defaults.spaceId，所有測試帳號都是成員）；
+// 沒有共享空間（ACL 測試、單人環境）時建在自己的個人空間
+export const defaults = { spaceId: null };
+
+export async function userIdOf(email) {
+  return (await db.query('select id from "user" where email=$1', [email])).rows[0]?.id ?? null;
+}
+
+// 建立共享空間並加入成員（owner、members 為 setupUsers 的使用者）
+export async function createSharedSpace(owner, members = [], name = '測試共享空間') {
+  const r = await owner.agent.post('/api/spaces', { name });
+  if (r.status !== 201) throw new Error('create space failed ' + r.status + r.text);
+  const id = r.json.space.id;
+  for (const m of members) {
+    const a = await owner.agent.post(`/api/spaces/${id}/members`, { userId: m.id });
+    if (a.status !== 201) throw new Error('add member failed ' + a.status + a.text);
+  }
+  return id;
+}
+
+// M2-s：最多四個帳號。每輪都會建立新帳號的 M1 案例（AUTH-04／06／07、BR-03）在每輪開始前刪除前幾輪建立的帳號。
+// R1 沒有刪除帳號的功能，這裡直接在測試資料庫刪除：先刪該帳號個人空間的頁面與成員列，再刪帳號（session、account 以外鍵 cascade）
+export async function removeUsersExcept(keep) {
+  const ids = keep.map(u => u.id).filter(Boolean);
+  const c = await db.connect();
+  try {
+    await c.query('begin');
+    const gone = (await c.query('select id from "user" where not (id = any($1::text[]))', [ids])).rows.map(r => r.id);
+    if (gone.length) {
+      await c.query('delete from pages where space_id in (select id from spaces where owner_id = any($1::text[]))', [gone]);
+      await c.query('delete from space_members where user_id = any($1::text[]) or space_id in (select id from spaces where owner_id = any($1::text[]))', [gone]);
+      await c.query('delete from spaces where owner_id = any($1::text[])', [gone]);
+      await c.query('delete from "user" where id = any($1::text[])', [gone]);
+    }
+    await c.query('commit');
+    return gone.length;
+  } catch (e) { await c.query('rollback'); throw e; } finally { c.release(); }
+}
+
+export async function newPage(agent, title = '測試頁', { spaceId = defaults.spaceId } = {}) {
+  const r = await agent.post('/api/pages', spaceId ? { title, spaceId } : { title });
   if (r.status !== 201) throw new Error('create page failed ' + r.status + r.text);
   return r.json.page.id;
 }

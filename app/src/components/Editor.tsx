@@ -2,6 +2,7 @@
 // 頁面編輯器：BlockNote（正式 UI）＋ 協作用戶端（M0 驗證過的協定）＋ IndexedDB 草稿
 // M1 範圍：沿用 M0 的儲存、離線、還原與衝突副本行為，改用正式登入與 5 分鐘協作憑證。
 // M2-a：繁體中文介面、斜線選單只提供 FR-04 的區塊與頁面連結、所有連結與貼上內容經安全規則檢查（W1、W6）。
+// M2-s：失去權限（4005）時不再顯示文件內容，只提供下載自己尚未同步的內容；權限恢復後舊草稿不自動補送，由使用者選擇。
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BlockNoteEditor, filterSuggestionItems, insertOrUpdateBlockForSlashMenu } from '@blocknote/core';
 import { dictionary, PAGE_LINK_TITLE } from '@shared/editor-dictionary.js';
@@ -23,7 +24,7 @@ import { tolerateMultiContent, repairByAuthor, ownClientIds, findMultiContent } 
 import { initialDocUpdate } from '@shared/initial-doc.js';
 import * as Y from 'yjs';
 
-export type SaveState = 'loading' | 'saved' | 'saving' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'error';
+export type SaveState = 'loading' | 'saved' | 'saving' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
 
 const schema = makeSchema((fileId: string) => `/api/files/${encodeURIComponent(fileId)}/content`);
 
@@ -100,7 +101,9 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
   const [readOnly, setReadOnly] = useState(false);
   const [banner, setBanner] = useState<string | null>(null);
   const deviceBlocked = foreign.length > 0 || !!client.blocked;
-  const flags = useMemo(() => ({ revoked: false, pageClosed: false, unbound: false }), []);
+  const flags = useMemo(() => ({ revoked: false, pageClosed: false, unbound: false, denied: false }), []);
+  const [denied, setDenied] = useState(false);
+  const [deniedDrafts, setDeniedDrafts] = useState(0);
   const [picker, setPicker] = useState(false);
   const [merging, setMerging] = useState(false);
   // F-M2-01：區塊有多個內容節點時，作者立刻搬到新區塊；不是作者就暫停編輯等待，3 秒後仍未修復才自己修復
@@ -160,7 +163,9 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       location.reload();
     }));
     on('revoked', (() => { flags.revoked = true; setReadOnly(true); setBanner('登入已失效，尚未同步的內容保留在此裝置。請重新登入。'); }));
-    on('page_closed', (() => { flags.pageClosed = true; setReadOnly(true); setBanner('這個頁面已移到垃圾桶。'); }));
+    on('page_closed', (() => { flags.pageClosed = true; setReadOnly(true); setBanner('無法開啟這個頁面：可能已移到垃圾桶，或你已無法存取。'); }));
+    on('access_denied', (() => { flags.denied = true; setReadOnly(true); setDenied(true); }));
+    on('denied_drafts', ((n: number) => setDeniedDrafts(n)));
     client.connect();
     void view;
     // 效果重新執行（開發模式的 StrictMode 會刻意執行兩次）時不重複註冊事件
@@ -173,6 +178,7 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       if (flags.unbound) return 'error';
       if (flags.revoked) return 'revoked';
       if (flags.pageClosed) return 'page_closed';
+      if (flags.denied) return 'denied';
       if (client.isReadOnly()) return 'readonly';
       return client.saveStatus() as SaveState;
     };
@@ -200,15 +206,20 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       multiContent: () => findMultiContent(client.ydoc.getXmlFragment(FRAGMENT)).map(x => ({ id: x.container.getAttribute('id'), extras: x.extras.map((e: { _item: { id: { client: number } } }) => e._item.id.client) })),
       clientId: () => client.ydoc.clientID,
       foreignDrafts: () => describeForeign(foreign),
+      // M2-s 測試用：失去權限的草稿
+      deniedDraft: () => client.deniedDraft(),
+      visiblePages: () => pageRegistry.list().map((p: { id: string }) => p.id),
       discardForeign: async () => { await IdbStore.deleteKeys(foreign.map(f => f.key)); if (client.blocked) await client.discardAndLogout({ confirm: true }); },
     };
     return () => { clearInterval(iv); removeEventListener('beforeunload', beforeUnload); };
   }, [client, editor, store, deviceBlocked, onStatus, flags, foreign]);
 
   if (deviceBlocked) return <ForeignDrafts foreign={foreign} client={client} />;
+  if (denied) return <AccessDenied client={client} />;
   return (
     <div ref={viewRef}>
       {banner && <div role="status" style={{ padding: '8px 54px', color: 'var(--mantine-color-orange-7)' }}>{banner}</div>}
+      {deniedDrafts > 0 && <DeniedDrafts client={client} onDone={() => setDeniedDrafts(0)} />}
       {merging && !banner && <div role="status" data-testid="merging" style={{ padding: '8px 54px', color: 'var(--mantine-color-dimmed)' }}>正在合併另一位使用者同時做的修改…</div>}
       <BlockNoteView editor={editor} editable={!readOnly && !merging} theme={scheme === 'dark' ? 'dark' : 'light'} slashMenu={false} formattingToolbar={false}>
         <SuggestionMenuController triggerCharacter="/" getItems={async q => filterSuggestionItems(slashItems as never, q)} />
@@ -251,6 +262,39 @@ function ForeignDrafts({ foreign, client }: { foreign: { key: string; value: Rec
       <p><button type="button" onClick={download}>下載草稿</button>{' '}
         {!confirming ? <button type="button" onClick={() => setConfirming(true)}>捨棄草稿</button>
           : <><span>確定捨棄？捨棄後無法復原。</span> <button type="button" onClick={discard}>確定捨棄</button></>}</p>
+    </div>
+  );
+}
+
+function downloadJson(name: string, data: unknown) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 1)], { type: 'application/json' }));
+  a.download = name;
+  a.click();
+}
+
+// 失去權限（被移出空間、頁面被移到看不到的空間）：不再顯示文件內容；自己尚未同步的內容可下載
+function AccessDenied({ client }: { client: InstanceType<typeof Client> }) {
+  const n = client.storage.denied.length;
+  return (
+    <div role="alert" data-testid="access-denied" style={{ padding: 24, maxWidth: 560 }}>
+      <p><b>你已無法存取這個頁面。</b></p>
+      {n > 0
+        ? <><p>你在失去權限前有尚未同步的內容，只保留在這台裝置上，不會再送出。</p>
+          <p><button type="button" onClick={() => downloadJson('unsynced.json', client.deniedDraft())}>下載尚未同步的內容</button></p></>
+        : <p>你所有的修改都已儲存。</p>}
+    </div>
+  );
+}
+
+// 權限恢復後：失去權限前留下的草稿不自動補送，由使用者選擇
+function DeniedDrafts({ client, onDone }: { client: InstanceType<typeof Client>; onDone: () => void }) {
+  return (
+    <div role="status" data-testid="denied-drafts" style={{ padding: '8px 54px', color: 'var(--mantine-color-orange-7)' }}>
+      你在失去權限前有尚未同步的內容（沒有合併進目前的頁面）。{' '}
+      <button type="button" onClick={() => downloadJson('unsynced.json', client.deniedDraft())}>下載</button>{' '}
+      <button type="button" onClick={() => { client.saveDeniedAsCopy(); onDone(); }}>另存為衝突副本</button>{' '}
+      <button type="button" onClick={() => { client.discardDenied(); onDone(); }}>捨棄</button>
     </div>
   );
 }

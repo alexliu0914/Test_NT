@@ -3,6 +3,7 @@
 //   node scripts/migrate.mjs up            套用所有尚未套用的遷移
 //   node scripts/migrate.mjs down [n]      回滾最後 n 個（預設 1）
 //   node scripts/migrate.mjs restore <檔案> 從遷移前的備份還原（清空目前資料庫後還原）
+//   node scripts/migrate.mjs fingerprint   印出目前的結構指紋（JSON；MIG-02 用）
 //   node scripts/migrate.mjs check         回滾驗證（只能對 *_test 資料庫）：
 //                                          全部套用 → 記下結構 → 由後往前逐一回滾再重新套用，結構必須相同；
 //                                          全部回滾後不得殘留任何資料表、函式或觸發器
@@ -26,7 +27,8 @@ function pgTool(tool, args, { url: u, stdinFile, stdoutFile } = {}) {
     finally { for (const f of stdio) if (typeof f === 'number') closeSync(f); }
   };
   let r = tryRun(native, [...args, '--dbname=' + u]);
-  if (r.error && r.error.code === 'ENOENT') {
+  // 找不到本機工具，或本機工具版本與伺服器不同：改用資料庫容器裡同版本的工具
+  if ((r.error && r.error.code === 'ENOENT') || (r.status !== 0 && /version mismatch/i.test(r.stderr || ''))) {
     const parsed = new URL(u);
     r = tryRun('docker', ['compose', '-f', 'docker-compose.test.yml', 'exec', '-T', 'postgres', tool, '-U', decodeURIComponent(parsed.username || 'postgres'), ...args, '--dbname=' + dbOf(u)]);
     if (r.error) throw new Error(`找不到 ${tool}（本機或 docker compose 都無法執行）：${r.error.message}`);
@@ -45,7 +47,7 @@ async function backupBefore(c, file) {
     && Number((await c.query('select (select count(*) from "user") + (select count(*) from pages) as n')).rows[0].n) > 0;
   if (!has) return null;   // 空的資料庫（全新安裝、測試重設）沒有需要備份的資料
   mkdirSync(BACKUP_DIR, { recursive: true });
-  const ts = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+  const ts = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 17);   // 到毫秒，同一秒內連續遷移也不會覆蓋
   const out = `${BACKUP_DIR}${dbOf(url)}-${ts}-before-${file.replace(/\.sql$/, '')}.dump`;
   pgTool('pg_dump', ['-Fc', '--no-owner'], { url, stdoutFile: out });
   // 驗證：還原到暫存資料庫，比對各表筆數與結構指紋
@@ -184,6 +186,7 @@ try {
     else if (cmd === 'down') await down(c, Number(arg || 1));
     else if (cmd === 'check') await check(c);
     else if (cmd === 'restore') await restore(c, arg);
+    else if (cmd === 'fingerprint') console.log(JSON.stringify(await fingerprint(c)));
     else throw new Error('未知指令 ' + cmd);
   });
 } catch (e) { console.error(e.message); process.exit(1); }

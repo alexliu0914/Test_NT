@@ -102,3 +102,41 @@
 - 原因：協作連線第一次同步時編輯器重新繪製，正在開啟的斜線選單會關閉。這是同步前就開始輸入時的介面行為，不是資料遺失。
 - 修改：這個模式改為兩人都用 Markdown 快捷輸入（A 巢狀清單、B 標題）。覆蓋沒有縮小：斜線選單建立表格仍由 EDIT-02 與 BR-05 的「同步後」模式檢查；「同步前開始時內容都在、不重複」的檢查不變。
 - 已知介面限制：在第一次同步完成前（通常不到 1 秒）用斜線選單，選單可能關閉；記入 M2 報告。
+
+# M2-s 發現的問題與修正
+
+依 M2 計畫 v0.5 與 M2-s 增修文件：M1 測試只修改必要前提，不減輪數、不刪斷言、不減故障注入；每項修改記錄原程式片段、新程式片段、原因、是否縮小覆蓋、新舊結果。
+
+## 程式缺陷
+
+### F-M2-04 跨空間搬移時，延後檢查的觸發器誤判「子頁面與上層不同空間」
+- 發現：ACL-03 第一次執行（四人隨機並行），跨空間移到另一個頁面底下時回 500。
+- 根因：搬移在同一個交易中先更新整棵子樹的 `space_id`，再更新根的 `parent_id`。延後到提交時執行的約束觸發器拿到的 `NEW` 是第一次更新當時的列版本（`parent_id` 還是舊的上層），所以判定根與舊上層不同空間。
+- 修正（`migrations/0002_spaces.sql` `check_page_space`）：觸發器一律重新讀取頁面目前的 `parent_id` 與 `space_id` 再檢查；列已不存在時略過。
+- 重新驗證：ACL-03、PAGE-05（子頁面同空間的不變量）。
+
+### F-M2-05 成員變動的推送可能沿用進行中的舊查詢而漏掉
+- 發現：ACL-02 第一次執行，「B 沒有收到加入空間的推送」（偶發）。
+- 根因：`/api/pages/events` 收到 `space_access_changed` 時重新查詢使用者所屬的空間，但沿用了上一個通知觸發、尚未完成的查詢（查詢開始時 B 還不是成員），比較結果沒有變化就不推送。
+- 修正：每個通知都重新查詢，只採用最後一次查詢的結果。
+- 重新驗證：ACL-02（加入後 2 秒內收到推送）、ACL-04（側邊欄 2 秒內出現空間）。
+
+## 測試與工具的問題
+
+### T-M2-03 M1 測試的前提修改：頁面建在共享空間、最多四個帳號
+M2-s 起頁面屬於空間，非成員看不到；帳號最多四個。M1 案例的判定不變，只改下列前提。輪數由 `m1-baseline.json` 機器檢查（未減少）；沒有刪除任何斷言或故障注入。
+
+| 位置 | 原程式 | 新程式 | 原因 | 覆蓋 |
+| --- | --- | --- | --- | --- |
+| `test/lib/env.mjs` `bootEnv` | `const us = …setupUsers(…); return { web, collab, base, users: us };` | 另加 `defaults.spaceId = shared && us.length ? await createSharedSpace(us[0], us.slice(1)) : null;`（`shared` 預設 true；ACL 案例傳 false） | M1 的多人案例假設所有人看到同一棵樹；改為在所有測試帳號都是成員的共享空間內執行 | 不變 |
+| `test/lib/harness.mjs` `newPage` | `agent.post('/api/pages', { title })` | `agent.post('/api/pages', spaceId ? { title, spaceId } : { title })`，`spaceId` 預設 `defaults.spaceId` | 同上：測試頁面建在共享空間 | 不變 |
+| `test/lib/harness.mjs` `setupUsers` | `users.push({ email, agent, …tf, role })` | 另加 `id: await userIdOf(email)` | 加入成員需要帳號 id | 不變 |
+| `test/lib/m0-compat.mjs` `newDocId`／`newSession` | `insert into pages(workspace_id, title, position) …`；只建立 user 與 session | 頁面建在「M0 測試空間」（共享空間，建立者 ua）；`newSession` 的帳號都加入為成員 | `pages.space_id` 必填；協作伺服器連線與提交都檢查成員身分 | 不變（M0 核心的協定、故障注入、判定都不變） |
+| `test/cases/pages.mjs` PAGE-05 | `ag.post('/api/pages', { parentId: …, title: 't' + k })` | 另加 `spaceId: env.shared`；不變量另加「子頁面與上層同空間」「所有頁面都在共享空間」 | 頂層頁面預設建在建立者的個人空間，另一人看不到；計畫要求 PAGE-05 的不變量加上同空間 | 擴大（多兩個不變量） |
+| `test/cases/auth.mjs` AUTH-04／06／07 | 每輪直接建立新帳號 | 每輪開始前 `await removeUsersExcept(env.users)` 刪除前幾輪建立的帳號 | 這些案例每輪建立 1～2 個帳號，第二輪就會超過四個帳號的上限 | 不變（每輪的帳號建立與檢查完全相同） |
+| `test/cases/auth.mjs` SEC-05 | 端點清單到 `/api/invites` 為止 | 另加 `/api/spaces`（GET、POST）、`/api/spaces/:id`（PATCH、DELETE）、成員加入與移除、退出、`/api/users`、`move-preview` | 計畫要求 SEC-05 加入空間相關的新 API | 擴大 |
+| `test/cases/browser-ui.mjs` BR-03 | 受邀者登入後直接按「＋ 新增頁面」 | 每輪開始前刪除前幾輪建立的帳號；兩人同時操作前，管理者以介面建立共享空間並從帳號清單加入受邀者（受邀者 2 秒內看到空間），頁面以「＋ 新增頁面到「…」」建在這個空間 | 計畫要求 BR-03 加上「建立共享空間、邀請成員」兩步；每個空間各有一個新增按鈕 | 擴大（多兩步與一個 2 秒檢查） |
+| `test/mutations.py` MUT-P4 | 植入位置 `migrations/0001_triggers.sql` 的 `notify_pages_changed` | 植入位置改為 `migrations/0002_spaces.sql` 中取代它的同名函式（函式開頭直接 `RETURN NULL`） | 0002 以帶空間 id 的版本取代 0001 的函式，原位置的植入已不會生效 | 不變（缺陷相同：頁面變動沒有推送；仍由 PAGE-01 抓） |
+| `test/lib/env.mjs` 連接埠 | `WEB_PORT = 27600`、`COLLAB_PORT = 27601` | 可由 `TEST_WEB_PORT`／`TEST_COLLAB_PORT` 覆寫（預設不變） | 開發時讓 API 案例與另一組完整執行並行；正式紀錄一律用預設值 | 不變 |
+
+新舊結果：上述案例在 M2-a 交付提交上全部通過（M2-a 驗收紀錄）；M2-s 交付提交上的結果見 M2-s 驗收報告。

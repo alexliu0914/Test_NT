@@ -45,3 +45,14 @@ export async function audit(userId: string | null, action: string, target: strin
 export async function readJson<T = Record<string, unknown>>(req: Request): Promise<T | null> {
   try { const v = await req.json(); return v && typeof v === 'object' ? (v as T) : null; } catch { return null; }
 }
+
+// 頁面、空間、帳號的錯誤（帶 status 與 code）轉成統一的 JSON 回應；跨空間移動需要確認時附上新的預覽（P0-02）
+export function apiError(e: unknown): Response {
+  const x = e as { status?: number; code?: string; message?: string; preview?: unknown };
+  if (e instanceof Error && typeof x.status === 'number' && typeof x.code === 'string') {
+    const body: { error: { code: string; message: string }; preview?: unknown } = { error: { code: x.code, message: x.message || '' } };
+    if (x.preview) body.preview = x.preview;
+    return Response.json(body, { status: x.status, headers: { 'cache-control': 'no-store' } });
+  }
+  throw e;
+}

@@ -23,15 +23,29 @@ export async function waitFor(cond, timeout = 10000, label = 'condition') {
 }
 
 // 測試頁面：直接建立 pages 資料列（頁面樹 API 另有 PAGE 測試）
+// M2-s：頁面建在「M0 測試空間」（共享空間，建立者 ua），newSession 的每個帳號都加入為成員（只改前提；FAILURES.md T-M2-03）
+async function ensureUser(userId) {
+  await db.query(`insert into "user"(id, name, email, email_verified, two_factor_enabled, role, created_at, updated_at)
+    values ($1, $1, $1 || '@m0.test', true, true, 'member', now(), now()) on conflict (id) do nothing`, [userId]);
+}
+async function m0Space() {
+  const s = (await db.query(`select id from spaces where kind='shared' and name='M0 測試空間'`)).rows[0];
+  if (s) return s.id;
+  await ensureUser('ua');
+  const id = (await db.query(`insert into spaces(kind, name, owner_id) values ('shared', 'M0 測試空間', 'ua') returning id`)).rows[0].id;
+  await db.query(`insert into space_members(space_id, user_id, role) values ($1, 'ua', 'owner')`, [id]);
+  return id;
+}
 export async function newDocId() {
-  const r = await db.query(`insert into pages(workspace_id, title, position) select id, 'm0', 'a0' from workspaces limit 1 returning id`);
+  const sp = await m0Space();
+  const r = await db.query(`insert into pages(workspace_id, space_id, title, position) select id, $1, 'm0', 'a0' from workspaces limit 1 returning id`, [sp]);
   return r.rows[0].id;
 }
 
 // 以正式的 session 資料表建立登入（使用者視為已完成兩步驟驗證），回傳綁定此頁面的協作憑證
 export async function newSession(userId, docId) {
-  await db.query(`insert into "user"(id, name, email, email_verified, two_factor_enabled, role, created_at, updated_at)
-    values ($1, $1, $1 || '@m0.test', true, true, 'member', now(), now()) on conflict (id) do nothing`, [userId]);
+  await ensureUser(userId);
+  await db.query(`insert into space_members(space_id, user_id, role) values ($1, $2, 'member') on conflict do nothing`, [await m0Space(), userId]);
   const sid = randomUUID();
   await db.query(`insert into "session"(id, token, user_id, expires_at, created_at, updated_at) values ($1, $2, $3, now() + interval '30 days', now(), now())`,
     [sid, randomBytes(24).toString('hex'), userId]);

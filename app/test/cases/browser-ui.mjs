@@ -2,7 +2,9 @@
 // 管理者在設定頁建立邀請 → 受邀者開連結設定密碼 → 首次登入被導向兩步驟驗證設定 → 掃描（讀取密鑰）、保存備援碼、輸入驗證碼
 // → 登出後以「密碼＋驗證碼」重新登入 → 兩人同時開著頁面樹：建立、改名、設圖示、拖曳成子頁面、移到垃圾桶、還原，對方 2 秒內看到
 // → 有未同步修改時登出會跳出確認
-import { db, totp, PASSWORD, sleep } from '../lib/harness.mjs';
+// M2-s（只改前提，T-M2-03）：每輪開始前刪除前幾輪建立的帳號（最多四個帳號）；兩人同時操作之前，管理者以介面建立共享空間並加入受邀者，
+// 頁面建在這個共享空間（「＋ 新增頁面到「…」」按鈕），其餘步驟與判定不變
+import { db, totp, PASSWORD, sleep, removeUsersExcept } from '../lib/harness.mjs';
 import { Recorder, within } from '../lib/recorder.mjs';
 import { bootEnv } from '../lib/env.mjs';
 import { loadPlaywright, launch, newProfileDir, rmProfile, useAgentCookies, installRelay, waitSynced, typeAtEnd } from '../lib/browser.mjs';
@@ -27,6 +29,7 @@ export async function br03(N) {
     const dirs = [newProfileDir(), newProfileDir()];
     const ctxs = [];
     try {
+      await removeUsersExcept([admin]);
       await within((async () => {
         const cAdm = await launch(pw, dirs[0]); ctxs.push(cAdm);
         await useAgentCookies(cAdm, admin.agent);
@@ -85,8 +88,23 @@ export async function br03(N) {
         await PA.goto(env.base + '/');
         await PA.locator('[data-testid="tree"]').waitFor();
         await PN.locator('[data-testid="tree"]').waitFor();
+        // M2-s：管理者建立共享空間、從帳號清單加入受邀者；受邀者 2 秒內在側邊欄看到這個空間
+        const spaceName = `介面共享${r}`;
+        await PA.getByRole('button', { name: '＋ 新增共享空間' }).click();
+        await PA.fill('#space-name', spaceName);
+        await PA.getByRole('button', { name: '建立', exact: true }).click();
+        await PA.getByRole('button', { name: `空間設定：${spaceName}` }).click();
+        await PA.locator('#add-member').click();
+        await PA.getByRole('option', { name: new RegExp(email.replace(/[.]/g, '\\.')) }).click();
+        await PA.getByRole('button', { name: '加入', exact: true }).click();
+        await PA.getByTestId('space-members').locator(`text=${email}`).waitFor({ timeout: 5000 });
+        await PA.keyboard.press('Escape');
+        const newBtn = PN.getByRole('button', { name: `＋ 新增頁面到「${spaceName}」` });
+        const ts0 = Date.now();
+        await newBtn.waitFor({ timeout: 5000 }).catch(() => fails.push('受邀者沒有看到共享空間'));
+        if (Date.now() - ts0 > 2000) fails.push('受邀者 2 秒內沒有看到共享空間 ' + (Date.now() - ts0));
         const title1 = `介面頁${r}`;
-        await PN.getByRole('button', { name: '＋ 新增頁面' }).click();
+        await newBtn.click();
         const input = PN.getByRole('textbox', { name: '頁面名稱' });
         await input.waitFor();
         await input.fill(title1);
@@ -117,7 +135,7 @@ export async function br03(N) {
         if (!pg || pg.icon !== '📚') fails.push('圖示沒有設定成功');
         // 拖曳：新頁面拖到上一頁的中央 → 成為子頁面
         const title3 = `子頁${r}`;
-        await PN.getByRole('button', { name: '＋ 新增頁面' }).click();
+        await newBtn.click();
         const input3 = PN.getByRole('textbox', { name: '頁面名稱' });
         await input3.fill(title3); await input3.press('Enter');
         await waitTitle(PN, title3);

@@ -3,6 +3,9 @@
 // - storage：執行中的草稿狀態（待確認清單、文件更新、已知 restore_epoch……）
 // - persist：選用的本機儲存介面（瀏覽器為 IndexedDB）。沒有提供時，storage 物件本身視為已落盤（Node 測試用）。
 // - 儲存狀態：saved＝伺服器已確認；saving／failed＝伺服器尚未確認、但已寫入本機；unsaved＝連本機都還沒寫入完成。
+// M2-s 失去權限（關閉代碼 4005、P0-01）：
+// - 待確認項目移到 storage.denied（「無權限」），永不自動重送、不自動重連；刪除本機從伺服器快取的文件狀態，只保留自己的修改
+// - 之後權限恢復時也不自動補送：由使用者選擇下載、另存為衝突副本（不合併，伺服器仍依當下成員身分檢查）或捨棄
 import * as Y from 'yjs';
 import { Emitter, uuid, b64, fromB64 } from './util.js';
 import { insertToken, deleteRandomToken, deleteRandomBlock, docJSON, fragment } from './doc.js';
@@ -37,8 +40,9 @@ export class Client extends Emitter {
     storage.docUpdates ||= [];
     storage.pendingRestores ||= [];
     storage.unackedCopies ||= [];
+    storage.denied ||= [];
     if (storage.knownEpoch === undefined) storage.knownEpoch = null;
-    if (storage.userId && storage.userId !== userId && (storage.pending.length || storage.unackedCopies.length || storage.offlineCopy)) {
+    if (storage.userId && storage.userId !== userId && (storage.pending.length || storage.unackedCopies.length || storage.offlineCopy || storage.denied.length)) {
       // 這台裝置上有其他帳號尚未儲存的草稿：必須先下載或捨棄
       this.blocked = 'other_user_drafts';
     } else if (storage.userId && storage.userId !== userId) {
@@ -54,6 +58,11 @@ export class Client extends Emitter {
     this.undoManager = new Y.UndoManager(fragment(this.ydoc), { trackedOrigins: new Set([LOCAL]), captureTimeout: 0 });
     this.ydoc.on('update', (u, origin) => {
       if (origin === LOAD) return;
+      if (this.accessDenied) {
+        // 已失去權限：自己的修改只留在本機的「無權限」草稿，不送出；不再快取文件狀態
+        if (origin !== REMOTE) { this.storage.denied.push({ id: uuid(), data: u, at: Date.now(), deniedAt: Date.now() }); this.touch(); }
+        return;
+      }
       this.storage.docUpdates.push(u);
       if (this.storage.docUpdates.length > 400) this.storage.docUpdates = [Y.mergeUpdates(this.storage.docUpdates)];
       if (origin === REMOTE) { this.touch(); return; }
@@ -105,6 +114,7 @@ export class Client extends Emitter {
       userId: s.userId, knownEpoch: s.knownEpoch, offlineCopy: s.offlineCopy || null,
       pending: s.pending.map(({ id, covers, data, at }) => ({ id, covers, data, at })),
       docUpdates: [...s.docUpdates], pendingRestores: [...s.pendingRestores], unackedCopies: [...s.unackedCopies],
+      denied: (s.denied || []).map(({ id, covers, data, at, deniedAt }) => ({ id, covers, data, at, deniedAt })),
     };
   }
 
@@ -143,6 +153,7 @@ export class Client extends Emitter {
   // ---- 連線 ----
   connect() {
     if (this.blocked) throw new Error('blocked: ' + this.blocked);
+    this.accessDenied = false;
     this.closedByUser = false;
     this.revoked = false;
     if (!this.getToken) { this.openSocket(); return; }
@@ -172,6 +183,7 @@ export class Client extends Emitter {
       this.emit('disconnected', ev.code);
       if (ev.code === 4001) { this.revoked = true; this.emit('revoked'); return; }
       if (ev.code === 4004) { this.pageClosed = true; this.emit('page_closed'); return; }
+      if (ev.code === 4005) { this.onAccessDenied(); return; }
       // 4003：憑證無效或過期。有 getToken 時換新憑證重連；沒有（固定憑證）就停止，避免無限重試
       if (ev.code === 4003 && !this.getToken) { this.emit('token_rejected', ev.reason); return; }
       // 連續失敗時指數退避（第一次 25～75 毫秒，最長約 5 秒），避免離線時不停向網頁伺服器換憑證
@@ -216,6 +228,7 @@ export class Client extends Emitter {
         return this.emit('restore_result', m);
       case 'cc_ack': return this.onCopyAck(m);
       case 'version_ok': return this.emit('version_ok', m);
+      case 'denied': return this.markDenied(m.ids);
       default: return undefined;
     }
   }
@@ -247,6 +260,8 @@ export class Client extends Emitter {
     for (const r of st.pendingRestores) this.raw({ t: 'restore', ...r });
     this.markSavedIfClean();
     this.emit('ready');
+    // 失去權限前留下的草稿：不自動補送，由使用者選擇（下載、另存為衝突副本、捨棄）
+    if (st.denied.length) this.emit('denied_drafts', st.denied.length);
   }
 
   clearUndo() {
@@ -337,10 +352,76 @@ export class Client extends Emitter {
     }
   }
 
+  // ---- 失去權限（M2-s） ----
+  // 伺服器拒絕的 update_id：從待確認清單移到「無權限」
+  markDenied(ids) {
+    const set = new Set(ids || []);
+    const st = this.storage;
+    const moved = st.pending.filter(e => set.has(e.id) || (e.covers || []).some(id => set.has(id)));
+    if (!moved.length) return;
+    st.pending = st.pending.filter(e => !moved.includes(e));
+    st.denied.push(...moved.map(e => ({ ...e, deniedAt: Date.now() })));
+    this.touch();
+  }
+
+  // 以 4005 關閉：所有待確認項目標為無權限；刪除從伺服器快取的文件狀態（其他人的內容），只保留自己的修改；不再重連
+  onAccessDenied() {
+    const st = this.storage;
+    const now = Date.now();
+    st.denied.push(...st.pending.map(e => ({ ...e, deniedAt: now })));
+    st.pending = [];
+    st.pendingRestores = [];
+    st.docUpdates = [];
+    st.knownEpoch = null;
+    if (this.busyTimer) { clearTimeout(this.busyTimer); this.busyTimer = null; }
+    this.accessDenied = true;
+    this.closedByUser = true;
+    this.touch();
+    this.emit('access_denied', st.denied.length);
+  }
+
+  // 自己在失去權限前尚未同步的內容（只含自己的修改，不含其他人的內容）
+  deniedDraft() {
+    const st = this.storage;
+    const text = [];
+    for (const e of st.denied) {
+      try {
+        for (const s of Y.decodeUpdate(e.data).structs) {
+          const c = s.content;
+          if (c && typeof c.str === 'string' && c.str) text.push(c.str);
+        }
+      } catch { /* 無法解析的更新只保留原始資料 */ }
+    }
+    return { userId: st.userId, docId: this.docId, text: text.join(''), updates: st.denied.map(e => ({ id: e.id, covers: e.covers, data: b64(e.data), at: e.at })) };
+  }
+
+  // 另存為衝突副本（不合併進目前的文件）；伺服器依當下的成員身分檢查，確認後才移除本機草稿
+  saveDeniedAsCopy() {
+    const st = this.storage;
+    if (!st.denied.length) return null;
+    const d = this.deniedDraft();
+    const copy = { copyId: uuid(), basedEpoch: null, state: b64(Y.mergeUpdates(st.denied.map(e => e.data))), json: JSON.stringify({ kind: 'denied_draft', text: d.text }) };
+    st.unackedCopies.push(copy);
+    st.denied = [];
+    this.touch();
+    this.emit('conflict_copy_sent', { ...copy, kind: 'denied' });
+    this.raw({ t: 'conflict_copy', ...copy });
+    return copy.copyId;
+  }
+
+  discardDenied() {
+    if (!this.storage.denied.length) return;
+    this.storage.denied = [];
+    this.touch();
+  }
+
   // ---- 編輯操作（Node 測試用；瀏覽器中由編輯器直接修改 ydoc） ----
   // 等待衝突副本確認期間，編輯器為唯讀（避免這段時間的輸入被捨棄）
-  assertEditable() { if (this.awaitingOfflineCopy) throw new Error('read-only while saving conflict copy'); }
-  isReadOnly() { return !!this.awaitingOfflineCopy || !!this.blocked; }
+  assertEditable() {
+    if (this.awaitingOfflineCopy) throw new Error('read-only while saving conflict copy');
+    if (this.accessDenied) throw new Error('read-only: access denied');
+  }
+  isReadOnly() { return !!this.awaitingOfflineCopy || !!this.blocked || !!this.accessDenied; }
   type(token, newBlock = false) {
     this.assertEditable();
     this.ydoc.transact(() => insertToken(this.ydoc, token, this.rnd, newBlock), LOCAL);
@@ -385,12 +466,13 @@ export class Client extends Emitter {
     this.storage.docUpdates = [];
     this.storage.pendingRestores = [];
     this.storage.unackedCopies = [];
+    this.storage.denied = [];
     this.storage.knownEpoch = null;
   }
 
   hasUnsynced() {
     const st = this.storage;
-    return st.pending.length > 0 || st.unackedCopies.length > 0 || !!st.offlineCopy;
+    return st.pending.length > 0 || st.unackedCopies.length > 0 || !!st.offlineCopy || st.denied.length > 0;
   }
 
   async logout({ waitMs = 10000 } = {}) {

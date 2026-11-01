@@ -64,8 +64,8 @@ function unsupportedSpec(type) {
   )();
 }
 
-// 頁面連結區塊：只存 pageId。顯示時從頁面樹取目前的標題；不在頁面樹中（垃圾桶、已刪除、不存在）一律顯示中性提示
-export const PAGE_LINK_UNAVAILABLE = '無法開啟的頁面（可能已刪除）';
+// 頁面連結區塊：只存 pageId。顯示時從頁面樹取目前的標題；不在頁面樹中（垃圾桶、已刪除、不存在、M2-s 起：沒有權限）一律顯示中性提示，不顯示標題
+export const PAGE_LINK_UNAVAILABLE = '無法開啟的頁面（可能已刪除，或你沒有權限）';
 export const pageLink = createBlockSpec(
   { type: 'pageLink', propSchema: { pageId: { default: '' } }, content: 'none' },
   {

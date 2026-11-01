@@ -48,7 +48,7 @@ export class IdbStore {
         const cur = req.result;
         if (!cur) { resolve(out); return; }
         const v = cur.value || {};
-        const unsynced = (v.pending && v.pending.length) || (v.unackedCopies && v.unackedCopies.length) || v.offlineCopy;
+        const unsynced = (v.pending && v.pending.length) || (v.unackedCopies && v.unackedCopies.length) || v.offlineCopy || (v.denied && v.denied.length);
         if (v.userId && v.userId !== userId && unsynced) out.push({ key: cur.key, value: v });
         cur.continue();
       };
@@ -66,7 +66,7 @@ export class IdbStore {
         const cur = req.result;
         if (!cur) { resolve(out); return; }
         const v = cur.value || {};
-        const unsynced = (v.pending && v.pending.length) || (v.unackedCopies && v.unackedCopies.length) || v.offlineCopy;
+        const unsynced = (v.pending && v.pending.length) || (v.unackedCopies && v.unackedCopies.length) || v.offlineCopy || (v.denied && v.denied.length);
         if (v.userId === userId && unsynced) out.push({ key: cur.key, value: v });
         cur.continue();
       };
