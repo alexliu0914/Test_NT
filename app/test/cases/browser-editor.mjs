@@ -329,9 +329,10 @@ export async function edit02(N) {
 // 「同時改同一個區塊的類型」會讓 y-prosemirror 刪掉整個區塊（F-M2-01），模式 2、4、5 專門重現這個情況。
 const topLevel = P => P.evaluate(() => window.__app.client.ydoc.getXmlFragment('document-store').length);
 
-async function makeStructure(P, kind, tok, { enterFirst = true } = {}) {
-  await P.locator('.bn-editor').focus();
-  await P.keyboard.press('Control+End');
+async function makeStructure(P, kind, tok, { enterFirst = true, positioned = false } = {}) {
+  // T-M2-09：Ctrl+End 的目的地會隨對方的內容改變（對方的新行先傳到時，會跳進對方的區塊）。
+  // positioned：呼叫前已把游標放在兩人同步後的同一個既有區塊；否則照原本按 Ctrl+End
+  if (!positioned) { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+End'); }
   if (enterFirst) await P.keyboard.press('Enter');
   if (kind === 'table') {
     await P.keyboard.type('/表格', { delay: 10 });
@@ -398,8 +399,15 @@ export async function br05(N) {
             await Promise.all([waitSynced(A), waitSynced(B)]);
             await Promise.all([A, B].map(async P => { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+Home'); }));
             await Promise.all([A.keyboard.press('Control+Alt+1'), B.keyboard.press('Control+Shift+8')]);
+          } else if (how === 'unsynced') {
+            // 同步前就開始：維持原本的 Ctrl+End（使用者決議：未證實有缺陷前不修改，F-M2-08 第 3 種）
+            await Promise.all([makeStructure(A, ka, ta), makeStructure(B, kb, tb)]);
           } else {
-            await Promise.all([makeStructure(A, ka, ta, { enterFirst: how !== 'same' }), makeStructure(B, kb, tb, { enterFirst: how !== 'same' })]);
+            // sync：兩人都在同步後的最後一個區塊結尾按 Enter；same：兩人都在同一個空白行（第一個區塊）直接建立
+            const ref = await A.evaluate(same => { const d = window.__app.editor.document; return same ? d[0].id : d[d.length - 1].id; }, how === 'same');
+            // 兩人都先定位好，才同時開始建立（Ctrl+End 會在對方的新行先傳到時跳進對方的區塊）
+            for (const P of [A, B]) { await P.locator('.bn-editor').focus(); await P.evaluate(([id, place]) => window.__app.editor.setTextCursorPosition(id, place), [ref, how === 'same' ? 'start' : 'end']); }
+            await Promise.all([makeStructure(A, ka, ta, { enterFirst: how !== 'same', positioned: true }), makeStructure(B, kb, tb, { enterFirst: how !== 'same', positioned: true })]);
           }
           const c = await converge(A, B, docId, how === 'offline' ? 40000 : 10000);
           if (!c.ok) { fails.push(diverged(c, '同時建立後')); return; }

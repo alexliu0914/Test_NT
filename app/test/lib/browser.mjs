@@ -34,14 +34,15 @@ export async function useAgentCookies(ctx, agent) {
 export async function installRelay(page) {
   // filter（M2-b COL-07）：伺服器送來的訊息經 filter(訊息字串) 回傳 'drop' 時不轉送
   // stalled（M2-b COL-03）：雙向都不轉送、也不關閉連線，模擬網路中斷但 TCP 沒有關閉
-  const st = { delayMs: 0, offline: false, conns: new Set(), filter: null, stalled: false };
+  // held（F-M2-09）：伺服器送來的訊息先排隊，release() 時依原順序送出（頁面送出的訊息照常轉送）
+  const st = { delayMs: 0, offline: false, conns: new Set(), filter: null, stalled: false, held: null };
   await page.routeWebSocket(u => new URL(u).port === String(COLLAB_PORT), ws => {
     if (st.offline) { ws.close({ code: 1001, reason: 'offline' }); return; }
     const server = ws.connectToServer();
     const pair = { ws, server };
     st.conns.add(pair);
     ws.onMessage(m => { if (!st.stalled) server.send(m); });
-    server.onMessage(m => { if (st.stalled) return; if (st.filter && st.filter(String(m)) === 'drop') return; if (st.delayMs > 0) setTimeout(() => ws.send(m), st.delayMs); else ws.send(m); });
+    server.onMessage(m => { if (st.stalled) return; if (st.filter && st.filter(String(m)) === 'drop') return; if (st.held) { st.held.push([ws, m]); return; } if (st.delayMs > 0) setTimeout(() => ws.send(m), st.delayMs); else ws.send(m); });
     server.onClose((code, reason) => { st.conns.delete(pair); const fwd = () => ws.close({ code: code >= 4000 ? code : 1001, reason }); if (st.delayMs) setTimeout(fwd, st.delayMs); else fwd(); });
     ws.onClose(() => { st.conns.delete(pair); server.close(); });
   });
@@ -52,6 +53,8 @@ export async function installRelay(page) {
     goOnline() { st.offline = false; },
     setFilter(fn) { st.filter = fn; },
     stall(on = true) { st.stalled = on; },
+    hold() { st.held ||= []; },
+    release() { const q = st.held || []; st.held = null; for (const [w, m] of q) { try { w.send(m); } catch { /* 連線已關閉 */ } } return q.length; },
     // 直接送一則訊息給頁面（模擬伺服器送來的訊息，例如不對應的確認）
     inject(msg) { for (const p of st.conns) p.ws.send(typeof msg === 'string' ? msg : JSON.stringify(msg)); },
     // 中斷目前的協作連線（不進入離線模式，用戶端會自動重新連線）
