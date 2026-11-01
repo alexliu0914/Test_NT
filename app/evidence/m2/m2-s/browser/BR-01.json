@@ -1,0 +1,254 @@
+{
+ "id": "BR-01",
+ "title": "瀏覽器端到端（正式網頁與登入）：兩人編輯／協作伺服器重啟／版本還原／衝突副本／Undo／離線",
+ "meta": {
+  "onlineCopyRounds": 20
+ },
+ "startedAt": "2026-11-01T07:25:46.467Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 7432
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 5883
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6740
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 6858
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 6217
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 5690
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 2,
+    "typed": 22,
+    "ms": 5685
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5792
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5733
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5823
+   }
+  },
+  {
+   "i": 10,
+   "seed": 10,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5813
+   }
+  },
+  {
+   "i": 11,
+   "seed": 11,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6040
+   }
+  },
+  {
+   "i": 12,
+   "seed": 12,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6028
+   }
+  },
+  {
+   "i": 13,
+   "seed": 13,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6122
+   }
+  },
+  {
+   "i": 14,
+   "seed": 14,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6086
+   }
+  },
+  {
+   "i": 15,
+   "seed": 15,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5898
+   }
+  },
+  {
+   "i": 16,
+   "seed": 16,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6175
+   }
+  },
+  {
+   "i": 17,
+   "seed": 17,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 5845
+   }
+  },
+  {
+   "i": 18,
+   "seed": 18,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6065
+   }
+  },
+  {
+   "i": 19,
+   "seed": 19,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "onlineCopies": 1,
+    "undoDepthBeforeRestore": 1,
+    "typed": 22,
+    "ms": 6188
+   }
+  }
+ ],
+ "durationMs": 125661,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

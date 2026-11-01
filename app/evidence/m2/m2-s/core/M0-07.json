@@ -1,0 +1,717 @@
+{
+ "id": "M0-07",
+ "title": "還原後多次 Undo／Redo 不會恢復還原前的內容",
+ "meta": {},
+ "startedAt": "2026-11-01T07:15:27.928Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 70700,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 70701,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 70702,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 70703,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 70704,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 5,
+   "seed": 70705,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 6,
+   "seed": 70706,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 7,
+   "seed": 70707,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 8,
+   "seed": 70708,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 9,
+   "seed": 70709,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 10,
+   "seed": 70710,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 11,
+   "seed": 70711,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 12,
+   "seed": 70712,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 13,
+   "seed": 70713,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 14,
+   "seed": 70714,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 15,
+   "seed": 70715,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 16,
+   "seed": 70716,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 17,
+   "seed": 70717,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 18,
+   "seed": 70718,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 19,
+   "seed": 70719,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 20,
+   "seed": 70720,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 21,
+   "seed": 70721,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 22,
+   "seed": 70722,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 23,
+   "seed": 70723,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 24,
+   "seed": 70724,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 25,
+   "seed": 70725,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 26,
+   "seed": 70726,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 27,
+   "seed": 70727,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 28,
+   "seed": 70728,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 29,
+   "seed": 70729,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 30,
+   "seed": 70730,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 31,
+   "seed": 70731,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 32,
+   "seed": 70732,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 33,
+   "seed": 70733,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 34,
+   "seed": 70734,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 35,
+   "seed": 70735,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 36,
+   "seed": 70736,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 37,
+   "seed": 70737,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 38,
+   "seed": 70738,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 39,
+   "seed": 70739,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 40,
+   "seed": 70740,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 41,
+   "seed": 70741,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 42,
+   "seed": 70742,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 43,
+   "seed": 70743,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 44,
+   "seed": 70744,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 45,
+   "seed": 70745,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 46,
+   "seed": 70746,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 47,
+   "seed": 70747,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 48,
+   "seed": 70748,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 49,
+   "seed": 70749,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 50,
+   "seed": 70750,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 51,
+   "seed": 70751,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 52,
+   "seed": 70752,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 53,
+   "seed": 70753,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 54,
+   "seed": 70754,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 55,
+   "seed": 70755,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 56,
+   "seed": 70756,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 57,
+   "seed": 70757,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 58,
+   "seed": 70758,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 59,
+   "seed": 70759,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 60,
+   "seed": 70760,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 61,
+   "seed": 70761,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 62,
+   "seed": 70762,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 63,
+   "seed": 70763,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 64,
+   "seed": 70764,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 65,
+   "seed": 70765,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 66,
+   "seed": 70766,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 67,
+   "seed": 70767,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 68,
+   "seed": 70768,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 69,
+   "seed": 70769,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 70,
+   "seed": 70770,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 71,
+   "seed": 70771,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 72,
+   "seed": 70772,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 73,
+   "seed": 70773,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 74,
+   "seed": 70774,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 75,
+   "seed": 70775,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 76,
+   "seed": 70776,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 77,
+   "seed": 70777,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 78,
+   "seed": 70778,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 79,
+   "seed": 70779,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 80,
+   "seed": 70780,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 81,
+   "seed": 70781,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 82,
+   "seed": 70782,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 83,
+   "seed": 70783,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 84,
+   "seed": 70784,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 85,
+   "seed": 70785,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 86,
+   "seed": 70786,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 87,
+   "seed": 70787,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 88,
+   "seed": 70788,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 89,
+   "seed": 70789,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 90,
+   "seed": 70790,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 91,
+   "seed": 70791,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 92,
+   "seed": 70792,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 93,
+   "seed": 70793,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 94,
+   "seed": 70794,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 95,
+   "seed": 70795,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 96,
+   "seed": 70796,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 97,
+   "seed": 70797,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 98,
+   "seed": 70798,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 99,
+   "seed": 70799,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "control": {
+  "iterations": 30,
+  "resurrected": 27,
+  "note": "不清空 Undo 堆疊時，還原前的內容被 Undo 加回的次數"
+ },
+ "durationMs": 93233,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

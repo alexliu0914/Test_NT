@@ -1,0 +1,84 @@
+{
+ "id": "MIG-01",
+ "title": "資料庫遷移回滾驗證",
+ "meta": {},
+ "startedAt": "2026-11-01T06:55:36.239Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "migrations": 3,
+    "results": [
+     {
+      "from": "0002_spaces.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0001_triggers.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0000_init.sql",
+      "restoredIdentical": true
+     }
+    ],
+    "emptyAfterFullRollback": true
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "migrations": 3,
+    "results": [
+     {
+      "from": "0002_spaces.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0001_triggers.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0000_init.sql",
+      "restoredIdentical": true
+     }
+    ],
+    "emptyAfterFullRollback": true
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "migrations": 3,
+    "results": [
+     {
+      "from": "0002_spaces.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0001_triggers.sql",
+      "restoredIdentical": true
+     },
+     {
+      "from": "0000_init.sql",
+      "restoredIdentical": true
+     }
+    ],
+    "emptyAfterFullRollback": true
+   }
+  }
+ ],
+ "durationMs": 1711,
+ "total": 3,
+ "passed": 3,
+ "failed": 0
+}

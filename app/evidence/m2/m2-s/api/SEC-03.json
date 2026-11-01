@@ -1,0 +1,33 @@
+{
+ "id": "SEC-03",
+ "title": "其他網域或缺少 Origin 的變更型請求被拒，且沒有產生任何變更",
+ "meta": {},
+ "startedAt": "2026-11-01T06:56:33.067Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 2957,
+ "total": 3,
+ "passed": 3,
+ "failed": 0
+}
