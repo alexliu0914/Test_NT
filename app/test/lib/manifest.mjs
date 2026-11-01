@@ -40,6 +40,8 @@ export function checkManifest(man, baseline = JSON.parse(readFileSync(BASELINE_P
   }
   const mut = Object.fromEntries((man.mutants || []).map(m => [m.id, m]));
   for (const m of man.mutants || []) if (!stages.includes(m.stage)) errs.push(`變異 ${m.id} 的階段 ${m.stage} 不存在`);
+  const mseen = new Set();
+  for (const m of man.mutants || []) { if (mseen.has(m.id)) errs.push(`變異編號重複：${m.id}`); mseen.add(m.id); }
   for (const id of baseline.mutants) {
     if (!mut[id]) errs.push(`M1 基線變異被移除：${id}`);
     else if (mut[id].stage !== 'm1') errs.push(`M1 基線變異被改到其他階段：${id}`);

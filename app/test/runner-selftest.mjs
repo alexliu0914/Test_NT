@@ -22,6 +22,12 @@ writeFileSync(ROOT + 'results/manifest-weakened.json', JSON.stringify(weakened))
 // 已驗收的 M2-s 案例被減少完整輪數、M2-s 變異被移除
 const weakenedS = { ...realManifest, cases: realManifest.cases.map(c => c.id === 'ACL-03' ? { ...c, full: 10 } : c), mutants: realManifest.mutants.filter(m => m.id !== 'MUT-S8') };
 writeFileSync(ROOT + 'results/manifest-weakened-m2s.json', JSON.stringify(weakenedS));
+// 變異編號重複、M2-b 新增的變異沒有登記（F-M2-08 起，變異定義與 manifest 必須一一對應）
+const dupMut = { ...realManifest, mutants: [...realManifest.mutants, { id: 'MUT-C9', stage: 'm2-b' }] };
+writeFileSync(ROOT + 'results/manifest-dup-mutant.json', JSON.stringify(dupMut));
+const unregistered = { ...realManifest, mutants: realManifest.mutants.filter(m => m.id !== 'MUT-C10') };
+writeFileSync(ROOT + 'results/manifest-unregistered.json', JSON.stringify(unregistered));
+const py = args => spawnSync('python3', ['test/mutations.py', ...args], { cwd: ROOT, encoding: 'utf8' });
 const checks = [
   { name: '全部通過 → 退出碼 0', args: ['SELFTEST-PASS=3'], expect: 0 },
   { name: '有一輪失敗 → 退出碼 1', args: ['SELFTEST-FAIL=3'], expect: 1 },
@@ -40,12 +46,17 @@ const checks = [
     caseStatus: { 'ZZ-01': 'unknown_case' } },
   { name: 'M1 基線案例被減少輪數 → 拒絕執行、退出碼 1', args: ['--stage', 'm2-a', '--group', 'api', '--quick', '--manifest', 'results/manifest-weakened.json'], expect: 1, mustSay: 'M1 基線' },
   { name: '已驗收階段（M2-s）的案例被減少輪數、變異被移除 → 拒絕執行、退出碼 1', args: ['--stage', 'm2-s', '--group', 'api', '--quick', '--manifest', 'results/manifest-weakened-m2s.json'], expect: 1, mustSay: '已驗收階段 m2-s' },
+  { name: 'manifest 的變異編號重複 → 拒絕執行、退出碼 1', args: ['--stage', 'm2-b', '--group', 'api', '--quick', '--manifest', 'results/manifest-dup-mutant.json'], expect: 1, mustSay: '變異編號重複' },
+  { name: '變異清單檢查：正式 manifest → 通過、退出碼 0', py: ['--check'], expect: 0, mustSay: '檢查通過' },
+  { name: '變異清單檢查：已定義的變異沒有登記在 manifest → 拒絕、退出碼 1', py: ['--check', '--manifest', 'results/manifest-unregistered.json'], expect: 1, mustSay: '沒有登記在 manifest：MUT-C10' },
+  { name: '變異清單檢查：變異編號重複 → 拒絕、退出碼 1', py: ['--check', '--manifest', 'results/manifest-dup-mutant.json'], expect: 1, mustSay: 'manifest 的變異編號重複：MUT-C9' },
+  { name: '變異清單檢查：已驗收階段（M2-s）的變異被移除 → 拒絕、退出碼 1', py: ['--check', '--manifest', 'results/manifest-weakened-m2s.json'], expect: 1, mustSay: '已驗收階段 m2-s 的變異被移除' },
   { name: '連到非測試資料庫 → 拒絕執行、退出碼 1', args: ['SELFTEST-PASS=1'], env: { TEST_DATABASE_URL: prodLike.toString(), DATABASE_URL: prodLike.toString() }, expect: 1, mustSay: '拒絕執行' },
 ];
 
 const out = [];
 for (const c of checks) {
-  const r = run(c.args, c.env);
+  const r = c.py ? py(c.py) : run(c.args, c.env);
   let ok = r.status === c.expect && (!c.mustSay || (r.stdout + r.stderr).includes(c.mustSay));
   if (c.caseStatus || c.naStatus) {
     try {
@@ -57,7 +68,7 @@ for (const c of checks) {
   if (c.summaryStatus) {
     try { ok = ok && JSON.parse(readFileSync(ROOT + 'results/summary.json', 'utf8')).cases[0].status === c.summaryStatus; } catch { ok = false; }
   }
-  out.push({ name: c.name, args: c.args, expected: c.expect, actual: r.status, pass: ok });
+  out.push({ name: c.name, args: c.py ? ['mutations.py', ...c.py] : c.args, expected: c.expect, actual: r.status, pass: ok });
   console.log(`${ok ? 'ok  ' : 'FAIL'} ${c.name} (exit ${r.status})`);
 }
 const passed = out.filter(x => x.pass).length;

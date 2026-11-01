@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """M1 變異測試：在程式複本中植入已知缺陷，相關測試必須抓到（任一輪失敗即算抓到）。
 - MUT-1～8：M0 的協作核心缺陷，移植到 M1 的協作伺服器與用戶端
-- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）；MUT-C1～C3、C8：協作游標與儲存狀態（M2-b）
+- MUT-A*：認證與安全；MUT-P*：頁面樹；MUT-B*：瀏覽器端；MUT-C*：編輯器；MUT-S*：空間與權限（M2-s）；MUT-C1～C3、C8：協作游標與儲存狀態（M2-b）；MUT-C9、C10：兩人貼到同一個空白行（M2-b，F-M2-08）
 改到 Next.js 會用到的程式（src/、shared/、migrations/）時，複本會重新建置。
 用法：python3 test/mutations.py [編號 ...]
+      python3 test/mutations.py --check [--manifest 路徑]   只檢查 manifest 與變異定義（自我測試用）
       python3 test/mutations.py --stage m2-a   依 test/manifest.json 執行該階段（含之前）的全部變異；
                                                 之後階段的記為 NOT_APPLICABLE_NOT_IMPLEMENTED（不算抓到）"""
 import json, os, shutil, subprocess, sys, tempfile
@@ -118,6 +119,11 @@ MUTANTS = [
      "  if (!room || conn.presenceDropped) return;", "  if (!room || conn.presenceDropped || conn.revoked) return;", ['COL-09=1']),
     ('MUT-C8', '資料庫失敗時仍顯示已儲存', 'shared/save-state.js',
      "  if (!s.unsynced) return 'saved';", "  if (!s.unsynced || s.dbFailing) return 'saved';", ['COL-11=1']),
+    # ---- F-M2-08：兩人貼到同一個空白行（M2-b 新增，使用者核准 44 個） ----
+    ('MUT-C9', '貼到空白行時沿用那一行的區塊（不建立自己的新區塊）', 'shared/paste-sanitize.js',
+     "  if (!target) return doPaste();", "  if (target || !target) return doPaste();", ['COL-01=1']),
+    ('MUT-C10', '自己的空白行被別人的貼上換掉時不補回', 'src/lib/empty-line-keeper.ts',
+     "  if (!(a.el as unknown as { _item: { deleted: boolean } })._item.deleted) return;", "  if (a.el) return;", ['COL-01=1']),
 ]
 
 NEEDS_BUILD = ('src/', 'shared/', 'migrations/', 'next.config')
@@ -164,23 +170,51 @@ def run(mid, title, path, old, new, cases):
     return {'id': mid, 'title': title, 'caught': any(o['caught'] for o in out), 'runs': out}
 
 
+def opt(name):
+    global argv
+    if name not in argv:
+        return None
+    i = argv.index(name); v = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
+    return v
+
+
+def manifest_errors(man):
+    """變異清單的檢查（與 test/lib/manifest.mjs 的規則一致，另加變異定義與 manifest 的對應）"""
+    base = json.load(open(os.path.join(ROOT, 'test', 'm1-baseline.json'), encoding='utf8'))
+    acc = json.load(open(os.path.join(ROOT, 'test', 'accepted-baselines.json'), encoding='utf8'))
+    ids = [m['id'] for m in man['mutants']]
+    mstage = {m['id']: m['stage'] for m in man['mutants']}
+    defined_ids = [m[0] for m in MUTANTS]
+    defined = set(defined_ids)
+    errs = [f'M1 基線變異被移除或改階段：{x}' for x in base['mutants'] if mstage.get(x) != 'm1' or x not in defined]
+    for st, b in acc.get('stages', {}).items():
+        errs += [f'已驗收階段 {st} 的變異被移除或改階段：{x}' for x in b['mutants'] if mstage.get(x) != st or x not in defined]
+    errs += [f'manifest 的變異編號重複：{x}' for x in sorted({x for x in ids if ids.count(x) > 1})]
+    errs += [f'變異定義的編號重複：{x}' for x in sorted({x for x in defined_ids if defined_ids.count(x) > 1})]
+    errs += [f'變異已定義但沒有登記在 manifest：{x}' for x in defined_ids if x not in mstage]
+    errs += [f'變異 {k} 的階段 {v} 不存在' for k, v in mstage.items() if v not in man['stages']]
+    return errs
+
+
 argv = sys.argv[1:]
-stage = None
-if '--stage' in argv:
-    i = argv.index('--stage'); stage = argv[i + 1]; argv = argv[:i] + argv[i + 2:]
+stage = opt('--stage')
+man_path = opt('--manifest') or os.path.join(ROOT, 'test', 'manifest.json')
+check_only = '--check' in argv
+argv = [a for a in argv if a != '--check']
 only = argv
 results = []
 not_applicable = []
-if stage:
-    man = json.load(open(os.path.join(ROOT, 'test', 'manifest.json'), encoding='utf8'))
-    base = json.load(open(os.path.join(ROOT, 'test', 'm1-baseline.json'), encoding='utf8'))
+if stage or check_only:
+    man = json.load(open(man_path, encoding='utf8'))
     mstage = {m['id']: m['stage'] for m in man['mutants']}
     defined = {m[0] for m in MUTANTS}
-    errs = [f'M1 基線變異被移除或改階段：{x}' for x in base['mutants'] if mstage.get(x) != 'm1' or x not in defined]
-    if stage not in man['stages']:
+    errs = manifest_errors(man)
+    if stage and stage not in man['stages']:
         errs.append('未知的階段：' + stage)
     if errs:
-        print('manifest 未通過 M1 基線檢查，拒絕執行：' + '；'.join(errs)); sys.exit(1)
+        print('manifest 未通過基線檢查（M1 與已驗收階段），拒絕執行：' + '；'.join(errs)); sys.exit(1)
+    if check_only:
+        print('manifest 檢查通過'); sys.exit(0)
     idx = man['stages'].index(stage)
     active = [k for k, v in mstage.items() if man['stages'].index(v) <= idx]
     not_applicable = [{'id': k, 'stage': v, 'status': 'NOT_APPLICABLE_NOT_IMPLEMENTED'} for k, v in mstage.items() if k not in active]

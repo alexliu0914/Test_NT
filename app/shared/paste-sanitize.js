@@ -42,8 +42,37 @@ export function sanitizeHTML(html) {
 // 純文字看起來像 Markdown（標題、清單、引言、程式碼區塊、表格）時以 Markdown 貼上
 const MD_BLOCK = /^(?: {0,3}#{1,6} \S| {0,3}[-*+] \S| {0,3}\d{1,9}[.)] \S| {0,3}> | {0,3}(?:```|~~~)| *\|.*\| *$)/m;
 
+// F-M2-08：游標在空白區塊時，貼上的內容放進新建的區塊，再移除原本的空白區塊。
+// 預設的貼上會沿用那個空白區塊（換掉內容、改區塊 ID）；另一個人的游標也在這一行時，他的這一行就變成貼上的內容，
+// 他接著貼上或輸入就會落在別人的區塊裡。新建的區塊只屬於貼上的人，兩人同時貼到同一行時各自的內容都完整。
+// 只處理「游標在沒有文字、沒有子區塊的區塊、沒有選取範圍」的情況；其他貼上與原本相同。
+// 三個步驟各自送出（插入、貼上、移除），讓協作繫結逐步對應到新區塊；三步在 0.5 秒內，復原時一次全部復原。
+export function pasteIntoOwnBlock(editor, doPaste) {
+  let target = null;
+  try {
+    const empty = editor.transact(tr => tr.selection.empty);
+    const b = editor.getTextCursorPosition().block;
+    if (empty && Array.isArray(b.content) && b.content.length === 0 && !(b.children || []).length) target = b;
+  } catch { target = null; }
+  if (!target) return doPaste();
+  const [fresh] = editor.insertBlocks([{ type: target.type, props: target.props }], target, 'after');
+  editor.setTextCursorPosition(fresh, 'start');
+  doPaste();
+  if (editor.getBlock(target.id)) editor.removeBlocks([target.id]);
+}
+
 // BlockNote 的 pasteHandler：所有格式都先清理再貼上
-export function safePasteHandler({ event, editor }) {
+export function safePasteHandler(ctx) {
+  const cd = ctx.event.clipboardData;
+  if (!cd) return false;
+  // 沒有可貼上的內容（例如只有檔案）：不建立新區塊
+  if (!['blocknote/html', 'text/markdown', 'text/html'].some(t => cd.types.includes(t)) && !cd.getData('text/plain')) return true;
+  let handled = false;
+  pasteIntoOwnBlock(ctx.editor, () => { handled = sanitizedPaste(ctx); });
+  return handled;
+}
+
+function sanitizedPaste({ event, editor }) {
   const cd = event.clipboardData;
   if (!cd) return false;
   const types = [...cd.types];

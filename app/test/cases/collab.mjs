@@ -85,7 +85,7 @@ async function rawConn(agent, pageId) {
 // 每段輸入完成後量對方編輯器出現該段全部字元的時間（必須 ≤1 秒）；最後兩端與資料庫一致，每個字元的數量與輸入的完全相同（無遺失、無重複）。
 const ALPHA_A = '甲乙丙丁戊己庚辛', ALPHA_B = '子丑寅卯辰巳午未';
 export async function col01(N) {
-  const rec = new Recorder('COL-01', '同段落並發輸入：無字元遺失或重複、兩端與資料庫一致、對方 1 秒內可見（記錄延遲）');
+  const rec = new Recorder('COL-01', '同段落並發輸入：無字元遺失或重複、兩端與資料庫一致、對方 1 秒內可見（記錄延遲）；兩人先後貼到同一空白行，各自結構完整（F-M2-08）');
   const env = await bootEnv({ users: 2 });
   const pw = await loadPlaywright();
   const S = await openBrowsers(pw, env.users);
@@ -144,7 +144,67 @@ export async function col01(N) {
       }
     }
     if (count(txt.DB, '段') !== 1) fails.push('原有文字「段」數量不對：' + count(txt.DB, '段'));
+    await orderedPaste(r, fails, m);
   }
+
+  // F-M2-08 固定順序：兩人的游標都在同一個空白行；B 先貼上，等 A 的畫面「真的收到」B 的內容後（不是等固定時間），A 才貼上。
+  // 預設的貼上會沿用那個空白行，A 的這一行變成 B 的標題，A 再貼上就與 B 的區塊合併（MUT-C9）；
+  // B 改用自己的新區塊後，A 的空白行被刪除，A 的游標落到 B 的內容裡（MUT-C10：沒有補回空白行）。
+  // 另含單人貼上：結構正確、復原一次回到空白行、重做恢復。
+  async function orderedPaste(r, fails, m) {
+    const [A, B] = S.map(s => s.P);
+    const ta = `甲貼${r}`, tb = `乙貼${r}`;
+    // 單人
+    const solo = await newPage(env.users[0].agent, 'COL-01 單人貼上 ' + r);
+    await openDoc(A, env.base, solo); await waitSynced(A);
+    await caretInto(A, 0);
+    await pasteHtml(A, structHtml(ta));
+    await waitSynced(A);
+    const s1 = await outline(A);
+    if (!structOk(s1, ta)) fails.push('單人貼上的結構不正確：' + JSON.stringify(s1));
+    if (s1.length !== 4) fails.push(`單人貼上後應有 4 個區塊（原本的空白行由貼上的內容取代），實際 ${s1.length}`);
+    await A.keyboard.press('Control+z');
+    await A.waitForFunction(() => window.__app.editor.document.length === 1, null, { timeout: 5000 }).catch(() => {});
+    const s2 = await outline(A);
+    if (JSON.stringify(s2) !== JSON.stringify(['paragraph:'])) fails.push('單人貼上後復原一次，沒有回到原本的空白行：' + JSON.stringify(s2));
+    await A.keyboard.press('Control+Shift+z');
+    await A.waitForFunction(t => JSON.stringify(window.__app.editor.document).includes(t), ta + '尾', { timeout: 5000 }).catch(() => {});
+    if (!structOk(await outline(A), ta)) fails.push('單人貼上後重做，內容沒有恢復');
+    // 兩人
+    const docId = await newPage(env.users[0].agent, 'COL-01 先後貼上 ' + r);
+    await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
+    await waitSynced(A); await waitSynced(B);
+    await caretInto(A, 0); await caretInto(B, 0);
+    await pasteHtml(B, structHtml(tb));
+    await waitSynced(B);
+    const t0 = Date.now();
+    await A.waitForFunction(t => JSON.stringify(window.__app.editor.document).includes(t), tb + '尾', { timeout: 10000 });
+    m.pasteArriveMs = Date.now() - t0;
+    const bBefore = (await outline(A)).filter(x => x.includes(tb));
+    await pasteHtml(A, structHtml(ta));
+    await waitSynced(A); await waitSynced(B);
+    const bd = await checkConverged(fails, '先後貼上', [A, B], docId);
+    const o = await outline(B);
+    if (!structOk(o, ta)) fails.push('A 後貼上的結構不完整或被合併：' + JSON.stringify(o));
+    if (!structOk(o, tb)) fails.push('B 先貼上的結構被改動：' + JSON.stringify(o));
+    for (const line of o) if (line.includes('甲貼') && line.includes('乙貼')) fails.push('兩人的內容被合併到同一個區塊：' + line);
+    for (const line of bBefore) if (!o.includes(line)) fails.push('B 貼上的區塊在 A 貼上後改變：' + line);
+    const empties = o.filter(x => /^\s*\w+:$/.test(x)).length;
+    if (empties) fails.push(`留下 ${empties} 個多出來的空白行`);
+    const t = allText(bd);
+    for (const tok of [ta, tb]) for (const sfx of ['題', '一', '二', '尾']) if (count(t, tok + sfx) !== 1) fails.push(`「${tok + sfx}」出現 ${count(t, tok + sfx)} 次`);
+  }
+}
+
+// 貼上用的 HTML（標題、巢狀清單、段落）與結構檢查
+const structHtml = t => `<h2>${t}題</h2><ul><li>${t}一<ul><li>${t}二</li></ul></li></ul><p>${t}尾</p>`;
+const structOk = (o, t) => o.includes(`heading:${t}題`) && o.includes(`bulletListItem:${t}一`) && o.includes(`  bulletListItem:${t}二`) && o.includes(`paragraph:${t}尾`)
+  && o.indexOf(`heading:${t}題`) < o.indexOf(`bulletListItem:${t}一`) && o.indexOf(`bulletListItem:${t}一`) + 1 === o.indexOf(`  bulletListItem:${t}二`) && o.indexOf(`  bulletListItem:${t}二`) < o.indexOf(`paragraph:${t}尾`);
+const outline = P => P.evaluate(() => { const o = []; const w = (bs, d) => bs.forEach(b => { o.push('  '.repeat(d) + b.type + ':' + (Array.isArray(b.content) ? b.content.map(c => c.text || '').join('') : '')); w(b.children || [], d + 1); }); w(window.__app.editor.document, 0); return o; });
+const pasteHtml = (P, html) => P.evaluate(h => { const el = document.querySelector('.bn-editor'); const dt = new DataTransfer(); dt.setData('text/html', h); el.dispatchEvent(new ClipboardEvent('paste', { clipboardData: dt, bubbles: true, cancelable: true })); }, html);
+async function caretInto(P, index) {
+  await P.locator('.bn-editor').focus();
+  await P.evaluate(i => { const e = window.__app.editor; e.setTextCursorPosition(e.document[i].id, 'start'); }, index);
 }
 
 // ---------------- COL-02：一方刪除區塊、另一方同時在該區塊輸入 ----------------

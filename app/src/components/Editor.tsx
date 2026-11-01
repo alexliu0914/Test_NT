@@ -4,6 +4,7 @@
 // M2-a：繁體中文介面、斜線選單只提供 FR-04 的區塊與頁面連結、所有連結與貼上內容經安全規則檢查（W1、W6）。
 // M2-s：失去權限（4005）時不再顯示文件內容，只提供下載自己尚未同步的內容；權限恢復後舊草稿不自動補送，由使用者選擇。
 // M2-b：同頁其他人的游標、名字、顏色（伺服器確認的身分）；五種儲存狀態；有尚未同步的修改時關閉分頁提醒。
+// F-M2-08：貼到空白行時建立自己的新區塊（paste-sanitize.js），自己的空白行被別人的貼上換掉時補回（empty-line-keeper.ts）。
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BlockNoteEditor, filterSuggestionItems, insertOrUpdateBlockForSlashMenu } from '@blocknote/core';
 import { dictionary, PAGE_LINK_TITLE } from '@shared/editor-dictionary.js';
@@ -23,6 +24,7 @@ import { pageRegistry } from '@shared/page-registry.js';
 import { tolerateMultiContent, repairByAuthor, ownClientIds, findMultiContent } from '@shared/structure-repair.js';
 import { initialDocUpdate } from '@shared/initial-doc.js';
 import { setLeaveGuard } from '@/lib/leave-guard';
+import { keepEmptyLine } from '@/lib/empty-line-keeper';
 import * as Y from 'yjs';
 
 export type SaveState = 'loading' | 'saved' | 'saving' | 'offline' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
@@ -156,6 +158,8 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
     check();
     return () => { stopped = true; client.ydoc.off('afterTransaction', onTr); if (timer) clearTimeout(timer); };
   }, [client, deviceBlocked]);
+  // F-M2-08：游標所在的空白行被另一個人的貼上換掉時，補一個空白行給自己（條件見 empty-line-keeper.ts）
+  useEffect(() => (deviceBlocked ? undefined : keepEmptyLine(editor, client.ydoc)), [client, editor, deviceBlocked]);
   // 斜線選單：FR-04 允許的區塊＋頁面連結（M2 W1）
   const slashItems = useMemo(() => [
     ...getDefaultReactSlashMenuItems(editor).filter(i => SLASH_ITEMS.includes((i as unknown as { key: string }).key)),
