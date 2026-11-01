@@ -2,11 +2,75 @@
 // 用法：
 //   node scripts/migrate.mjs up            套用所有尚未套用的遷移
 //   node scripts/migrate.mjs down [n]      回滾最後 n 個（預設 1）
+//   node scripts/migrate.mjs restore <檔案> 從遷移前的備份還原（清空目前資料庫後還原）
 //   node scripts/migrate.mjs check         回滾驗證（只能對 *_test 資料庫）：
 //                                          全部套用 → 記下結構 → 由後往前逐一回滾再重新套用，結構必須相同；
 //                                          全部回滾後不得殘留任何資料表、函式或觸發器
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, mkdirSync, openSync, closeSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import pg from 'pg';
+
+// 遷移前備份（M2-s P0-04）：檔案第一行為「-- requires-backup」的遷移，在已有資料的資料庫上套用前，
+// 先以 pg_dump 備份並還原到暫存資料庫比對各表筆數與結構指紋；備份驗證失敗就不遷移。
+// pg_dump／pg_restore 優先使用本機（或 PG_BIN 目錄）的；找不到時改用 docker compose 的 postgres 容器（Windows 開發環境）。
+const APP = fileURLToPath(new URL('..', import.meta.url));
+const BACKUP_DIR = process.env.BACKUP_DIR || APP + 'backups/';
+const dbOf = u => decodeURIComponent(new URL(u).pathname.slice(1));
+function pgTool(tool, args, { url: u, stdinFile, stdoutFile } = {}) {
+  const native = process.env.PG_BIN ? process.env.PG_BIN.replace(/\/?$/, '/') + tool : tool;
+  const io = () => [stdinFile ? openSync(stdinFile, 'r') : 'ignore', stdoutFile ? openSync(stdoutFile, 'w') : 'pipe', 'pipe'];
+  const tryRun = (cmd, cmdArgs) => {
+    const stdio = io();
+    try { return spawnSync(cmd, cmdArgs, { stdio, encoding: 'utf8', cwd: APP }); }
+    finally { for (const f of stdio) if (typeof f === 'number') closeSync(f); }
+  };
+  let r = tryRun(native, [...args, '--dbname=' + u]);
+  if (r.error && r.error.code === 'ENOENT') {
+    const parsed = new URL(u);
+    r = tryRun('docker', ['compose', '-f', 'docker-compose.test.yml', 'exec', '-T', 'postgres', tool, '-U', decodeURIComponent(parsed.username || 'postgres'), ...args, '--dbname=' + dbOf(u)]);
+    if (r.error) throw new Error(`找不到 ${tool}（本機或 docker compose 都無法執行）：${r.error.message}`);
+  }
+  if (r.status !== 0) throw new Error(`${tool} 失敗：${(r.stderr || '').slice(-500)}`);
+  return r;
+}
+async function rowCounts(c) {
+  const t = (await c.query(`select tablename from pg_tables where schemaname='public' order by tablename`)).rows.map(r => r.tablename);
+  const out = {};
+  for (const name of t) out[name] = Number((await c.query(`select count(*) from public."${name.replace(/"/g, '""')}"`)).rows[0].count);
+  return out;
+}
+async function backupBefore(c, file) {
+  const has = (await c.query(`select to_regclass('public."user"') is not null as t`)).rows[0].t
+    && Number((await c.query('select (select count(*) from "user") + (select count(*) from pages) as n')).rows[0].n) > 0;
+  if (!has) return null;   // 空的資料庫（全新安裝、測試重設）沒有需要備份的資料
+  mkdirSync(BACKUP_DIR, { recursive: true });
+  const ts = new Date().toISOString().replace(/[-:.TZ]/g, '').slice(0, 14);
+  const out = `${BACKUP_DIR}${dbOf(url)}-${ts}-before-${file.replace(/\.sql$/, '')}.dump`;
+  pgTool('pg_dump', ['-Fc', '--no-owner'], { url, stdoutFile: out });
+  // 驗證：還原到暫存資料庫，比對各表筆數與結構指紋
+  const tmp = `${dbOf(url)}_bkcheck_${ts}`.slice(0, 63);
+  const admin = new URL(url); admin.pathname = '/postgres';
+  const a = new pg.Client({ connectionString: admin.toString(), application_name: 'migrate' });
+  await a.connect();
+  try {
+    await a.query(`create database "${tmp}" template template0`);
+    const tu = new URL(url); tu.pathname = '/' + tmp;
+    pgTool('pg_restore', ['--no-owner', '--exit-on-error'], { url: tu.toString(), stdinFile: out });
+    const t = new pg.Client({ connectionString: tu.toString(), application_name: 'migrate' });
+    await t.connect();
+    try {
+      const [ca, cb] = [JSON.stringify(await rowCounts(c)), JSON.stringify(await rowCounts(t))];
+      const [fa, fb] = [JSON.stringify(await fingerprint(c)), JSON.stringify(await fingerprint(t))];
+      if (ca !== cb || fa !== fb) throw new Error('備份還原後與原資料庫不一致，不遷移');
+    } finally { await t.end(); }
+  } finally {
+    await a.query(`drop database if exists "${tmp}"`).catch(() => {});
+    await a.end();
+  }
+  console.log('backup', out);
+  return out;
+}
 
 const DIR = new URL('../migrations/', import.meta.url);
 const url = process.env.DATABASE_URL;
@@ -34,6 +98,7 @@ async function up(c) {
   const done = new Set(await applied(c));
   for (const f of files) {
     if (done.has(f)) continue;
+    if (readFileSync(new URL(f, DIR), 'utf8').startsWith('-- requires-backup')) await backupBefore(c, f);
     await c.query('begin');
     try {
       for (const s of statements(readFileSync(new URL(f, DIR), 'utf8'))) await c.query(s);
@@ -99,12 +164,26 @@ async function check(c) {
   console.log(JSON.stringify({ migrations: files.length, results, emptyAfterFullRollback: true }));
 }
 
+// 從備份還原：清空目前資料庫的 public 物件，再以 pg_restore 還原（備份包含測試資料庫標記時一併還原）
+async function restore(c, file) {
+  if (!file || !existsSync(file)) throw new Error('找不到備份檔 ' + file);
+  await c.query(`do $$ declare r record; begin
+    for r in select tablename from pg_tables where schemaname='public' loop
+      execute 'drop table if exists public.' || quote_ident(r.tablename) || ' cascade'; end loop;
+    for r in select p.oid::regprocedure as f from pg_proc p where p.pronamespace = 'public'::regnamespace and p.prokind = 'f'
+      and not exists (select 1 from pg_depend d where d.objid = p.oid and d.deptype = 'e') loop
+      execute 'drop function if exists ' || r.f || ' cascade'; end loop; end $$`);
+  pgTool('pg_restore', ['--no-owner', '--exit-on-error'], { url, stdinFile: file });
+  console.log('restored', file);
+}
+
 const [cmd = 'up', arg] = process.argv.slice(2);
 try {
   await withClient(async c => {
     if (cmd === 'up') await up(c);
     else if (cmd === 'down') await down(c, Number(arg || 1));
     else if (cmd === 'check') await check(c);
+    else if (cmd === 'restore') await restore(c, arg);
     else throw new Error('未知指令 ' + cmd);
   });
 } catch (e) { console.error(e.message); process.exit(1); }
