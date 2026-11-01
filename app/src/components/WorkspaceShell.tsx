@@ -64,9 +64,9 @@ export default function WorkspaceShell({ children, userId }: { children: React.R
         </AppShell.Navbar>
         <AppShell.Main>{children}</AppShell.Main>
       </AppShell>
-      <Modal opened={leave !== null} onClose={() => reply(false)} title="這一頁還有尚未同步的修改" data-testid="leave-confirm">
+      <Modal opened={leave !== null} onClose={() => reply(false)} title="這一頁還有尚未同步的修改">
         <Stack>
-          <Text size="sm">有 {leave} 筆修改還沒有存到伺服器。內容已保存在此裝置，下次開啟這一頁時會再送出；在那之前其他人看不到這些修改。</Text>
+          <Text size="sm" data-testid="leave-confirm">有 {leave} 筆修改還沒有存到伺服器。內容已保存在此裝置，下次開啟這一頁時會再送出；在那之前其他人看不到這些修改。</Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={() => reply(false)}>留在此頁</Button>
             <Button color="orange" onClick={() => reply(true)}>仍要離開</Button>

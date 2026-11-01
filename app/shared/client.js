@@ -11,7 +11,7 @@
 //   名字與顏色以伺服器在 welcome 告知的為準（伺服器也會覆蓋轉送給其他人的狀態）；送出節流為每 100 毫秒最多一次。
 //   斷線、撤銷、失去權限時清除其他人的游標。
 // - 連線存活檢查（livenessMs，瀏覽器使用；Node 測試預設關閉）：網路中斷但 TCP 沒有關閉時，瀏覽器可能很久都不觸發 close，
-//   畫面會停在「儲存中」再變成「儲存失敗」。已連線時每 livenessMs/2 送一次 ping，超過 livenessMs 沒有收到任何訊息就視為斷線，
+//   畫面會停在「儲存中」再變成「儲存失敗」。已連線時每 livenessMs/4 送一次 ping，超過 livenessMs 沒有收到任何訊息就視為斷線，
 //   改顯示「離線」並重新連線。瀏覽器的 offline 事件（goOffline）也立即視為斷線。
 // - 五種儲存狀態（W3）：displayStatus()，判定規則見 save-state.js；伺服器的 {t:'db'} 通知資料庫寫入失敗與恢復
 import * as Y from 'yjs';
@@ -260,9 +260,10 @@ export class Client extends Emitter {
     this.livenessTimer = setInterval(() => {
       const ws = this.ws;
       if (!ws || !this.ready) return;
-      if (Date.now() - this.lastHeard > this.livenessMs) { this.socketLost(ws); return; }
-      this.raw({ t: 'ping' });
-    }, Math.max(200, Math.floor(this.livenessMs / 2)));
+      const now = Date.now();
+      if (now - this.lastHeard > this.livenessMs) { this.socketLost(ws); return; }
+      if (now - (this.lastPing || 0) >= this.livenessMs / 4) { this.lastPing = now; this.raw({ t: 'ping' }); }
+    }, Math.max(100, Math.floor(this.livenessMs / 16)));
     if (typeof this.livenessTimer.unref === 'function') this.livenessTimer.unref();
   }
   stopLiveness() { if (this.livenessTimer) { clearInterval(this.livenessTimer); this.livenessTimer = null; } }

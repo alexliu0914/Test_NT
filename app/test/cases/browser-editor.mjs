@@ -469,7 +469,12 @@ async function domCheck(P, tag, fails, expect) {
     return {
       xss: window.__xss || 0,
       onAttrs: els.flatMap(e => [...e.attributes].filter(a => /^on/i.test(a.name)).map(a => e.tagName + '.' + a.name)),
-      bad: els.filter(e => ['SCRIPT', 'IFRAME', 'OBJECT', 'EMBED', 'svg', 'SVG', 'math', 'MATH', 'IMG', 'VIDEO', 'AUDIO'].includes(e.tagName)).map(e => e.tagName),
+      // ProseMirror 在行尾的游標標記（M2-b 起顯示對方游標）旁自動加入 <img class="ProseMirror-separator" alt="">：
+      // 沒有 src、不載入也不執行任何東西；只排除這個屬性完全相符的元素（T-M2-07），其他 IMG 仍判失敗
+      bad: els.filter(e => ['SCRIPT', 'IFRAME', 'OBJECT', 'EMBED', 'svg', 'SVG', 'math', 'MATH', 'IMG', 'VIDEO', 'AUDIO'].includes(e.tagName))
+        .filter(e => !(e.tagName === 'IMG' && e.className === 'ProseMirror-separator' && e.getAttribute('alt') === ''
+          && [...e.attributes].every(a => ['class', 'alt', 'mark-placeholder'].includes(a.name))))
+        .map(e => e.tagName),
       hrefs: els.filter(e => e.hasAttribute('href')).map(e => e.getAttribute('href')),
       xlink: els.filter(e => e.hasAttribute('xlink:href')).length,
       text: ed.innerText,

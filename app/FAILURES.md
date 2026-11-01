@@ -178,3 +178,14 @@ M2 計畫 v0.5 W3 要求五種儲存狀態。M1 的 `failed` 狀態顯示的文�
 ### T-M2-06 測試工具的增補（不影響既有判定）
 - `test/lib/browser.mjs` 的 `installRelay` 新增 `setFilter`（攔下伺服器送來的特定訊息）、`inject`（送出模擬的伺服器訊息）、`dropConnections`（中斷目前連線，用戶端自動重新連線），供 COL-07 檢查「不對應的確認」；原有的延遲與離線功能不變。
 - 編輯器的測試介面 `window.__app` 新增 `peers()`、`me()`、`awarenessClientId()`、`statusLog()`。
+
+### F-M2-07 被其他帳號草稿封鎖的裝置上開啟頁面，會留下這個帳號的「草稿」，反過來封鎖原帳號
+- 發現：COL-10 第 2 輪。A 在裝置上留有離線草稿；B 在同一台裝置登入並開啟另一個頁面（被 A 的草稿封鎖，顯示「有其他帳號的草稿」）。編輯器仍為空白的新文件套用固定骨架（F-M1-05），這筆骨架被當作 B 的待確認修改寫入本機；A 重新開啟時反而被 B 的「草稿」封鎖，看不到自己的離線內容。
+- 修正（`Editor.tsx`）：裝置被其他帳號的草稿封鎖時不套用骨架（這時也不會連線或編輯）。M1 起即存在；M2-c 改為依帳號分區後此情境不再封鎖，修正仍保留。
+- 回歸測試：COL-10 每輪讓 B 在被封鎖的裝置上開啟另一個頁面，之後 A 重新開啟必須看到自己的離線內容並補送。
+
+### T-M2-07 SEC-04 的 DOM 檢查排除 ProseMirror 的游標分隔元素
+- 發現：M2-b 起編輯器顯示對方的游標。對方游標（或輸入法標記）在行尾時，ProseMirror 會在旁邊自動加入 `<img class="ProseMirror-separator" alt="">`（prosemirror-view 的瀏覽器相容處理），SEC-04 的「不能有 IMG」檢查因此失敗。
+- 原判定：`.bn-editor` 內任何 `SCRIPT、IFRAME、OBJECT、EMBED、SVG、MATH、IMG、VIDEO、AUDIO` 都判失敗。
+- 新判定：同上，只排除「`IMG`、class 恰為 `ProseMirror-separator`、alt 為空、除 class／alt／mark-placeholder 外沒有任何屬性」的元素。這個元素沒有 src，不會載入或執行任何東西；有 src、事件屬性或其他屬性的 IMG 仍判失敗。其餘檢查（執行計數、事件屬性、危險連結、xlink）不變。
+- 覆蓋：不縮小（被排除的元素不可能載入資源或執行程式）。M2-a 驗收時這個元素不會出現（當時沒有對方游標）。

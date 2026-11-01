@@ -85,7 +85,8 @@ export default function Editor(props: Props) {
         });
         // 文件仍是空的（新頁面、這台裝置還沒同步過）：先套用固定的骨架，避免兩人同時開始輸入時各自建立一份（F-M1-05）
         // 結構 ID 與伺服器建立頁面時寫入的完全相同，已存在時套用不會有任何變化
-        if (client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
+        // F-M2-07：這台裝置被其他帳號的草稿封鎖時不套用（否則骨架會成為這個帳號的「待確認修改」寫入本機，反過來封鎖原帳號）
+        if (!foreign.length && !client.blocked && client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
         const editor = BlockNoteEditor.create(withCollaboration({
           schema,
           dictionary,

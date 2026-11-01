@@ -663,10 +663,15 @@ export async function col10(N) {
       const cx = await launch(pw, dA);
       await useAgentCookies(cx, UB.agent);
       const P = cx.pages()[0] || await cx.newPage();
-      await P.goto(env.base + '/');
+      await P.goto(`${env.base}/p/${docId}`);
       await P.locator(`[data-testid="tree-row"][data-page-id="${docId}"]`).waitFor({ timeout: 15000 });
       await sleep(2500);
       if (await P.locator('[data-testid="unsynced-mark"]').count()) fails.push('另一個帳號在同一台裝置上看到 A 的未同步標示');
+      // F-M2-07：B 在這台被封鎖的裝置上開啟另一頁，不能留下 B 自己的草稿（否則反過來封鎖 A，A 重新開啟時看不到自己的草稿）
+      const otherPage = await newPage(UA.agent, 'COL-10 其他 ' + r);
+      await P.goto(`${env.base}/p/${otherPage}`);
+      await P.waitForFunction(() => window.__app && window.__app.status() === 'blocked', null, { timeout: 15000 }).catch(() => fails.push('B 在有 A 草稿的裝置上沒有被封鎖'));
+      await sleep(500);
       await cx.close();
     }
     // 恢復網路、重新開啟；伺服器的訊息延遲 1.5 秒送達，以觀察「收到確認之前」的狀態
