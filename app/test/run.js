@@ -1,7 +1,7 @@
 // 用法：node test/run.js AUTH-01=3 PAGE-02=5 M0-01=100 BR-01=10 ...（M1 由 M0 執行器移植，判定規則相同）
 //   或：node test/run.js --stage m2-a --group browser --full|--quick
 //       依 test/manifest.json 執行該階段（含之前階段）的所有案例；之後階段的案例記為 NOT_APPLICABLE_NOT_IMPLEMENTED（不算通過）。
-//       manifest 必須通過 M1 基線檢查（m1-baseline.json），否則拒絕執行。--manifest <路徑> 只供執行器自我測試使用。
+//       manifest 必須通過 M1 與已驗收階段的基線檢查（m1-baseline.json、accepted-baselines.json），否則拒絕執行。--manifest <路徑> 只供執行器自我測試使用。
 // 任一案例有失敗輪次、中止、未知案例名稱、輪數不足或結果檔缺失，退出碼都是 1（供 CI 阻擋合併）。
 // 每次執行都寫出 results/summary.json：提交 SHA、環境版本、完整指令、各案例結果與退出碼。
 import { existsSync, readFileSync, writeFileSync, mkdirSync, unlinkSync } from 'node:fs';
@@ -67,7 +67,7 @@ if (STAGE) {
     if (!man.stages.includes(STAGE)) errs.push(`未知的階段：${STAGE}`);
     if (GROUP && !man.groups.includes(GROUP)) errs.push(`未知的群組：${GROUP}`);
     if (!MODE) errs.push('--stage 必須搭配 --full 或 --quick');
-    if (errs.length) manifestError = 'manifest 未通過 M1 基線檢查，拒絕執行：' + errs.join('；');
+    if (errs.length) manifestError = 'manifest 未通過基線檢查（M1 與已驗收階段），拒絕執行：' + errs.join('；');
     else for (const c of man.cases) {
       if (GROUP && c.group !== GROUP) continue;
       if (isActive(man, c, STAGE)) args.push(`${c.id}=${c[MODE]}`);

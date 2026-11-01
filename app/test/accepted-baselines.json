@@ -1,0 +1,43 @@
+{
+  "_doc": "已驗收的 M2 階段封存基線：各階段新增案例的完整輪數與變異。只能增加，不能刪除、改階段或減少完整輪數（M1 另見 m1-baseline.json）。",
+  "stages": {
+    "m2-a": {
+      "commit": "21412934c1cbb732a6b2a63c85ead3ae49eca050",
+      "accepted": "2026-11-01",
+      "cases": {
+        "EDIT-01": 10,
+        "EDIT-02": 10,
+        "BR-05": 20,
+        "SEC-04": 5
+      },
+      "mutants": [
+        "MUT-C6",
+        "MUT-B6",
+        "MUT-B7"
+      ]
+    },
+    "m2-s": {
+      "commit": "d78a0948012b5ad9c01329136a9fbc52a8f1328e",
+      "accepted": "2026-11-01",
+      "cases": {
+        "ACL-01": 10,
+        "ACL-02": 20,
+        "ACL-03": 30,
+        "MIG-02": 3,
+        "AUTH-08": 5,
+        "ACL-04": 5
+      },
+      "mutants": [
+        "MUT-S1",
+        "MUT-S2",
+        "MUT-S3",
+        "MUT-S4",
+        "MUT-S5",
+        "MUT-S6",
+        "MUT-S7",
+        "MUT-S8",
+        "MUT-S9"
+      ]
+    }
+  }
+}

@@ -55,14 +55,14 @@ export PGHOST=127.0.0.1 PGPORT=54329 PGUSER=postgres
 bash test/setup-test-db.sh                         # 建立 notes_test（只會對 *_test 資料庫執行）
 COLLAB_PUBLIC_URL=ws://127.0.0.1:27601 npx next build
 npx playwright install --with-deps chromium
-node test/runner-selftest.mjs                      # 執行器自我測試（15 項）
+node test/runner-selftest.mjs                      # 執行器自我測試（16 項）
 node test/run.js MIG-01=3 AUTH-01=10 SEC-02=20 PAGE-05=60 M0-01=100 BR-01=20 BR-04=20 ...
 python3 test/mutations.py --stage m2-s              # 該階段的植入缺陷都必須被抓到（M1 26 個＋M2-a 3 個＋M2-s 9 個）
 ```
 
 ### 分段執行（M2 起）
 
-`test/manifest.json` 列出每個案例與變異所屬的階段（m1、m2-a、m2-s、m2-b～m2-d）、群組（api、core、browser、perf）與輪數；`test/m1-baseline.json` 是 M1 封存基線（5f7bd04），M1 的案例與變異不能移除、改階段或減少完整輪數，否則執行器拒絕執行。
+`test/manifest.json` 列出每個案例與變異所屬的階段（m1、m2-a、m2-s、m2-b～m2-d）、群組（api、core、browser、perf）與輪數；`test/m1-baseline.json` 是 M1 封存基線（5f7bd04），`test/accepted-baselines.json` 是已驗收的 M2 階段（M2-a `2141293`、M2-s `d78a094`）；這些案例與變異不能移除、改階段或減少完整輪數，否則執行器拒絕執行。
 
 ```bash
 node test/run.js --stage m2-a --group browser --full    # 該階段（含之前）的全部案例；之後階段的記為 NOT_APPLICABLE_NOT_IMPLEMENTED

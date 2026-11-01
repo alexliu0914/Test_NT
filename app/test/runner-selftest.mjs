@@ -19,6 +19,9 @@ writeFileSync(ROOT + 'results/manifest-selftest.json', JSON.stringify(withSelfte
 // M1 基線案例被減少完整輪數
 const weakened = { ...realManifest, cases: realManifest.cases.map(c => c.id === 'PAGE-05' ? { ...c, full: 30 } : c) };
 writeFileSync(ROOT + 'results/manifest-weakened.json', JSON.stringify(weakened));
+// 已驗收的 M2-s 案例被減少完整輪數、M2-s 變異被移除
+const weakenedS = { ...realManifest, cases: realManifest.cases.map(c => c.id === 'ACL-03' ? { ...c, full: 10 } : c), mutants: realManifest.mutants.filter(m => m.id !== 'MUT-S8') };
+writeFileSync(ROOT + 'results/manifest-weakened-m2s.json', JSON.stringify(weakenedS));
 const checks = [
   { name: '全部通過 → 退出碼 0', args: ['SELFTEST-PASS=3'], expect: 0 },
   { name: '有一輪失敗 → 退出碼 1', args: ['SELFTEST-FAIL=3'], expect: 1 },
@@ -36,6 +39,7 @@ const checks = [
   { name: '最終階段仍有未實作的案例 → 退出碼 1', args: ['--stage', realManifest.final, '--group', 'selftest', '--quick', '--manifest', 'results/manifest-selftest.json'], expect: 1,
     caseStatus: { 'ZZ-01': 'unknown_case' } },
   { name: 'M1 基線案例被減少輪數 → 拒絕執行、退出碼 1', args: ['--stage', 'm2-a', '--group', 'api', '--quick', '--manifest', 'results/manifest-weakened.json'], expect: 1, mustSay: 'M1 基線' },
+  { name: '已驗收階段（M2-s）的案例被減少輪數、變異被移除 → 拒絕執行、退出碼 1', args: ['--stage', 'm2-s', '--group', 'api', '--quick', '--manifest', 'results/manifest-weakened-m2s.json'], expect: 1, mustSay: '已驗收階段 m2-s' },
   { name: '連到非測試資料庫 → 拒絕執行、退出碼 1', args: ['SELFTEST-PASS=1'], env: { TEST_DATABASE_URL: prodLike.toString(), DATABASE_URL: prodLike.toString() }, expect: 1, mustSay: '拒絕執行' },
 ];
 

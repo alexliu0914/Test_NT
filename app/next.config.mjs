@@ -1,7 +1,10 @@
 // Next.js 設定：安全標頭（CSP 等）在這裡統一加上
+// 開發模式（next dev）的 React 需要 eval() 重建錯誤的呼叫堆疊，只在開發模式允許 'unsafe-eval'；
+// 正式模式（next build／next start，測試與部署都用這個）的 CSP 不變。
+const dev = process.env.NODE_ENV === 'development';
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ''}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "media-src 'self' blob:",

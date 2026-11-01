@@ -32,8 +32,8 @@ jobs:
       # 失敗時把輸出最後一段寫成註解（可經 API 讀取）
       BASH_ENV: ${{ github.workspace }}/prototype/scripts/ci-annotate.sh
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: '22.23.4'
       - name: 版本資訊
@@ -76,7 +76,7 @@ jobs:
         run: ann python3 test/mutations.py
       - name: 上傳結果
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: m0-results-${{ github.sha }}
           path: |

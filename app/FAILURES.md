@@ -144,3 +144,23 @@ M2-s 起頁面屬於空間，非成員看不到；帳號最多四個。M1 案例
 ### F-M2-06 設定圖示後選單不會自動關閉
 - 發現：BR-03 在 M2-s 介面上執行。側邊欄改為每個空間各有一個「＋ 新增頁面」按鈕後，按鈕就在頁面列下方，圖示選單選完仍開著，遮住按鈕。
 - 修正：選擇或移除圖示後關閉選單（`Sidebar.tsx`）。BR-03 的步驟與判定沒有修改。
+
+
+# M2-b 發現的問題與修正
+
+## 維護項目（M2-s 驗收決議列入後續維護）
+
+### MNT-01 開發模式左下角的「eval() is not supported」提示
+- 發現：M2-s 四帳號試用時，`npm run dev` 的畫面左下角一直有一個 Next.js 提示。M1 起即存在。
+- 原因：CSP 的 `script-src` 不允許 `'unsafe-eval'`；React 只在開發模式用 eval() 重建錯誤的呼叫堆疊。
+- 修正（`next.config.mjs`）：只在 `NODE_ENV=development`（`next dev`）時加上 `'unsafe-eval'`。正式模式（`next build`／`next start`，自動化測試與部署都用這個）的 CSP 與先前完全相同：`script-src 'self' 'unsafe-inline'`。
+
+### MNT-02 GitHub Actions 的 Node.js 20 棄用警告
+- 發現：CI 執行顯示「Node.js 20 is deprecated … actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4」。
+- 修正：改用以 Node.js 24 執行的版本：`actions/checkout@v5`、`actions/setup-node@v5`、`actions/upload-artifact@v6`（app、m0、m0-15 三個工作流程）。受測程式使用的 Node 版本（22.23.4）不變。
+
+## 測試與工具
+
+### T-M2-04 已驗收階段的封存基線
+- 依 M2-s 驗收決議「將 d78a094 封存為 M2-s 程式驗證基線」、「M2-b 必須保留現有空間授權、資料提交與衝突副本規則」：新增 `test/accepted-baselines.json`，記錄 M2-a（2141293）與 M2-s（d78a094）新增的案例完整輪數與變異。`checkManifest` 比照 M1 基線，不允許移除、改階段或減少完整輪數。
+- 執行器自我測試 15 → 16 項（新增「已驗收階段的案例被減少輪數、變異被移除 → 拒絕執行」）。
