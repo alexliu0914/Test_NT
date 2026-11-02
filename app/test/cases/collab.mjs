@@ -149,6 +149,92 @@ export async function col01(N) {
     if (count(txt.DB, '段') !== 1) fails.push('原有文字「段」數量不對：' + count(txt.DB, '段'));
     await orderedPaste(r, fails, m);
     await typeDuringConvert(r, fails, m);
+    await undoTypeChange(r, fails, m);
+  }
+
+  // F-M2-10 固定順序：A 改區塊類型，B 收到後在該區塊打字，A 復原／重做。只改類型的那一步復原時只改回類型，
+  // B 的字在兩端與資料庫恰好出現一次。情境：改標題、改清單（「- 」）、復原後繼續編輯、B 斷線時 A 復原、
+  // 復原時 B 同時打字（暫停 B 的接收，伺服器補救，F-M2-09 與復原交錯）。
+  async function undoTypeChange(r, fails, m) {
+    const A = S[0].P, B = S[2].P, relay = S[2].relay;
+    const typeOf = async P => P.evaluate(() => window.__app.editor.document[0].type);
+    const waitType = (P, ty) => P.waitForFunction(t => window.__app.editor.document[0]?.type === t, ty, { timeout: 10000 });
+    const press = async (P, keys) => { await P.locator('.bn-editor').focus(); await P.keyboard.press(keys); };
+    const userB = env.users[1].id;
+    for (const how of ['heading', 'list', 'continue', 'offline', 'race']) {
+      const tag = `undo-${how}:`;
+      const base = `乙${r}u${how.slice(0, 2)}`, late = `後${r}u${how.slice(0, 2)}`, late2 = `復${r}u${how.slice(0, 2)}`, mine = `續${r}`;
+      const want = how === 'list' ? 'bulletListItem' : 'heading';
+      const tokens = [base, late];
+      const verify = async (label, type, toks) => {
+        await waitSynced(A, 40000); await waitSynced(B, 40000);
+        await waitType(B, type).catch(() => {});
+        const bd = await checkConverged(fails, `${tag}${label}`, [A, B], docId);
+        const t = allText(bd);
+        if (!bd.length || bd[0].type !== type) fails.push(`${tag}${label}區塊類型不是 ${type}：${bd[0] && bd[0].type}`);
+        if (bd.length !== 1) fails.push(`${tag}${label}應只有 1 個區塊，實際 ${bd.length}`);
+        for (const tok of toks) if (count(t, tok) !== 1) fails.push(`${tag}${label}「${tok}」出現 ${count(t, tok)} 次`);
+        return t;
+      };
+      let docId;
+      try {
+        docId = await newPage(env.users[0].agent, `COL-01 復原改類型 ${how} ${r}`);
+        await openDoc(A, env.base, docId); await openDoc(B, env.base, docId);
+        await waitSynced(A); await waitSynced(B);
+        await caretInto(B, 0); await B.keyboard.type(base); await waitSynced(B);
+        await A.waitForFunction(t => window.__app.text().includes(t), base, { timeout: 10000 });
+        const id = await A.evaluate(() => window.__app.editor.document[0].id);
+        await A.locator('.bn-editor').focus();
+        await A.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'start'), id);
+        if (how === 'list') await A.keyboard.type('- ', { delay: 10 }); else await A.keyboard.press('Control+Alt+1');
+        await waitSynced(A);
+        await waitType(B, want);
+        await B.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'end'), id);
+        await B.keyboard.type(late);
+        await waitSynced(B);
+        await A.waitForFunction(t => window.__app.text().includes(t), late, { timeout: 10000 });
+        if (how === 'offline') { relay.goOffline(); await B.waitForFunction(() => !window.__app.client.ready, null, { timeout: 10000 }); }
+        if (how === 'race') relay.hold();
+        await press(A, 'Control+z');
+        await waitType(A, 'paragraph').catch(() => {});
+        await waitSynced(A);
+        if (how === 'offline' || how === 'race') {
+          // B 還沒收到 A 的復原，在原本的區塊繼續打字
+          await B.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'end'), id);
+          await B.keyboard.type(late2);
+          tokens.push(late2);
+          if (how === 'offline') relay.goOnline();
+          else {
+            const t0 = Date.now();
+            const n0 = Number((await db.query('select count(*)::int as n from doc_updates where page_id=$1 and user_id=$2', [docId, userB])).rows[0].n);
+            let n = n0;
+            while (Date.now() - t0 < 15000 && (n = Number((await db.query('select count(*)::int as n from doc_updates where page_id=$1 and user_id=$2', [docId, userB])).rows[0].n)) === n0) await sleep(50);
+            if (n === n0) throw new Error('B 的修改沒有提交');
+            relay.release();
+          }
+        }
+        const t1 = await verify('復原後', 'paragraph', tokens);
+        if (how === 'list' && !t1.startsWith('- ')) fails.push(`${tag}復原後開頭的「- 」沒有恢復：${JSON.stringify(t1.slice(0, 20))}`);
+        if (how === 'continue') {
+          await A.evaluate(i => window.__app.editor.setTextCursorPosition(i, 'end'), id);
+          await A.keyboard.type(mine);
+          tokens.push(mine);
+          await verify('復原後繼續編輯', 'paragraph', tokens);
+          await press(A, 'Control+Shift+z');
+          await verify('繼續編輯後按重做（沒有可重做的）', 'paragraph', tokens);
+        } else {
+          await press(A, 'Control+Shift+z');
+          await waitType(A, want).catch(() => {});
+          const t2 = await verify('重做後', want, tokens);
+          if (how === 'list' && t2.startsWith('-')) fails.push(`${tag}重做後開頭仍有「- 」：${JSON.stringify(t2.slice(0, 20))}`);
+        }
+        for (const P of [A, B]) if ((await status(P)) !== 'saved') fails.push(`${tag}最後狀態不是已儲存：${await status(P)}`);
+      } catch (e) {
+        fails.push(`${tag}exception: ${e.message}`);
+      } finally {
+        relay.release(); relay.goOnline();
+      }
+    }
   }
 
   // F-M2-09 固定順序：B 在區塊 X 打字；A 把 X 改成標題或清單；B 在收到 A 的修改之前再打字（暫停 B 的接收，

@@ -88,5 +88,23 @@ const check = (label, w, expect) => {
   const ra = server(w, w.qa.shift()); deliver(w.B, ra);
   const ok = textOf(w.S) === textOf(w.B) && !textOf(w.S).includes('乙原') && textOf(w.S).includes('新');
   if (!ok) fails++; console.log((ok ? 'ok   ' : 'FAIL ') + '取代的字不復活', textOf(w.S)); }
+// 10. 版本還原把整個文件換掉之後才到的字：新節點已被刪除，不補、不出錯（還原的內容不被改動）
+{ const w = world(); convert(w.A, 'heading'); typeB(w, 'end', 'V');
+  const ra = server(w, w.qa.shift()); deliver(w.A, ra.slice(1));
+  w.A.transact(() => { const f = w.A.getXmlFragment(FR); f.delete(0, f.length); const g = new Y.XmlElement('blockGroup'), c = new Y.XmlElement('blockContainer'), p = new Y.XmlElement('paragraph'), t = new Y.XmlText(); t.insert(0, '還原'); p.insert(0, [t]); c.insert(0, [p]); g.insert(0, [c]); f.insert(0, [g]); }, 'restore');
+  const rr = server(w, w.qa.shift());
+  let err = null; let rb = [];
+  try { rb = server(w, w.qb.shift()); } catch (e) { err = e; }
+  deliver(w.A, rb); deliver(w.B, ra); deliver(w.B, rr); deliver(w.B, rb.slice(1));
+  const sx = w.S.getXmlFragment(FR).toString();
+  const ok = !err && sx.includes('還原') && !sx.includes('V') && sx === w.B.getXmlFragment(FR).toString();
+  if (!ok) fails++; console.log((ok ? 'ok   ' : 'FAIL ') + '還原後才到的字不補', err ? String(err) : sx); }
+// 11. 冪等：同一筆改類型更新重送（伺服器去重之前）不會重複寫入對應表或補字
+{ const w = world(); convert(w.A, 'heading'); typeB(w, 'end', 'I');
+  const ua = w.qa.shift(); const ra = server(w, ua); const ra2 = server(w, ua);
+  const ub = w.qb.shift(); const rb = server(w, ub);
+  deliver(w.A, ra.slice(1)); deliver(w.A, ra2.slice(1)); deliver(w.A, rb); deliver(w.B, ra); deliver(w.B, ra2.slice(1)); deliver(w.B, rb.slice(1));
+  const ok = ra2.length === 1 && (textOf(w.S).match(/I/g) || []).length === 1 && textOf(w.A) === textOf(w.S);
+  if (!ok) fails++; console.log((ok ? 'ok   ' : 'FAIL ') + '改類型更新重送冪等', textOf(w.S), 'second rescue', ra2.length - 1); }
 console.log(fails ? `FAILED ${fails}` : 'all ok');
 process.exit(fails ? 1 : 0);

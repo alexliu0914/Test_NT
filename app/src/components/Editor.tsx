@@ -26,6 +26,7 @@ import { initialDocUpdate } from '@shared/initial-doc.js';
 import { setLeaveGuard } from '@/lib/leave-guard';
 import { keepEmptyLine } from '@/lib/empty-line-keeper';
 import { guardBinding } from '@/lib/binding-guard';
+import { installTypeUndo } from '@/lib/type-undo';
 import * as Y from 'yjs';
 
 export type SaveState = 'loading' | 'saved' | 'saving' | 'offline' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
@@ -178,12 +179,15 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
   useEffect(() => {
     if (deviceBlocked) return;
     const view = viewRef.current;
+    let untypeUndo: (() => void) | null = null;
     // 防呆（M0-B F-05）：確認編輯器真的綁定到協作文件
     const t = setTimeout(() => {
       flags.unbound = !editor.prosemirrorState.plugins.some(p => typeof (p as unknown as { key: string }).key === 'string' && (p as unknown as { key: string }).key.startsWith('y-sync$'));
       if (flags.unbound) { setReadOnly(true); setBanner('編輯器未連接到協作文件，無法儲存。'); }
       // F-M2-09：繫結套用修改時發生例外就重新完整繪製（避免舊畫面被寫回、把剛收到的修改刪掉）
       if (!flags.unbound) guardBinding(editor, e => { bindingErrors.push(String(e)); if (bindingErrors.length > 20) bindingErrors.shift(); });
+      // F-M2-10：只改了區塊類型的那一步，復原／重做時只改類型（不撤銷別人之後的文字）
+      if (!flags.unbound && !untypeUndo) untypeUndo = installTypeUndo(editor);
       for (const p of editor.prosemirrorState.plugins) {
         const st = p.getState(editor.prosemirrorState) as { undoManager?: unknown } | undefined;
         if (st && st.undoManager) client.registerUndoManager(st.undoManager);
@@ -204,7 +208,7 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
     client.connect();
     void view;
     // 效果重新執行（開發模式的 StrictMode 會刻意執行兩次）時不重複註冊事件
-    return () => { clearTimeout(t); for (const [ev, fn] of subs) client.off(ev, fn); };
+    return () => { clearTimeout(t); if (untypeUndo) untypeUndo(); for (const [ev, fn] of subs) client.off(ev, fn); };
   }, [client, editor, deviceBlocked, flags]);
 
   useEffect(() => {
