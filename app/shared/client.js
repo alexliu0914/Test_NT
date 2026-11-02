@@ -173,7 +173,8 @@ export class Client extends Emitter {
     const unsynced = p.length > 0 || !!st.offlineCopy || st.unackedCopies.length > 0;
     return deriveSaveState({
       unsynced,
-      unpersisted: unsynced && (p.some(e => (e.v || 0) > this.persistedVersion) || !this.localPersisted()),
+      // 「尚未存到此裝置」與 M1 的 saveStatus() 用同一個判斷（F-M2-11：不能另寫一份，M1 的保護與變異 MUT-B3 才涵蓋實際使用的程式）
+      unpersisted: unsynced && this.saveStatus() === 'unsaved',
       connected: this.ready,
       dbFailing: this.dbFailing,
       oldestPendingAgeMs: p.length ? Date.now() - Math.min(...p.map(e => e.at)) : 0,
