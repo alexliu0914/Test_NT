@@ -1,0 +1,102 @@
+{
+ "id": "AUTH-03",
+ "title": "未經邀請直接呼叫建立帳號 API：拒絕，沒有帳號被建立",
+ "meta": {},
+ "startedAt": "2026-11-02T05:10:49.137Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "signUpStatus": 400
+   }
+  }
+ ],
+ "durationMs": 2682,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

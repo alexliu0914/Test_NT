@@ -1,0 +1,1812 @@
+{
+ "id": "M0-09",
+ "title": "在還原流程各步驟之間強制終止，以同一 restore_id 重試：完全未套用或只套用一次",
+ "meta": {},
+ "startedAt": "2026-11-02T05:34:17.062Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 90900,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 1,
+   "seed": 90901,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 2,
+   "seed": 90902,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 3,
+   "seed": 90903,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 4,
+   "seed": 90904,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 5,
+   "seed": 90905,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 6,
+   "seed": 90906,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 7,
+   "seed": 90907,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 8,
+   "seed": 90908,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 9,
+   "seed": 90909,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 10,
+   "seed": 90910,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 11,
+   "seed": 90911,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 12,
+   "seed": 90912,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 13,
+   "seed": 90913,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 14,
+   "seed": 90914,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 15,
+   "seed": 90915,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 16,
+   "seed": 90916,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 17,
+   "seed": 90917,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 18,
+   "seed": 90918,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 19,
+   "seed": 90919,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 20,
+   "seed": 90920,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 21,
+   "seed": 90921,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 22,
+   "seed": 90922,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 23,
+   "seed": 90923,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 24,
+   "seed": 90924,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 25,
+   "seed": 90925,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 26,
+   "seed": 90926,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 27,
+   "seed": 90927,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 28,
+   "seed": 90928,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 29,
+   "seed": 90929,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 30,
+   "seed": 90930,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 31,
+   "seed": 90931,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 32,
+   "seed": 90932,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 33,
+   "seed": 90933,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 34,
+   "seed": 90934,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 35,
+   "seed": 90935,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 36,
+   "seed": 90936,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 37,
+   "seed": 90937,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 38,
+   "seed": 90938,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 39,
+   "seed": 90939,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_tx"
+   }
+  },
+  {
+   "i": 40,
+   "seed": 90940,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 41,
+   "seed": 90941,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 42,
+   "seed": 90942,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 43,
+   "seed": 90943,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 44,
+   "seed": 90944,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 45,
+   "seed": 90945,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 46,
+   "seed": 90946,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 47,
+   "seed": 90947,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 48,
+   "seed": 90948,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 49,
+   "seed": 90949,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 50,
+   "seed": 90950,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 51,
+   "seed": 90951,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 52,
+   "seed": 90952,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 53,
+   "seed": 90953,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 54,
+   "seed": 90954,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 55,
+   "seed": 90955,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 56,
+   "seed": 90956,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 57,
+   "seed": 90957,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 58,
+   "seed": 90958,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 59,
+   "seed": 90959,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 60,
+   "seed": 90960,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 61,
+   "seed": 90961,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 62,
+   "seed": 90962,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 63,
+   "seed": 90963,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 64,
+   "seed": 90964,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 65,
+   "seed": 90965,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 66,
+   "seed": 90966,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 67,
+   "seed": 90967,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 68,
+   "seed": 90968,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 69,
+   "seed": 90969,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 70,
+   "seed": 90970,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 71,
+   "seed": 90971,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 72,
+   "seed": 90972,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 73,
+   "seed": 90973,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 74,
+   "seed": 90974,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 75,
+   "seed": 90975,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 76,
+   "seed": 90976,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 77,
+   "seed": 90977,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 78,
+   "seed": 90978,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 79,
+   "seed": 90979,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:mid_tx"
+   }
+  },
+  {
+   "i": 80,
+   "seed": 90980,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 81,
+   "seed": 90981,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 82,
+   "seed": 90982,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 83,
+   "seed": 90983,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 84,
+   "seed": 90984,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 85,
+   "seed": 90985,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 86,
+   "seed": 90986,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 87,
+   "seed": 90987,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 88,
+   "seed": 90988,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 89,
+   "seed": 90989,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 90,
+   "seed": 90990,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 91,
+   "seed": 90991,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 92,
+   "seed": 90992,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 93,
+   "seed": 90993,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 94,
+   "seed": 90994,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 95,
+   "seed": 90995,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 96,
+   "seed": 90996,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 97,
+   "seed": 90997,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 98,
+   "seed": 90998,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 99,
+   "seed": 90999,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 100,
+   "seed": 91000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 101,
+   "seed": 91001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 102,
+   "seed": 91002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 103,
+   "seed": 91003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 104,
+   "seed": 91004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 105,
+   "seed": 91005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 106,
+   "seed": 91006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 107,
+   "seed": 91007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 108,
+   "seed": 91008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 109,
+   "seed": 91009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 110,
+   "seed": 91010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 111,
+   "seed": 91011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 112,
+   "seed": 91012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 113,
+   "seed": 91013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 114,
+   "seed": 91014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 115,
+   "seed": 91015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 116,
+   "seed": 91016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 117,
+   "seed": 91017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 118,
+   "seed": 91018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 119,
+   "seed": 91019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:before_commit"
+   }
+  },
+  {
+   "i": 120,
+   "seed": 91020,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 121,
+   "seed": 91021,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 122,
+   "seed": 91022,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 123,
+   "seed": 91023,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 124,
+   "seed": 91024,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 125,
+   "seed": 91025,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 126,
+   "seed": 91026,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 127,
+   "seed": 91027,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 128,
+   "seed": 91028,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 129,
+   "seed": 91029,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 130,
+   "seed": 91030,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 131,
+   "seed": 91031,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 132,
+   "seed": 91032,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 133,
+   "seed": 91033,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 134,
+   "seed": 91034,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 135,
+   "seed": 91035,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 136,
+   "seed": 91036,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 137,
+   "seed": 91037,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 138,
+   "seed": 91038,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 139,
+   "seed": 91039,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 140,
+   "seed": 91040,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 141,
+   "seed": 91041,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 142,
+   "seed": 91042,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 143,
+   "seed": 91043,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 144,
+   "seed": 91044,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 145,
+   "seed": 91045,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 146,
+   "seed": 91046,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 147,
+   "seed": 91047,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 148,
+   "seed": 91048,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 149,
+   "seed": 91049,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 150,
+   "seed": 91050,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 151,
+   "seed": 91051,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 152,
+   "seed": 91052,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 153,
+   "seed": 91053,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 154,
+   "seed": 91054,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 155,
+   "seed": 91055,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 156,
+   "seed": 91056,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 157,
+   "seed": 91057,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 158,
+   "seed": 91058,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 159,
+   "seed": 91059,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_commit"
+   }
+  },
+  {
+   "i": 160,
+   "seed": 91060,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 161,
+   "seed": 91061,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 162,
+   "seed": 91062,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 163,
+   "seed": 91063,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 164,
+   "seed": 91064,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 165,
+   "seed": 91065,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 166,
+   "seed": 91066,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 167,
+   "seed": 91067,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 168,
+   "seed": 91068,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 169,
+   "seed": 91069,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 170,
+   "seed": 91070,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 171,
+   "seed": 91071,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 172,
+   "seed": 91072,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 173,
+   "seed": 91073,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 174,
+   "seed": 91074,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 175,
+   "seed": 91075,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 176,
+   "seed": 91076,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 177,
+   "seed": 91077,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 178,
+   "seed": 91078,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 179,
+   "seed": 91079,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 180,
+   "seed": 91080,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 181,
+   "seed": 91081,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 182,
+   "seed": 91082,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 183,
+   "seed": 91083,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 184,
+   "seed": 91084,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 185,
+   "seed": 91085,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 186,
+   "seed": 91086,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 187,
+   "seed": 91087,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 188,
+   "seed": 91088,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 189,
+   "seed": 91089,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 190,
+   "seed": 91090,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 191,
+   "seed": 91091,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 192,
+   "seed": 91092,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 193,
+   "seed": 91093,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 194,
+   "seed": 91094,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 195,
+   "seed": 91095,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 196,
+   "seed": 91096,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 197,
+   "seed": 91097,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 198,
+   "seed": 91098,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  },
+  {
+   "i": 199,
+   "seed": 91099,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "point": "restore:after_broadcast"
+   }
+  }
+ ],
+ "durationMs": 247032,
+ "total": 200,
+ "passed": 200,
+ "failed": 0
+}

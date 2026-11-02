@@ -1,0 +1,122 @@
+{
+ "id": "COL-03",
+ "title": "一方離線 30 秒持續編輯後重新連線：所有待確認 update_id 都被提交與確認，兩端與資料庫一致",
+ "meta": {},
+ "startedAt": "2026-11-02T06:12:03.653Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 3000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8408,
+    "pendingIds": 48,
+    "offlineMs": 32549
+   }
+  },
+  {
+   "i": 1,
+   "seed": 3001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8410,
+    "pendingIds": 51,
+    "offlineMs": 32569
+   }
+  },
+  {
+   "i": 2,
+   "seed": 3002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8364,
+    "pendingIds": 47,
+    "offlineMs": 32527
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8399,
+    "pendingIds": 49,
+    "offlineMs": 32497
+   }
+  },
+  {
+   "i": 4,
+   "seed": 3004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8362,
+    "pendingIds": 49,
+    "offlineMs": 32591
+   }
+  },
+  {
+   "i": 5,
+   "seed": 3005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8390,
+    "pendingIds": 52,
+    "offlineMs": 32604
+   }
+  },
+  {
+   "i": 6,
+   "seed": 3006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8418,
+    "pendingIds": 50,
+    "offlineMs": 32561
+   }
+  },
+  {
+   "i": 7,
+   "seed": 3007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8397,
+    "pendingIds": 49,
+    "offlineMs": 32574
+   }
+  },
+  {
+   "i": 8,
+   "seed": 3008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8435,
+    "pendingIds": 50,
+    "offlineMs": 32545
+   }
+  },
+  {
+   "i": 9,
+   "seed": 3009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "stallOfflineMs": 8358,
+    "pendingIds": 50,
+    "offlineMs": 32618
+   }
+  }
+ ],
+ "durationMs": 450320,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

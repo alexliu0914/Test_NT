@@ -1,0 +1,302 @@
+{
+ "startedAt": "2026-11-02T05:10:37.237Z",
+ "command": "node test/run.js --stage m2-b --group api --full",
+ "stage": "m2-b",
+ "group": "api",
+ "mode": "full",
+ "commit": "27a0ca2349c82b23be1c349e90be2ccb6fd899de",
+ "tested_sha": "27a0ca2349c82b23be1c349e90be2ccb6fd899de",
+ "dirty": false,
+ "env": {
+  "node": "v22.23.4",
+  "platform": "linux x64",
+  "database": "notes_test",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "packages": {
+   "next": "16.4.2",
+   "better-auth": "1.7.10",
+   "drizzle-orm": "0.45.4",
+   "yjs": "13.6.33",
+   "ws": "8.22.0",
+   "pg": "8.23.1",
+   "@blocknote/core": "0.56.0",
+   "@blocknote/mantine": "0.56.0",
+   "playwright": "1.63.0"
+  },
+  "chromium": "153.0.8010.12"
+ },
+ "cases": [
+  {
+   "id": "MIG-01",
+   "requested": 3,
+   "status": "pass",
+   "expected": 3,
+   "total": 3,
+   "passed": 3,
+   "failed": 0,
+   "iterations": 3,
+   "durationMs": 1542
+  },
+  {
+   "id": "AUTH-01",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 4847
+  },
+  {
+   "id": "AUTH-02",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 4904
+  },
+  {
+   "id": "AUTH-03",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 2682
+  },
+  {
+   "id": "AUTH-04",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 5216
+  },
+  {
+   "id": "AUTH-05",
+   "requested": 9,
+   "status": "pass",
+   "expected": 9,
+   "total": 9,
+   "passed": 9,
+   "failed": 0,
+   "iterations": 9,
+   "durationMs": 5544
+  },
+  {
+   "id": "AUTH-06",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 6901
+  },
+  {
+   "id": "AUTH-07",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 3972
+  },
+  {
+   "id": "SEC-01",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 12279
+  },
+  {
+   "id": "SEC-02",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 11662
+  },
+  {
+   "id": "SEC-03",
+   "requested": 3,
+   "status": "pass",
+   "expected": 3,
+   "total": 3,
+   "passed": 3,
+   "failed": 0,
+   "iterations": 3,
+   "durationMs": 2995
+  },
+  {
+   "id": "SEC-05",
+   "requested": 3,
+   "status": "pass",
+   "expected": 3,
+   "total": 3,
+   "passed": 3,
+   "failed": 0,
+   "iterations": 3,
+   "durationMs": 3605
+  },
+  {
+   "id": "SEC-06",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 4839
+  },
+  {
+   "id": "PAGE-01",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 7368
+  },
+  {
+   "id": "PAGE-02",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 5136
+  },
+  {
+   "id": "PAGE-03",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 4764
+  },
+  {
+   "id": "PAGE-04",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 6201
+  },
+  {
+   "id": "PAGE-05",
+   "requested": 60,
+   "status": "pass",
+   "expected": 60,
+   "total": 60,
+   "passed": 60,
+   "failed": 0,
+   "iterations": 60,
+   "durationMs": 29898
+  },
+  {
+   "id": "ACL-01",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 32492
+  },
+  {
+   "id": "ACL-02",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 111813
+  },
+  {
+   "id": "ACL-03",
+   "requested": 30,
+   "status": "pass",
+   "expected": 30,
+   "total": 30,
+   "passed": 30,
+   "failed": 0,
+   "iterations": 30,
+   "durationMs": 51323
+  },
+  {
+   "id": "MIG-02",
+   "requested": 3,
+   "status": "pass",
+   "expected": 3,
+   "total": 3,
+   "passed": 3,
+   "failed": 0,
+   "iterations": 3,
+   "durationMs": 16777
+  },
+  {
+   "id": "AUTH-08",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 11167
+  }
+ ],
+ "notApplicable": [
+  {
+   "id": "VER-01",
+   "stage": "m2-c",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  },
+  {
+   "id": "VER-02",
+   "stage": "m2-c",
+   "status": "NOT_APPLICABLE_NOT_IMPLEMENTED"
+  }
+ ],
+ "counts": {
+  "executed": 23,
+  "passed": 23,
+  "notApplicable": 2
+ },
+ "finishedAt": "2026-11-02T05:16:26.307Z",
+ "exitCode": 0
+}

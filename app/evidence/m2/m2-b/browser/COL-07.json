@@ -1,0 +1,232 @@
+{
+ "id": "COL-07",
+ "title": "顯示已儲存後立即強制終止協作服務：已確認的修改在資料庫與重啟後完整；不對應的確認不會讓狀態變成已儲存",
+ "meta": {},
+ "startedAt": "2026-11-02T06:22:43.950Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 7000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 1,
+   "seed": 7001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 2,
+   "seed": 7002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 3,
+   "seed": 7003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 4,
+   "seed": 7004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 5,
+   "seed": 7005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 6,
+   "seed": 7006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 8,
+   "seed": 7008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 9,
+   "seed": 7009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 10,
+   "seed": 7010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 11,
+   "seed": 7011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 12,
+   "seed": 7012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 13,
+   "seed": 7013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 14,
+   "seed": 7014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 15,
+   "seed": 7015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 16,
+   "seed": 7016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 17,
+   "seed": 7017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 18,
+   "seed": 7018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  },
+  {
+   "i": 19,
+   "seed": 7019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "samples": [
+     "saving"
+    ]
+   }
+  }
+ ],
+ "durationMs": 74183,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

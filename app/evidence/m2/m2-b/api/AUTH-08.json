@@ -1,0 +1,57 @@
+{
+ "id": "AUTH-08",
+ "title": "最多四個帳號：第五個帳號被拒；剩一個名額時兩個邀請同時兌換只成功一個；停用的帳號仍占名額",
+ "meta": {},
+ "startedAt": "2026-11-02T05:16:15.118Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "users": 4
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "users": 4
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "users": 4
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "users": 4
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "users": 4
+   }
+  }
+ ],
+ "durationMs": 11167,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}

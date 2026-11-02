@@ -1,0 +1,212 @@
+{
+ "id": "COL-06",
+ "title": "編輯中 kill -9 協作服務並重啟：自動重新連線、沒有未確認內容遺失、沒有重複套用",
+ "meta": {},
+ "startedAt": "2026-11-02T06:21:04.514Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 6000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1598,
+    "typed": 57
+   }
+  },
+  {
+   "i": 1,
+   "seed": 6001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 660,
+    "typed": 43
+   }
+  },
+  {
+   "i": 2,
+   "seed": 6002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1863,
+    "typed": 58
+   }
+  },
+  {
+   "i": 3,
+   "seed": 6003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1118,
+    "typed": 43
+   }
+  },
+  {
+   "i": 4,
+   "seed": 6004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1745,
+    "typed": 57
+   }
+  },
+  {
+   "i": 5,
+   "seed": 6005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 729,
+    "typed": 41
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 435,
+    "typed": 31
+   }
+  },
+  {
+   "i": 7,
+   "seed": 6007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1757,
+    "typed": 62
+   }
+  },
+  {
+   "i": 8,
+   "seed": 6008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 633,
+    "typed": 42
+   }
+  },
+  {
+   "i": 9,
+   "seed": 6009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 357,
+    "typed": 37
+   }
+  },
+  {
+   "i": 10,
+   "seed": 6010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 570,
+    "typed": 36
+   }
+  },
+  {
+   "i": 11,
+   "seed": 6011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1248,
+    "typed": 46
+   }
+  },
+  {
+   "i": 12,
+   "seed": 6012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1516,
+    "typed": 52
+   }
+  },
+  {
+   "i": 13,
+   "seed": 6013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1745,
+    "typed": 60
+   }
+  },
+  {
+   "i": 14,
+   "seed": 6014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 326,
+    "typed": 34
+   }
+  },
+  {
+   "i": 15,
+   "seed": 6015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1669,
+    "typed": 55
+   }
+  },
+  {
+   "i": 16,
+   "seed": 6016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 863,
+    "typed": 39
+   }
+  },
+  {
+   "i": 17,
+   "seed": 6017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 1722,
+    "typed": 51
+   }
+  },
+  {
+   "i": 18,
+   "seed": 6018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 828,
+    "typed": 35
+   }
+  },
+  {
+   "i": 19,
+   "seed": 6019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "downMs": 859,
+    "typed": 38
+   }
+  }
+ ],
+ "durationMs": 99391,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

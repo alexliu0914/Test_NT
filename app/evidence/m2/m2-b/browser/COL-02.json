@@ -1,0 +1,292 @@
+{
+ "id": "COL-02",
+ "title": "一方刪除區塊、另一方同時輸入：不崩潰、最終一致、刪除依 CRDT 規則生效、其他段落與後續編輯不受影響",
+ "meta": {},
+ "startedAt": "2026-11-02T06:11:25.804Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 2000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 296,
+    "bTokensKept": 0,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 1,
+   "seed": 2001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 36,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 84,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 3,
+   "seed": 2003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 119,
+    "bTokensKept": 3,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 4,
+   "seed": 2004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 109,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 5,
+   "seed": 2005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 158,
+    "bTokensKept": 0,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 6,
+   "seed": 2006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 21,
+    "bTokensKept": 3,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 7,
+   "seed": 2007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 24,
+    "bTokensKept": 3,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 8,
+   "seed": 2008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 86,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 9,
+   "seed": 2009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 49,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 10,
+   "seed": 2010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 41,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 11,
+   "seed": 2011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 100,
+    "bTokensKept": 1,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 12,
+   "seed": 2012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 118,
+    "bTokensKept": 1,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 13,
+   "seed": 2013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 141,
+    "bTokensKept": 0,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 14,
+   "seed": 2014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 198,
+    "bTokensKept": 1,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 15,
+   "seed": 2015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 58,
+    "bTokensKept": 2,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 16,
+   "seed": 2016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 45,
+    "bTokensKept": 3,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 17,
+   "seed": 2017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 232,
+    "bTokensKept": 0,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 18,
+   "seed": 2018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 105,
+    "bTokensKept": 1,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  },
+  {
+   "i": 19,
+   "seed": 2019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "delay": 180,
+    "bTokensKept": 1,
+    "merging": [
+     0,
+     0
+    ]
+   }
+  }
+ ],
+ "durationMs": 37796,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

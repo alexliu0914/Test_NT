@@ -1,0 +1,82 @@
+{
+ "id": "AUTH-01",
+ "title": "正確帳號密碼＋驗證碼登入後進入工作區；session cookie 為 HttpOnly、SameSite=Lax、30 天",
+ "meta": {},
+ "startedAt": "2026-11-02T05:10:39.329Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 4847,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

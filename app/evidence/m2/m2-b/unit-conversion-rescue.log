@@ -1,0 +1,11 @@
+ok   A 先、B 後（字在結尾） <blockcontainer id="x"><heading>乙原XYZ</heading></blockcontainer>
+ok   B 先、A 後（字在中間） <blockcontainer id="x"><heading>乙M原</heading></blockcontainer>
+ok   伺服器重新啟動後 <blockcontainer id="x"><bulletlistitem>乙原R</bulletlistitem></blockcontainer>
+ok   重送不重複 <blockcontainer id="x"><heading>乙原D</heading></blockcontainer>
+ok   連續改類型與分批輸入 <blockcontainer id="x"><bulletlistitem>S乙原XY</bulletlistitem></blockcontainer>
+ok   刪除區塊不補 <blockgroup></blockgroup>
+ok   空白行 <blockcontainer><heading>E</heading></blockcontainer>
+ok   取代的字不復活 <blockcontainer id="x"><heading>新</heading></blockcontainer>
+ok   還原後才到的字不補 <blockgroup><blockcontainer><paragraph>還原</paragraph></blockcontainer></blockgroup>
+ok   改類型更新重送冪等 <blockcontainer id="x"><heading>乙原I</heading></blockcontainer> second rescue 0
+all ok

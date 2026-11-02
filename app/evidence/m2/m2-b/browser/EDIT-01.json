@@ -1,0 +1,106 @@
+{
+ "id": "EDIT-01",
+ "title": "每種區塊建立、編輯、刪除、重新整理後兩邊與資料庫一致；頁面連結不洩漏已刪除頁面的標題；不支援的區塊不被刪除",
+ "meta": {},
+ "startedAt": "2026-11-02T05:51:06.220Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "blocks": 13
+   }
+  }
+ ],
+ "converge": {
+  "p50": 53,
+  "max": 67
+ },
+ "durationMs": 24639,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

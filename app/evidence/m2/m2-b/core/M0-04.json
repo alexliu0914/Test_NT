@@ -1,0 +1,1112 @@
+{
+ "id": "M0-04",
+ "title": "離線大量編輯（含刪除）後關閉並重開瀏覽器，重新連線補送",
+ "meta": {},
+ "startedAt": "2026-11-02T05:26:23.740Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 40400,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 148,
+    "offlinePending": 148,
+    "merged": false
+   }
+  },
+  {
+   "i": 1,
+   "seed": 40401,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 88,
+    "offlinePending": 88,
+    "merged": false
+   }
+  },
+  {
+   "i": 2,
+   "seed": 40402,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 64,
+    "offlinePending": 64,
+    "merged": true
+   }
+  },
+  {
+   "i": 3,
+   "seed": 40403,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 223,
+    "offlinePending": 223,
+    "merged": true
+   }
+  },
+  {
+   "i": 4,
+   "seed": 40404,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 161,
+    "offlinePending": 161,
+    "merged": false
+   }
+  },
+  {
+   "i": 5,
+   "seed": 40405,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 238,
+    "offlinePending": 238,
+    "merged": false
+   }
+  },
+  {
+   "i": 6,
+   "seed": 40406,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 213,
+    "offlinePending": 213,
+    "merged": false
+   }
+  },
+  {
+   "i": 7,
+   "seed": 40407,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 241,
+    "offlinePending": 241,
+    "merged": true
+   }
+  },
+  {
+   "i": 8,
+   "seed": 40408,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 73,
+    "offlinePending": 73,
+    "merged": true
+   }
+  },
+  {
+   "i": 9,
+   "seed": 40409,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 87,
+    "offlinePending": 87,
+    "merged": true
+   }
+  },
+  {
+   "i": 10,
+   "seed": 40410,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 275,
+    "offlinePending": 275,
+    "merged": true
+   }
+  },
+  {
+   "i": 11,
+   "seed": 40411,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 141,
+    "offlinePending": 141,
+    "merged": true
+   }
+  },
+  {
+   "i": 12,
+   "seed": 40412,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 68,
+    "offlinePending": 68,
+    "merged": false
+   }
+  },
+  {
+   "i": 13,
+   "seed": 40413,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 153,
+    "offlinePending": 153,
+    "merged": false
+   }
+  },
+  {
+   "i": 14,
+   "seed": 40414,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 66,
+    "offlinePending": 66,
+    "merged": true
+   }
+  },
+  {
+   "i": 15,
+   "seed": 40415,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 111,
+    "offlinePending": 111,
+    "merged": false
+   }
+  },
+  {
+   "i": 16,
+   "seed": 40416,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 243,
+    "offlinePending": 243,
+    "merged": true
+   }
+  },
+  {
+   "i": 17,
+   "seed": 40417,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 111,
+    "offlinePending": 111,
+    "merged": false
+   }
+  },
+  {
+   "i": 18,
+   "seed": 40418,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 69,
+    "offlinePending": 69,
+    "merged": false
+   }
+  },
+  {
+   "i": 19,
+   "seed": 40419,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 171,
+    "offlinePending": 171,
+    "merged": false
+   }
+  },
+  {
+   "i": 20,
+   "seed": 40420,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 109,
+    "offlinePending": 109,
+    "merged": false
+   }
+  },
+  {
+   "i": 21,
+   "seed": 40421,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 230,
+    "offlinePending": 230,
+    "merged": false
+   }
+  },
+  {
+   "i": 22,
+   "seed": 40422,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 53,
+    "offlinePending": 53,
+    "merged": true
+   }
+  },
+  {
+   "i": 23,
+   "seed": 40423,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 237,
+    "offlinePending": 237,
+    "merged": true
+   }
+  },
+  {
+   "i": 24,
+   "seed": 40424,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 286,
+    "offlinePending": 286,
+    "merged": false
+   }
+  },
+  {
+   "i": 25,
+   "seed": 40425,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 127,
+    "offlinePending": 127,
+    "merged": true
+   }
+  },
+  {
+   "i": 26,
+   "seed": 40426,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 200,
+    "offlinePending": 200,
+    "merged": false
+   }
+  },
+  {
+   "i": 27,
+   "seed": 40427,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 108,
+    "offlinePending": 108,
+    "merged": true
+   }
+  },
+  {
+   "i": 28,
+   "seed": 40428,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 149,
+    "offlinePending": 149,
+    "merged": true
+   }
+  },
+  {
+   "i": 29,
+   "seed": 40429,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 274,
+    "offlinePending": 274,
+    "merged": false
+   }
+  },
+  {
+   "i": 30,
+   "seed": 40430,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 266,
+    "offlinePending": 266,
+    "merged": true
+   }
+  },
+  {
+   "i": 31,
+   "seed": 40431,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 93,
+    "offlinePending": 93,
+    "merged": true
+   }
+  },
+  {
+   "i": 32,
+   "seed": 40432,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 101,
+    "offlinePending": 101,
+    "merged": true
+   }
+  },
+  {
+   "i": 33,
+   "seed": 40433,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 171,
+    "offlinePending": 171,
+    "merged": false
+   }
+  },
+  {
+   "i": 34,
+   "seed": 40434,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 300,
+    "offlinePending": 299,
+    "merged": false
+   }
+  },
+  {
+   "i": 35,
+   "seed": 40435,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 183,
+    "offlinePending": 183,
+    "merged": false
+   }
+  },
+  {
+   "i": 36,
+   "seed": 40436,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 252,
+    "offlinePending": 252,
+    "merged": true
+   }
+  },
+  {
+   "i": 37,
+   "seed": 40437,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 286,
+    "offlinePending": 286,
+    "merged": false
+   }
+  },
+  {
+   "i": 38,
+   "seed": 40438,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 139,
+    "offlinePending": 139,
+    "merged": false
+   }
+  },
+  {
+   "i": 39,
+   "seed": 40439,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 208,
+    "offlinePending": 208,
+    "merged": true
+   }
+  },
+  {
+   "i": 40,
+   "seed": 40440,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 156,
+    "offlinePending": 156,
+    "merged": false
+   }
+  },
+  {
+   "i": 41,
+   "seed": 40441,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 279,
+    "offlinePending": 279,
+    "merged": false
+   }
+  },
+  {
+   "i": 42,
+   "seed": 40442,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 293,
+    "offlinePending": 293,
+    "merged": true
+   }
+  },
+  {
+   "i": 43,
+   "seed": 40443,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 220,
+    "offlinePending": 220,
+    "merged": false
+   }
+  },
+  {
+   "i": 44,
+   "seed": 40444,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 251,
+    "offlinePending": 251,
+    "merged": false
+   }
+  },
+  {
+   "i": 45,
+   "seed": 40445,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 196,
+    "offlinePending": 196,
+    "merged": true
+   }
+  },
+  {
+   "i": 46,
+   "seed": 40446,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 266,
+    "offlinePending": 266,
+    "merged": true
+   }
+  },
+  {
+   "i": 47,
+   "seed": 40447,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 264,
+    "offlinePending": 264,
+    "merged": true
+   }
+  },
+  {
+   "i": 48,
+   "seed": 40448,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 166,
+    "offlinePending": 166,
+    "merged": true
+   }
+  },
+  {
+   "i": 49,
+   "seed": 40449,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 106,
+    "offlinePending": 106,
+    "merged": true
+   }
+  },
+  {
+   "i": 50,
+   "seed": 40450,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 215,
+    "offlinePending": 215,
+    "merged": false
+   }
+  },
+  {
+   "i": 51,
+   "seed": 40451,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 261,
+    "offlinePending": 261,
+    "merged": false
+   }
+  },
+  {
+   "i": 52,
+   "seed": 40452,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 181,
+    "offlinePending": 181,
+    "merged": true
+   }
+  },
+  {
+   "i": 53,
+   "seed": 40453,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 79,
+    "offlinePending": 79,
+    "merged": false
+   }
+  },
+  {
+   "i": 54,
+   "seed": 40454,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 165,
+    "offlinePending": 165,
+    "merged": false
+   }
+  },
+  {
+   "i": 55,
+   "seed": 40455,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 197,
+    "offlinePending": 197,
+    "merged": true
+   }
+  },
+  {
+   "i": 56,
+   "seed": 40456,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 241,
+    "offlinePending": 241,
+    "merged": false
+   }
+  },
+  {
+   "i": 57,
+   "seed": 40457,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 162,
+    "offlinePending": 162,
+    "merged": true
+   }
+  },
+  {
+   "i": 58,
+   "seed": 40458,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 212,
+    "offlinePending": 212,
+    "merged": false
+   }
+  },
+  {
+   "i": 59,
+   "seed": 40459,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 136,
+    "offlinePending": 136,
+    "merged": true
+   }
+  },
+  {
+   "i": 60,
+   "seed": 40460,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 154,
+    "offlinePending": 154,
+    "merged": false
+   }
+  },
+  {
+   "i": 61,
+   "seed": 40461,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 222,
+    "offlinePending": 222,
+    "merged": true
+   }
+  },
+  {
+   "i": 62,
+   "seed": 40462,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 157,
+    "offlinePending": 157,
+    "merged": true
+   }
+  },
+  {
+   "i": 63,
+   "seed": 40463,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 237,
+    "offlinePending": 237,
+    "merged": true
+   }
+  },
+  {
+   "i": 64,
+   "seed": 40464,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 247,
+    "offlinePending": 247,
+    "merged": true
+   }
+  },
+  {
+   "i": 65,
+   "seed": 40465,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 121,
+    "offlinePending": 121,
+    "merged": false
+   }
+  },
+  {
+   "i": 66,
+   "seed": 40466,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 115,
+    "offlinePending": 115,
+    "merged": true
+   }
+  },
+  {
+   "i": 67,
+   "seed": 40467,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 251,
+    "offlinePending": 251,
+    "merged": false
+   }
+  },
+  {
+   "i": 68,
+   "seed": 40468,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 50,
+    "offlinePending": 50,
+    "merged": true
+   }
+  },
+  {
+   "i": 69,
+   "seed": 40469,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 297,
+    "offlinePending": 297,
+    "merged": true
+   }
+  },
+  {
+   "i": 70,
+   "seed": 40470,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 165,
+    "offlinePending": 165,
+    "merged": false
+   }
+  },
+  {
+   "i": 71,
+   "seed": 40471,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 161,
+    "offlinePending": 161,
+    "merged": true
+   }
+  },
+  {
+   "i": 72,
+   "seed": 40472,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 159,
+    "offlinePending": 159,
+    "merged": true
+   }
+  },
+  {
+   "i": 73,
+   "seed": 40473,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 63,
+    "offlinePending": 63,
+    "merged": true
+   }
+  },
+  {
+   "i": 74,
+   "seed": 40474,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 50,
+    "offlinePending": 50,
+    "merged": true
+   }
+  },
+  {
+   "i": 75,
+   "seed": 40475,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 246,
+    "offlinePending": 246,
+    "merged": false
+   }
+  },
+  {
+   "i": 76,
+   "seed": 40476,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 67,
+    "offlinePending": 67,
+    "merged": false
+   }
+  },
+  {
+   "i": 77,
+   "seed": 40477,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 89,
+    "offlinePending": 89,
+    "merged": false
+   }
+  },
+  {
+   "i": 78,
+   "seed": 40478,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 230,
+    "offlinePending": 230,
+    "merged": true
+   }
+  },
+  {
+   "i": 79,
+   "seed": 40479,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 180,
+    "offlinePending": 180,
+    "merged": false
+   }
+  },
+  {
+   "i": 80,
+   "seed": 40480,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 200,
+    "offlinePending": 200,
+    "merged": false
+   }
+  },
+  {
+   "i": 81,
+   "seed": 40481,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 230,
+    "offlinePending": 230,
+    "merged": false
+   }
+  },
+  {
+   "i": 82,
+   "seed": 40482,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 80,
+    "offlinePending": 80,
+    "merged": false
+   }
+  },
+  {
+   "i": 83,
+   "seed": 40483,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 85,
+    "offlinePending": 85,
+    "merged": true
+   }
+  },
+  {
+   "i": 84,
+   "seed": 40484,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 203,
+    "offlinePending": 203,
+    "merged": true
+   }
+  },
+  {
+   "i": 85,
+   "seed": 40485,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 147,
+    "offlinePending": 147,
+    "merged": true
+   }
+  },
+  {
+   "i": 86,
+   "seed": 40486,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 132,
+    "offlinePending": 132,
+    "merged": false
+   }
+  },
+  {
+   "i": 87,
+   "seed": 40487,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 227,
+    "offlinePending": 227,
+    "merged": false
+   }
+  },
+  {
+   "i": 88,
+   "seed": 40488,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 166,
+    "offlinePending": 166,
+    "merged": false
+   }
+  },
+  {
+   "i": 89,
+   "seed": 40489,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 150,
+    "offlinePending": 150,
+    "merged": true
+   }
+  },
+  {
+   "i": 90,
+   "seed": 40490,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 67,
+    "offlinePending": 67,
+    "merged": true
+   }
+  },
+  {
+   "i": 91,
+   "seed": 40491,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 124,
+    "offlinePending": 124,
+    "merged": false
+   }
+  },
+  {
+   "i": 92,
+   "seed": 40492,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 86,
+    "offlinePending": 86,
+    "merged": true
+   }
+  },
+  {
+   "i": 93,
+   "seed": 40493,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 292,
+    "offlinePending": 292,
+    "merged": true
+   }
+  },
+  {
+   "i": 94,
+   "seed": 40494,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 117,
+    "offlinePending": 117,
+    "merged": true
+   }
+  },
+  {
+   "i": 95,
+   "seed": 40495,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 253,
+    "offlinePending": 253,
+    "merged": true
+   }
+  },
+  {
+   "i": 96,
+   "seed": 40496,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 85,
+    "offlinePending": 85,
+    "merged": true
+   }
+  },
+  {
+   "i": 97,
+   "seed": 40497,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 277,
+    "offlinePending": 277,
+    "merged": false
+   }
+  },
+  {
+   "i": 98,
+   "seed": 40498,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 289,
+    "offlinePending": 289,
+    "merged": true
+   }
+  },
+  {
+   "i": 99,
+   "seed": 40499,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "offlineOps": 293,
+    "offlinePending": 293,
+    "merged": false
+   }
+  }
+ ],
+ "durationMs": 60796,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

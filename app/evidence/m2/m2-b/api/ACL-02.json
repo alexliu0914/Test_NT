@@ -1,0 +1,296 @@
+{
+ "id": "ACL-02",
+ "title": "建立者邀請 B、C（D 不是成員）；移除 C、C 退出另一個空間；在途修改不提交；刪除空間（含注入失敗）；權限恢復後舊草稿不自動補送",
+ "meta": {},
+ "startedAt": "2026-11-02T05:13:15.120Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 70200,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 11,
+    "inflight": {
+     "typed": 22,
+     "denied": 2
+    },
+    "deleteCloseMs": 18
+   }
+  },
+  {
+   "i": 1,
+   "seed": 70201,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 9,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 14
+   }
+  },
+  {
+   "i": 2,
+   "seed": 70202,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 13,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 16
+   }
+  },
+  {
+   "i": 3,
+   "seed": 70203,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 15,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 13
+   }
+  },
+  {
+   "i": 4,
+   "seed": 70204,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 9,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 13
+   }
+  },
+  {
+   "i": 5,
+   "seed": 70205,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 11,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 17
+   }
+  },
+  {
+   "i": 6,
+   "seed": 70206,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 8,
+    "inflight": {
+     "typed": 22,
+     "denied": 2
+    },
+    "deleteCloseMs": 13
+   }
+  },
+  {
+   "i": 7,
+   "seed": 70207,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 10,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 18
+   }
+  },
+  {
+   "i": 8,
+   "seed": 70208,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 11,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 12
+   }
+  },
+  {
+   "i": 9,
+   "seed": 70209,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 12,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 14
+   }
+  },
+  {
+   "i": 10,
+   "seed": 70210,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 8,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 20
+   }
+  },
+  {
+   "i": 11,
+   "seed": 70211,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 10,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 19
+   }
+  },
+  {
+   "i": 12,
+   "seed": 70212,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 8,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 23
+   }
+  },
+  {
+   "i": 13,
+   "seed": 70213,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 11,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 14
+   }
+  },
+  {
+   "i": 14,
+   "seed": 70214,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 10,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 14
+   }
+  },
+  {
+   "i": 15,
+   "seed": 70215,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 9,
+    "inflight": {
+     "typed": 22,
+     "denied": 2
+    },
+    "deleteCloseMs": 17
+   }
+  },
+  {
+   "i": 16,
+   "seed": 70216,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 15,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 17
+   }
+  },
+  {
+   "i": 17,
+   "seed": 70217,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 10,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 22
+   }
+  },
+  {
+   "i": 18,
+   "seed": 70218,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 7,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 16
+   }
+  },
+  {
+   "i": 19,
+   "seed": 70219,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 12,
+    "inflight": {
+     "typed": 20,
+     "denied": 2
+    },
+    "deleteCloseMs": 17
+   }
+  }
+ ],
+ "latency": {
+  "p50": 6,
+  "max": 17
+ },
+ "durationMs": 111813,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

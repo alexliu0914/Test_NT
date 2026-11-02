@@ -1,0 +1,348 @@
+{
+ "id": "COL-04",
+ "title": "同頁游標／名字／顏色：伺服器確認身分、冒名無效、不跨頁、同帳號雙連線、色票分配與回收、異常斷線清理",
+ "meta": {},
+ "startedAt": "2026-11-02T06:19:34.005Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 4000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 111,
+     "p95": 151,
+     "max": 151
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2428
+   }
+  },
+  {
+   "i": 1,
+   "seed": 4001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 37,
+     "p95": 71,
+     "max": 71
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2416
+   }
+  },
+  {
+   "i": 2,
+   "seed": 4002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 57,
+     "p95": 123,
+     "max": 123
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2065
+   }
+  },
+  {
+   "i": 3,
+   "seed": 4003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 55,
+     "p95": 97,
+     "max": 97
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2063
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 46,
+     "p95": 60,
+     "max": 60
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2365
+   }
+  },
+  {
+   "i": 5,
+   "seed": 4005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 22,
+     "p95": 78,
+     "max": 78
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2205
+   }
+  },
+  {
+   "i": 6,
+   "seed": 4006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 52,
+     "p95": 61,
+     "max": 61
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2313
+   }
+  },
+  {
+   "i": 7,
+   "seed": 4007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 40,
+     "p95": 59,
+     "max": 59
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2377
+   }
+  },
+  {
+   "i": 8,
+   "seed": 4008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 28,
+     "p95": 50,
+     "max": 50
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2414
+   }
+  },
+  {
+   "i": 9,
+   "seed": 4009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "cursorMs": {
+     "n": 6,
+     "p50": 59,
+     "p95": 93,
+     "max": 93
+    },
+    "colors": {
+     "A": {
+      "name": "管理者",
+      "color": "#e03131"
+     },
+     "B": {
+      "name": "使用者1",
+      "color": "#1971c2"
+     },
+     "C": {
+      "name": "使用者2",
+      "color": "#2f9e44"
+     }
+    },
+    "reuse": {
+     "c": "#e03131",
+     "d": "#2f9e44"
+    },
+    "ttlMs": 2320
+   }
+  }
+ ],
+ "latency": {
+  "n": 60,
+  "p50": 43,
+  "p95": 123,
+  "max": 151
+ },
+ "durationMs": 90469,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

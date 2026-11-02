@@ -1,0 +1,157 @@
+{
+ "id": "PAGE-01",
+ "title": "建立、改名、設定圖示：另一位使用者 2 秒內收到推送並讀到變更",
+ "meta": {},
+ "startedAt": "2026-11-02T05:11:49.058Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 10,
+   "seed": 10,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 11,
+   "seed": 11,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 12,
+   "seed": 12,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 13,
+   "seed": 13,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 14,
+   "seed": 14,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 15,
+   "seed": 15,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 16,
+   "seed": 16,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 17,
+   "seed": 17,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 18,
+   "seed": 18,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 19,
+   "seed": 19,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "latency": {
+  "p50": 61,
+  "p95": 66,
+  "max": 77
+ },
+ "durationMs": 7368,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

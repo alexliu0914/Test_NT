@@ -1,0 +1,501 @@
+{
+ "id": "ACL-03",
+ "title": "四人隨機並行操作：沒有人能存取自己空間以外的頁面；子頁面與上層同空間；個人空間只有本人；前成員存取不到",
+ "meta": {},
+ "startedAt": "2026-11-02T05:15:06.978Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 70300,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 20,
+     "200": 35,
+     "201": 50,
+     "404": 12,
+     "409": 3
+    },
+    "deadlocks": 0,
+    "pages": 46
+   }
+  },
+  {
+   "i": 1,
+   "seed": 70301,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 10,
+     "200": 58,
+     "201": 31,
+     "404": 20,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 75
+   }
+  },
+  {
+   "i": 2,
+   "seed": 70302,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 19,
+     "200": 52,
+     "201": 20,
+     "404": 29
+    },
+    "deadlocks": 0,
+    "pages": 93
+   }
+  },
+  {
+   "i": 3,
+   "seed": 70303,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 16,
+     "200": 57,
+     "201": 33,
+     "404": 14
+    },
+    "deadlocks": 0,
+    "pages": 126
+   }
+  },
+  {
+   "i": 4,
+   "seed": 70304,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 20,
+     "200": 54,
+     "201": 27,
+     "404": 18,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 150
+   }
+  },
+  {
+   "i": 5,
+   "seed": 70305,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 15,
+     "200": 61,
+     "201": 36,
+     "404": 8
+    },
+    "deadlocks": 0,
+    "pages": 177
+   }
+  },
+  {
+   "i": 6,
+   "seed": 70306,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "200": 62,
+     "201": 35,
+     "404": 23
+    },
+    "deadlocks": 0,
+    "pages": 205
+   }
+  },
+  {
+   "i": 7,
+   "seed": 70307,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 21,
+     "200": 47,
+     "201": 30,
+     "404": 21,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 234
+   }
+  },
+  {
+   "i": 8,
+   "seed": 70308,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 11,
+     "200": 71,
+     "201": 22,
+     "404": 16
+    },
+    "deadlocks": 0,
+    "pages": 254
+   }
+  },
+  {
+   "i": 9,
+   "seed": 70309,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 19,
+     "200": 51,
+     "201": 32,
+     "404": 18
+    },
+    "deadlocks": 0,
+    "pages": 283
+   }
+  },
+  {
+   "i": 10,
+   "seed": 70310,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 11,
+     "200": 61,
+     "201": 27,
+     "404": 20,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 306
+   }
+  },
+  {
+   "i": 11,
+   "seed": 70311,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 23,
+     "200": 58,
+     "201": 16,
+     "404": 22,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 320
+   }
+  },
+  {
+   "i": 12,
+   "seed": 70312,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 16,
+     "200": 54,
+     "201": 35,
+     "404": 15
+    },
+    "deadlocks": 0,
+    "pages": 354
+   }
+  },
+  {
+   "i": 13,
+   "seed": 70313,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 19,
+     "200": 53,
+     "201": 31,
+     "404": 17
+    },
+    "deadlocks": 0,
+    "pages": 381
+   }
+  },
+  {
+   "i": 14,
+   "seed": 70314,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 19,
+     "200": 47,
+     "201": 25,
+     "404": 29
+    },
+    "deadlocks": 0,
+    "pages": 405
+   }
+  },
+  {
+   "i": 15,
+   "seed": 70315,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 6,
+     "200": 67,
+     "201": 20,
+     "404": 26,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 421
+   }
+  },
+  {
+   "i": 16,
+   "seed": 70316,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 11,
+     "200": 60,
+     "201": 29,
+     "404": 18,
+     "409": 2
+    },
+    "deadlocks": 0,
+    "pages": 447
+   }
+  },
+  {
+   "i": 17,
+   "seed": 70317,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 5,
+     "200": 59,
+     "201": 37,
+     "404": 19
+    },
+    "deadlocks": 0,
+    "pages": 480
+   }
+  },
+  {
+   "i": 18,
+   "seed": 70318,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 16,
+     "200": 52,
+     "201": 35,
+     "404": 17
+    },
+    "deadlocks": 0,
+    "pages": 511
+   }
+  },
+  {
+   "i": 19,
+   "seed": 70319,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 15,
+     "200": 54,
+     "201": 28,
+     "404": 23
+    },
+    "deadlocks": 0,
+    "pages": 534
+   }
+  },
+  {
+   "i": 20,
+   "seed": 70320,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 6,
+     "200": 58,
+     "201": 38,
+     "404": 18
+    },
+    "deadlocks": 0,
+    "pages": 568
+   }
+  },
+  {
+   "i": 21,
+   "seed": 70321,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 12,
+     "200": 59,
+     "201": 26,
+     "404": 23
+    },
+    "deadlocks": 0,
+    "pages": 589
+   }
+  },
+  {
+   "i": 22,
+   "seed": 70322,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 5,
+     "200": 56,
+     "201": 42,
+     "404": 17
+    },
+    "deadlocks": 0,
+    "pages": 623
+   }
+  },
+  {
+   "i": 23,
+   "seed": 70323,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 15,
+     "200": 56,
+     "201": 30,
+     "404": 18,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 651
+   }
+  },
+  {
+   "i": 24,
+   "seed": 70324,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 12,
+     "200": 60,
+     "201": 35,
+     "404": 13
+    },
+    "deadlocks": 0,
+    "pages": 683
+   }
+  },
+  {
+   "i": 25,
+   "seed": 70325,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 12,
+     "200": 57,
+     "201": 36,
+     "404": 15
+    },
+    "deadlocks": 0,
+    "pages": 712
+   }
+  },
+  {
+   "i": 26,
+   "seed": 70326,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 21,
+     "200": 54,
+     "201": 32,
+     "404": 13
+    },
+    "deadlocks": 0,
+    "pages": 742
+   }
+  },
+  {
+   "i": 27,
+   "seed": 70327,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 11,
+     "200": 67,
+     "201": 23,
+     "404": 19
+    },
+    "deadlocks": 0,
+    "pages": 763
+   }
+  },
+  {
+   "i": 28,
+   "seed": 70328,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 18,
+     "200": 56,
+     "201": 27,
+     "404": 19
+    },
+    "deadlocks": 0,
+    "pages": 788
+   }
+  },
+  {
+   "i": 29,
+   "seed": 70329,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "statuses": {
+     "0": 5,
+     "200": 69,
+     "201": 30,
+     "404": 15,
+     "409": 1
+    },
+    "deadlocks": 0,
+    "pages": 814
+   }
+  }
+ ],
+ "durationMs": 51323,
+ "total": 30,
+ "passed": 30,
+ "failed": 0
+}
