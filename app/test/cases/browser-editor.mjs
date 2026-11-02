@@ -368,6 +368,9 @@ const MODES = [
   // ctrlend（T-M2-09、F-M2-09）：原本的 Ctrl+End 操作。對方的新行先傳到時 Ctrl+End 會跳進對方的區塊，兩人在同一個區塊編輯，
   // 照編輯器規則不一定得到兩份完整清單；改以操作語意判定：兩端與資料庫一致、只有一個頂層骨架、兩人打的每個字都在（順序可交錯）
   ['nested', 'nested', 'ctrlend'],
+  // held（T-M2-12）：固定順序的「同一段同時改類型」。暫停 A 的接收，B 先改成項目清單並提交，A 在沒看到 B 的修改時改成標題，
+  // 之後放行：兩邊一定都看到「同一區塊兩個內容節點」，只有作者能搬（F-M2-01）。兩邊都搬時會多出一份（MUT-B7）
+  ['heading', 'bullet', 'held'],
 ];
 
 export async function br05(N) {
@@ -397,6 +400,21 @@ export async function br05(N) {
             await makeStructure(B, kb, tb, { enterFirst: false });
             await waitSynced(B);
             relay.goOnline();
+          } else if (how === 'held') {
+            await A.evaluate(t => { const e = window.__app.editor; e.updateBlock(e.document[0], { content: t }); }, shared);
+            await Promise.all([waitSynced(A), waitSynced(B)]);
+            await B.waitForFunction(t => JSON.stringify(window.__app.editor.document).includes(t), shared, { timeout: 10000 });
+            relay.hold();
+            await Promise.all([A, B].map(async P => { await P.locator('.bn-editor').focus(); await P.keyboard.press('Control+Home'); }));
+            await B.keyboard.press('Control+Shift+8');
+            await waitSynced(B);
+            const userA = env.users[0].id;
+            const nA = async () => Number((await db.query('select count(*)::int as n from doc_updates where page_id=$1 and user_id=$2', [docId, userA])).rows[0].n);
+            const n0 = await nA();
+            await A.keyboard.press('Control+Alt+1');
+            const t0 = Date.now();
+            while (await nA() <= n0) { if (Date.now() - t0 > 15000) throw new Error('A 的修改沒有提交'); await sleep(50); }
+            relay.release();
           } else if (how === 'convert') {
             await A.evaluate(t => { const e = window.__app.editor; e.updateBlock(e.document[0], { content: t }); }, shared);
             await Promise.all([waitSynced(A), waitSynced(B)]);
@@ -421,7 +439,9 @@ export async function br05(N) {
             const want = {};
             for (const tok of [ta + '上', ta + '下', tb + '上', tb + '下']) for (const ch of tok) want[ch] = (want[ch] || 0) + 1;
             for (const [ch, n] of Object.entries(want)) if (count(t, ch) !== n) fails.push(`Ctrl+End 情境中「${ch}」有 ${count(t, ch)} 個，應有 ${n} 個（${count(t, ch) < n ? '遺失' : '重複'}）`);
-          } else if (how === 'convert') {
+          } else if (how === 'convert' || how === 'held') {
+            // held：兩個類型各一份（作者搬到新區塊），不能多出第三份
+            if (how === 'held' && fb.filter(b => blockText(b).includes(shared)).length !== 2) fails.push(`「${shared}」出現在 ${fb.filter(b => blockText(b).includes(shared)).length} 個區塊（應為 2：標題、項目清單各一）`);
             if (!fb.some(b => b.type === 'heading' && blockText(b).includes(shared))) fails.push('A 改成的標題消失');
             if (!fb.some(b => b.type === 'bulletListItem' && blockText(b).includes(shared))) fails.push('B 改成的項目清單消失');
           } else {
@@ -445,7 +465,7 @@ export async function br05(N) {
           m.text = t.slice(0, 120);
         })(), 120000, 'round');
       } catch (e) { fails.push('exception: ' + e.message); }
-      relay.goOnline();
+      relay.release(); relay.goOnline();
       pageErrors(fails, [['A', A], ['B', B]]);
       rec.add(r, r, fails, m);
     }
