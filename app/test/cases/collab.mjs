@@ -45,6 +45,19 @@ async function closeBrowsers(list) { for (const b of list) { await b.ctx.close()
 function pageErrors(list, fails) {
   for (const b of list) for (const p of b.ctx.pages()) if (p.__errors && p.__errors.length) { fails.push('page error: ' + p.__errors.slice(0, 3).join(' / ')); p.__errors = []; }
 }
+// 等兩端編輯器與資料庫一致（最多 ms 毫秒）：伺服器補救的更新會在確認之後才到其他連線，不能只看各自是否已儲存。
+// 逾時不算失敗，接著的 checkConverged 會照常判定並記錄不一致
+async function settle(pages, docId, ms = 15000) {
+  const t0 = Date.now();
+  for (;;) {
+    const bs = [];
+    for (const P of pages) bs.push(canon(await blocks(P)));
+    const bd = canon(await dbBlocks(docId));
+    if (bs.every(b => isDeepStrictEqual(b, bs[0])) && isDeepStrictEqual(bs[0], bd)) return true;
+    if (Date.now() - t0 > ms) return false;
+    await sleep(100);
+  }
+}
 async function checkConverged(fails, label, pages, docId) {
   const bs = [];
   for (const P of pages) bs.push(canon(await blocks(P)));
@@ -169,6 +182,7 @@ export async function col01(N) {
       const verify = async (label, type, toks) => {
         await waitSynced(A, 40000); await waitSynced(B, 40000);
         await waitType(B, type).catch(() => {});
+        await settle([A, B], docId);
         const bd = await checkConverged(fails, `${tag}${label}`, [A, B], docId);
         const t = allText(bd);
         if (!bd.length || bd[0].type !== type) fails.push(`${tag}${label}區塊類型不是 ${type}：${bd[0] && bd[0].type}`);
@@ -273,6 +287,7 @@ export async function col01(N) {
           if (await A.evaluate(() => window.__app.editor.prosemirrorState.selection.empty)) throw new Error('沒有選到文字');
           await pasteHtml(A, `<h2>新${r}</h2>`);
           await waitSynced(A); await waitSynced(B);
+          await settle([A, B], docId);
           const bd = await checkConverged(fails, tag + '最終', [A, B], docId);
           const t = allText(bd);
           if (t.includes(base)) fails.push(`${tag}被取代的「${base}」又出現了`);
@@ -299,6 +314,7 @@ export async function col01(N) {
         await waitSynced(B, 40000);
         if (how === 'closed') { await openDoc(A, env.base, docId); }
         await waitSynced(A, 40000);
+        await settle([A, B], docId);
         const bd = await checkConverged(fails, tag + '最終', [A, B], docId);
         const t = allText(bd);
         for (const tok of [base, late]) if (count(t, tok) !== 1) fails.push(`${tag}「${tok}」出現 ${count(t, tok)} 次（${count(t, tok) ? '重複' : '遺失'}）`);
@@ -314,6 +330,7 @@ export async function col01(N) {
             await A.waitForFunction(ty => window.__app.editor.document[0].type === ty, type, { timeout: 5000 }).catch(() => {});
             await waitSynced(A); await waitSynced(B);
             await B.waitForFunction(ty => window.__app.editor.document[0].type === ty, type, { timeout: 5000 }).catch(() => {});
+            await settle([A, B], docId);
             const bd2 = await checkConverged(fails, `${tag}${keys} 之後`, [A, B], docId);
             const t2 = allText(bd2);
             if (!bd2.length || bd2[0].type !== type) fails.push(`${tag}${keys} 之後區塊類型不是 ${type}：${bd2[0] && bd2[0].type}`);
