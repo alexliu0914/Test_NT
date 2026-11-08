@@ -59,7 +59,7 @@ class Proc {
   constructor(name, args, env, readyRe) { Object.assign(this, { name, args, env, readyRe, proc: null }); live.procs.add(this); }
   start(extraEnv = {}) {
     return new Promise((resolve, reject) => {
-      const p = spawn(this.args[0], this.args.slice(1), { cwd: APP_DIR, env: { ...process.env, ...this.env, ...extraEnv }, stdio: ['ignore', 'pipe', 'pipe'] });
+      const p = spawn(this.args[0], this.args.slice(1), { cwd: APP_DIR, env: { ...process.env, ...this.env, ...extraEnv }, stdio: ['ignore', 'pipe', 'pipe'], detached: !!this.group });
       this.proc = p;
       let out = '', err = '', ready = false;
       const t = setTimeout(() => { if (!ready) reject(new Error(`${this.name} start timeout: ${err.slice(-400)}`)); }, 60000);
@@ -72,7 +72,12 @@ class Proc {
   exited() {
     return new Promise(res => { if (!this.proc || this.proc.exitCode !== null || this.proc.signalCode !== null) return res(); this.proc.once('exit', () => res()); });
   }
-  async kill9() { if (!this.proc) return; try { this.proc.kill('SIGKILL'); } catch { /* 已結束 */ } await this.exited(); }
+  async kill9() {
+    if (!this.proc) return;
+    // group：行程會再開子行程（next dev），整個行程群組一起結束，避免留下佔用連接埠的子行程
+    try { if (this.group && this.proc.exitCode === null && this.proc.signalCode === null) process.kill(-this.proc.pid, 'SIGKILL'); else this.proc.kill('SIGKILL'); } catch { /* 已結束 */ }
+    await this.exited();
+  }
   async stop() { await this.kill9(); this.proc = null; }
 }
 
@@ -102,6 +107,23 @@ export class AppProc extends Proc {
       await sleep(100);
     }
     throw new Error('web health timeout');
+  }
+}
+
+// Next.js 開發模式（next dev，React StrictMode 會重複掛載元件；F-M2-12 的 DEV-01 用）。頁面在第一次請求時才編譯，健康檢查等比較久
+export class DevAppProc extends AppProc {
+  constructor(port, collabPort, env = {}) {
+    super(port, collabPort, { NODE_ENV: 'development', ...env });
+    this.args = [process.execPath, 'node_modules/next/dist/bin/next', 'dev', '-p', String(port), '-H', '127.0.0.1'];
+    this.group = true;
+  }
+  async start(extraEnv) {
+    await Proc.prototype.start.call(this, extraEnv);
+    for (let i = 0; i < 1200; i++) {
+      try { const r = await fetch(this.base + '/api/health'); if (r.ok) return; } catch { /* 尚未就緒 */ }
+      await sleep(100);
+    }
+    throw new Error('web (dev) health timeout');
   }
 }
 

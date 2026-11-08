@@ -389,6 +389,13 @@
    "quick": 2
   },
   {
+   "id": "DEV-01",
+   "stage": "m2-c",
+   "group": "browser",
+   "full": 5,
+   "quick": 2
+  },
+  {
    "id": "COL-05",
    "stage": "m2-c",
    "group": "browser",
@@ -585,6 +592,10 @@
   {
    "id": "MUT-F10",
    "stage": "m2-b"
+  },
+  {
+   "id": "MUT-F12",
+   "stage": "m2-c"
   },
   {
    "id": "MUT-C4",
