@@ -149,7 +149,9 @@ export async function br02(N) {
       errs(P); await ctx.close();
     }
 
-    // ---- S5：同一台裝置換成另一個帳號登入 ----
+    // ---- S5：同一台裝置換成另一個帳號登入（M2-c 附錄 B3：草稿依帳號分區，取代原本的整台封鎖；T-M2-15，使用者核准）----
+    // 判定：B 不被封鎖、照常編輯；B 的編輯器、設定頁、側邊欄與任何下載都沒有 A 的內容或草稿數量；B 使用期間伺服器沒有 A 的字；
+    //       A 的分區原封不動；A 重新登入開啟後，A 的字恰好一次進入資料庫，B 的字也在
     {
       const docA = await newPage(UA.agent, 'S5-A'), docB = await newPage(UB.agent, 'S5-B');
       const devA = await newDevice(env.base, UA);
@@ -160,24 +162,46 @@ export async function br02(N) {
       const toksA = [0, 1].map(i => `A${r}u${i}`);
       for (const t of toksA) await typeAtEnd(P, ` ${t}`, { mode: 'insert' });
       await P.waitForFunction(() => window.__app.persisted(), null, { timeout: 5000 });
+      const keyA = await P.evaluate(() => window.__app.draftKey());
       await P.close();
+      const rawDraft = async (Q, key) => Q.evaluate(k => new Promise(res => {
+        const rq = indexedDB.open('notes-drafts');
+        rq.onsuccess = () => { const g = rq.result.transaction('drafts', 'readonly').objectStore('drafts').get(k); g.onsuccess = () => { const v = g.result; rq.result.close(); res(v ? { userId: v.userId, pending: (v.pending || []).length } : null); }; };
+        rq.onerror = () => res(null);
+      }), key);
       const devB = await newDevice(env.base, UB);
       await useAgentCookies(ctx, devB);
       ({ P } = await freshPage(ctx));
-      await openDoc(P, env.base, docB);
-      if (await status(P) !== 'blocked') fails.push('S5-另一帳號未被封鎖，狀態 ' + await status(P));
-      if (await P.locator('.bn-editor').count()) fails.push('S5-被封鎖時仍顯示編輯器');
-      const drafts = await P.evaluate(() => window.__app.foreignDrafts());
-      const dl = tokensIn(JSON.stringify(drafts.map(d => d.json)));
-      if (missing(toksA, dl).length) fails.push('S5-下載的草稿缺少: ' + missing(toksA, dl).join(','));
-      await openDoc(P, env.base, docA);              // B 也能看到 A 的頁面：仍須被封鎖，草稿不可用 B 的身分送出
-      if (await status(P) !== 'blocked') fails.push('S5-以另一帳號開啟同一文件未被封鎖');
+      await openDoc(P, env.base, docB); await waitSynced(P);
+      if (await status(P) === 'blocked' || !(await P.locator('.bn-editor[contenteditable="true"]').count())) fails.push('S5-另一帳號被封鎖或不能編輯（應依帳號分區）');
+      await openDoc(P, env.base, docA);              // B 也看得到 A 的頁面：只載入 B 自己的分區
+      if (await status(P) === 'blocked') { fails.push('S5-以另一帳號開啟同一文件被封鎖（載入了 A 的草稿）'); errs(P); await ctx.close(); return; }
+      await waitSynced(P);
+      const tokB = `B${r}k9`;
+      await typeAtEnd(P, ` ${tokB}`, { mode: 'insert' });
+      await waitSynced(P);
+      const shown = tokensIn(await text(P));
+      if (toksA.some(t => shown.has(t))) fails.push('S5-另一帳號的編輯器顯示了 A 的草稿');
       await sleep(400);
       const leaked = [...await dbTokens(docA)].filter(t => toksA.includes(t));
       if (leaked.length) fails.push('S5-另一帳號的草稿被送到伺服器: ' + leaked.join(','));
-      await P.evaluate(() => window.__app.discardForeign());
-      await openDoc(P, env.base, docB); await waitSynced(P);
-      if ((await P.evaluate(() => window.__app.foreignDrafts())).length) fails.push('S5-捨棄後仍有其他帳號草稿');
+      if (await P.evaluate(() => window.__app.draftKey()) === keyA) fails.push('S5-兩個帳號使用同一個草稿鍵');
+      // B 的設定頁：只顯示 B 自己的草稿，看不到 A 的草稿或數量
+      await P.goto(`${env.base}/settings`);
+      await P.locator('[data-testid="drafts-count"]').waitFor({ timeout: 10000 });
+      const st = await P.locator('body').innerText();
+      if (toksA.some(t => st.includes(t)) || st.includes('其他帳號')) fails.push('S5-另一帳號的設定頁顯示了 A 的草稿資訊');
+      if (Number(await P.locator('[data-testid="drafts-count"]').getAttribute('data-unsynced')) !== 0) fails.push('S5-另一帳號的未同步草稿數量包含 A 的草稿');
+      const a1 = await rawDraft(P, keyA);
+      if (!a1 || a1.userId !== UA.id || a1.pending < 1) fails.push('S5-A 的草稿分區被改動或清除');
+      // A 重新登入：補送
+      const devA2 = await newDevice(env.base, UA);
+      await useAgentCookies(ctx, devA2);
+      ({ P } = await freshPage(ctx));
+      await openDoc(P, env.base, docA); await waitSynced(P);
+      const dbJson = JSON.stringify(blocksOfState((await loadFromDb(docA)).update));
+      for (const t of toksA) { const n = dbJson.split(t).length - 1; if (n !== 1) fails.push(`S5-A 重新登入後 ${t} 在資料庫出現 ${n} 次（應為 1）`); }
+      if (!dbJson.includes(tokB)) fails.push('S5-B 的字遺失');
       errs(P); await ctx.close();
     }
 

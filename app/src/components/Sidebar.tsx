@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { pageRegistry } from '@shared/page-registry.js';
-import { IdbStore } from '@shared/idb-store.js';
+import { IdbStore, pageIdOfKey } from '@shared/idb-store.js';
 import { canLeave } from '@/lib/leave-guard';
 import { ActionIcon, Box, Button, Collapse, Group, Menu, Popover, ScrollArea, SimpleGrid, Stack, Text, TextInput, UnstyledButton } from '@mantine/core';
 import SpaceDialogs, { type Space, type MovePreview, MoveConfirm } from './SpaceDialogs';
@@ -59,7 +59,7 @@ export default function Sidebar({ currentId, userId, onCurrent, onNavigate }: { 
     const scan = async () => {
       try {
         const mine = await IdbStore.unsyncedFor(userId);
-        const ids = new Set(mine.map((d: { key: string }) => String(d.key).replace(/^doc:/, '')));
+        const ids = new Set(mine.map((d: { key: string }) => pageIdOfKey(d.key)));
         if (!stop) setUnsynced(prev => (prev.size === ids.size && [...ids].every(i => prev.has(i)) ? prev : ids));
       } catch { /* IndexedDB 無法使用 */ }
     };

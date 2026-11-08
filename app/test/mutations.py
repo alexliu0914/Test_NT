@@ -75,8 +75,10 @@ MUTANTS = [
      "        const editor = BlockNoteEditor.create(withCollaboration({", "        const editor = BlockNoteEditor.create(((o: any) => o)({", ['BR-01=1']),
     ('MUT-B3', '本機尚未寫入完成時不顯示「尚未存到此裝置」', 'shared/client.js',
      "    if (p.some(e => (e.v || 0) > this.persistedVersion) || !this.localPersisted()) return 'unsaved';\n", "", ['BR-02=1']),
-    ('MUT-B4', '只檢查同一份文件、不檢查整台裝置的其他帳號草稿', 'src/components/Editor.tsx',
-     "        const foreign = await IdbStore.otherUserDrafts(user.id);", "        const foreign: { key: string; value: Record<string, unknown> }[] = [];", ['BR-02=1']),
+    # MUT-B4 的植入內容於 M2-c 改寫（T-M2-15，使用者核准）：原為「只檢查同一份文件、不檢查整台裝置的其他帳號草稿」（整台封鎖），
+    # 草稿改依帳號分區後改為「讀草稿時不分帳號」，仍由 BR-02 抓到；編號不變
+    ('MUT-B4', '讀草稿時不分帳號（草稿鍵不含帳號，M2-c B3）', 'shared/idb-store.js',
+     "export const draftKey = (userId, pageId) => `draft:${userId}:${pageId}`;", "export const draftKey = (userId, pageId) => `draft:any:${pageId}`;", ['BR-02=1']),
     ('MUT-B5', '新頁面沒有固定的文件骨架（兩人同時開始輸入時各自建立）', 'shared/initial-doc.js',
      "export const INITIAL_DOC_B64 = 'AQcB", "export const INITIAL_DOC_B64 = 'AAA=';\nexport const UNUSED_B64 = 'AQcB", ['BR-04=4']),
     # ---- M2-a：編輯器（M2 計畫 v0.4 §4.2；MUT-B6、B7 為 F-M2-01 新增） ----
@@ -136,6 +138,12 @@ MUTANTS = [
      "'select state, reason, created_at from page_versions where id=$1 and page_id=$2'", ['VER-01=1']),
     ('MUT-C5', '版本預覽端點繞過登入（M2-c W4-C）', 'src/app/api/pages/[id]/versions/[vid]/route.ts',
      "  const a = await requireUser(req);\n  if (a instanceof Response) return a;\n", "  const a = { user: { id: String(req.headers.get('x-user') || '') } };\n", ['VER-02=1']),
+    ('MUT-C7', '有未同步修改時登出仍清掉草稿（M2-c W5）', 'src/components/Settings.tsx',
+     "      if (mode === 'clear') { const left2 = await IdbStore.unsyncedFor(user.id); if (!left2.length) await IdbStore.clearUser(user.id); }",
+     "      await IdbStore.clearUser(user.id);", ['SEC-12=1']),
+    ('MUT-D1', '遷移時丟掉無法辨識所有者的舊草稿（M2-c B3）', 'shared/idb-store.js',
+     "      store.put(v, check.result === undefined ? target : `orphan:${pageId}:${Date.now()}-${n}-dup`);",
+     "      if (uid) store.put(v, check.result === undefined ? target : `orphan:${pageId}:${Date.now()}-${n}-dup`);", ['SEC-12=1']),
     ('MUT-F12', '開發模式（StrictMode 重複掛載）停掉的復原管理器不重新監聽文件（F-M2-12）', 'src/lib/undo-revive.ts',
      "  um.doc.on('afterTransaction', um.afterTransactionHandler);", "  void um.afterTransactionHandler;", ['DEV-01=1']),
     ('MUT-C10', '自己的空白行被別人的貼上換掉時不補回', 'src/lib/empty-line-keeper.ts',

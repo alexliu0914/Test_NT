@@ -16,7 +16,7 @@ import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
 import { useComputedColorScheme } from '@mantine/core';
 import { Client } from '@shared/client.js';
-import { IdbStore } from '@shared/idb-store.js';
+import { IdbStore, idbStatus } from '@shared/idb-store.js';
 import { makeSchema, FRAGMENT, SLASH_ITEMS } from '@shared/blocknote-schema.js';
 import { isSafeHref } from '@shared/link-policy.js';
 import { safePasteHandler, sanitizeHTML } from '@shared/paste-sanitize.js';
@@ -59,20 +59,31 @@ const schema = makeSchema((fileId: string) => `/api/files/${encodeURIComponent(f
 
 type Props = { pageId: string; user: { id: string; name: string }; onStatus: (s: SaveState) => void };
 
-type Ready = { client: InstanceType<typeof Client>; editor: BlockNoteEditor<any, any, any>; store: IdbStore; foreign: { key: string; value: Record<string, unknown> }[] };
+type Ready = { client: InstanceType<typeof Client>; editor: BlockNoteEditor<any, any, any>; store: IdbStore };
 
 export default function Editor(props: Props) {
   const [ready, setReady] = useState<Ready | null>(null);
   const [fatal, setFatal] = useState<string | null>(null);
+  const [idbBlocked, setIdbBlocked] = useState(false);
   const { pageId, user, onStatus } = props;
+  // 草稿資料庫升級（M2-c B3）被其他分頁的舊版程式擋住時提示；其他分頁關閉後自動繼續
+  useEffect(() => {
+    const f = (st: { blocked: boolean; versionChanged: boolean }) => {
+      setIdbBlocked(st.blocked);
+      if (st.versionChanged) setFatal('此頁面需要重新整理（本機草稿資料庫已由新版程式更新）。');
+    };
+    idbStatus.listeners.add(f);
+    f(idbStatus);
+    return () => { idbStatus.listeners.delete(f); };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
     let client: InstanceType<typeof Client> | null = null;
     (async () => {
       try {
-        const foreign = await IdbStore.otherUserDrafts(user.id);
-        const store = new IdbStore('doc:' + pageId);
+        // M2-c B3：只讀寫這個帳號自己分區的草稿（draft:<帳號>:<頁面>）；其他帳號的草稿不載入、不顯示
+        const store = IdbStore.forPage(user.id, pageId);
         const storage = (await store.load()) || {};
         if (cancelled) return;
         const converter = BlockNoteEditor.create({ schema });
@@ -92,8 +103,8 @@ export default function Editor(props: Props) {
         });
         // 文件仍是空的（新頁面、這台裝置還沒同步過）：先套用固定的骨架，避免兩人同時開始輸入時各自建立一份（F-M1-05）
         // 結構 ID 與伺服器建立頁面時寫入的完全相同，已存在時套用不會有任何變化
-        // F-M2-07：這台裝置被其他帳號的草稿封鎖時不套用（否則骨架會成為這個帳號的「待確認修改」寫入本機，反過來封鎖原帳號）
-        if (!foreign.length && !client.blocked && client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
+        // F-M2-07：草稿不屬於這個帳號（client.blocked）時不套用
+        if (!client.blocked && client.ydoc.getXmlFragment(FRAGMENT).length === 0) Y.applyUpdate(client.ydoc, initialDocUpdate(), 'initial-doc');
         const editor = BlockNoteEditor.create(withCollaboration({
           schema,
           dictionary,
@@ -115,7 +126,7 @@ export default function Editor(props: Props) {
           const mine = ownClientIds(ydoc, c.storage.pending.map((e: { data: Uint8Array }) => e.data));
           return repairByAuthor(ydoc, ydoc.getXmlFragment(FRAGMENT), (id: number) => mine.has(id), () => crypto.randomUUID());
         };
-        setReady({ client, editor, store, foreign });
+        setReady({ client, editor, store });
       } catch (e) {
         setFatal(String((e as Error).message || e));
       }
@@ -124,17 +135,18 @@ export default function Editor(props: Props) {
   }, [pageId, user.id, user.name]);
 
   if (fatal) return <div role="alert">編輯器無法啟動：{fatal}</div>;
-  if (!ready) return null;
+  if (!ready) return idbBlocked ? <div role="alert" data-testid="idb-blocked" style={{ padding: 24 }}>正在更新本機草稿資料庫，請關閉或重新整理其他開著本站的分頁。</div> : null;
   return <Bound {...props} ready={ready} />;
 }
 
 function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
-  const { client, editor, store, foreign } = ready;
+  const { client, editor, store } = ready;
   const scheme = useComputedColorScheme('light');
   const viewRef = useRef<HTMLDivElement>(null);
   const [readOnly, setReadOnly] = useState(false);
   const [banner, setBanner] = useState<string | null>(null);
-  const deviceBlocked = foreign.length > 0 || !!client.blocked;
+  // 草稿不屬於這個帳號（用戶端防線，M0-10；依帳號分區後正常情況不會發生）
+  const deviceBlocked = !!client.blocked;
   const flags = useMemo(() => ({ revoked: false, pageClosed: false, unbound: false, denied: false }), []);
   const [denied, setDenied] = useState(false);
   const [deniedDrafts, setDeniedDrafts] = useState(0);
@@ -285,16 +297,15 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       // F-M2-01 測試用：目前有多個內容節點的區塊（作者的 clientID）
       multiContent: () => findMultiContent(client.ydoc.getXmlFragment(FRAGMENT)).map(x => ({ id: x.container.getAttribute('id'), extras: x.extras.map((e: { _item: { id: { client: number } } }) => e._item.id.client) })),
       clientId: () => client.ydoc.clientID,
-      foreignDrafts: () => describeForeign(foreign),
       // M2-s 測試用：失去權限的草稿
       deniedDraft: () => client.deniedDraft(),
       visiblePages: () => pageRegistry.list().map((p: { id: string }) => p.id),
-      discardForeign: async () => { await IdbStore.deleteKeys(foreign.map(f => f.key)); if (client.blocked) await client.discardAndLogout({ confirm: true }); },
+      draftKey: () => store.key,
     };
     return () => { clearInterval(iv); unguard(); removeEventListener('beforeunload', beforeUnload); removeEventListener('offline', goOffline); removeEventListener('online', goOnline); };
-  }, [client, editor, store, deviceBlocked, onStatus, flags, foreign]);
+  }, [client, editor, store, deviceBlocked, onStatus, flags]);
 
-  if (deviceBlocked) return <ForeignDrafts foreign={foreign} client={client} />;
+  if (deviceBlocked) return <NotYourDraft />;
   if (denied) return <AccessDenied client={client} />;
   return (
     <div ref={viewRef}>
@@ -340,37 +351,11 @@ function Presence({ client }: { client: InstanceType<typeof Client> }) {
   );
 }
 
-// 其他帳號的草稿轉成可讀的區塊 JSON（下載用）
-const converterForDrafts = BlockNoteEditor.create({ schema });
-function describeForeign(foreign: { key: string; value: Record<string, unknown> }[]) {
-  return foreign.map(({ key, value }) => {
-    const c = new Client({ url: '', docId: key.slice(4), token: '', userId: String(value.userId), storage: structuredClone(value),
-      describe: (ydoc: unknown) => JSON.stringify(yDocToBlocks(converterForDrafts, ydoc as never, FRAGMENT)) });
-    return { key, ...c.downloadUnsynced() };
-  });
-}
-
-// 這台裝置上有其他帳號尚未同步的草稿：先下載或確認後捨棄，才能開始編輯（M0-B F-07）
-function ForeignDrafts({ foreign, client }: { foreign: { key: string; value: Record<string, unknown> }[]; client: InstanceType<typeof Client> }) {
-  const [confirming, setConfirming] = useState(false);
-  function download() {
-    const data = JSON.stringify(describeForeign(foreign), null, 1);
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([data], { type: 'application/json' }));
-    a.download = 'drafts.json';
-    a.click();
-  }
-  async function discard() {
-    await IdbStore.deleteKeys(foreign.map(f => f.key));
-    if (client.blocked) await client.discardAndLogout({ confirm: true });
-    location.reload();
-  }
+// 這一頁的本機草稿不屬於目前的帳號（用戶端防線）：不顯示、不下載、不送出其內容
+function NotYourDraft() {
   return (
-    <div role="alert" style={{ padding: 24, maxWidth: 560 }}>
-      <p>這台裝置上有其他帳號尚未同步的草稿（{foreign.length || 1} 份）。請先下載或捨棄，才能在這台裝置上編輯。</p>
-      <p><button type="button" onClick={download}>下載草稿</button>{' '}
-        {!confirming ? <button type="button" onClick={() => setConfirming(true)}>捨棄草稿</button>
-          : <><span>確定捨棄？捨棄後無法復原。</span> <button type="button" onClick={discard}>確定捨棄</button></>}</p>
+    <div role="alert" data-testid="not-your-draft" style={{ padding: 24, maxWidth: 560 }}>
+      <p>這一頁在此裝置上的草稿不屬於目前登入的帳號，無法開啟。請改用原本的帳號登入。</p>
     </div>
   );
 }

@@ -937,10 +937,17 @@ export async function col10(N) {
       await P.locator(`[data-testid="tree-row"][data-page-id="${docId}"]`).waitFor({ timeout: 15000 });
       await sleep(2500);
       if (await P.locator('[data-testid="unsynced-mark"]').count()) fails.push('另一個帳號在同一台裝置上看到 A 的未同步標示');
-      // F-M2-07：B 在這台被封鎖的裝置上開啟另一頁，不能留下 B 自己的草稿（否則反過來封鎖 A，A 重新開啟時看不到自己的草稿）
+      // F-M2-07（M2-c 附錄 B3 改寫，T-M2-15）：草稿依帳號分區，B 在這台裝置上不再被封鎖，照常開啟並編輯另一頁；
+      // B 的草稿只寫在 B 自己的分區，不影響 A：A 重新開啟時仍看到自己的草稿並補送（下方判定）
       const otherPage = await newPage(UA.agent, 'COL-10 其他 ' + r);
       await P.goto(`${env.base}/p/${otherPage}`);
-      await P.waitForFunction(() => window.__app && window.__app.status() === 'blocked', null, { timeout: 15000 }).catch(() => fails.push('B 在有 A 草稿的裝置上沒有被封鎖'));
+      await P.waitForFunction(() => window.__app && window.__app.status() !== 'loading', null, { timeout: 15000 });
+      if (await P.evaluate(() => window.__app.status()) === 'blocked') fails.push('B 在有 A 草稿的裝置上被封鎖（應依帳號分區）');
+      await P.locator('.bn-editor').focus();
+      await P.keyboard.insertText(` B${r}k7`);
+      await P.waitForFunction(() => window.__app.status() === 'saved', null, { timeout: 15000 }).catch(() => fails.push('B 在這台裝置上的編輯沒有儲存'));
+      const keyB = await P.evaluate(() => window.__app.draftKey());
+      if (!keyB.includes(UB.id)) fails.push('B 的草稿沒有寫在 B 自己的分區：' + keyB);
       await sleep(500);
       await cx.close();
     }
