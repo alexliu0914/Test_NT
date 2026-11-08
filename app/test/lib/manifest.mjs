@@ -1,7 +1,7 @@
 // 測試分段啟用清單（M2 計畫 v0.4 §5、附錄 B-4）
 // - manifest.json：每個案例的階段、群組、完整輪數、CI 縮減輪數；每個變異的階段
 // - m1-baseline.json：M1 封存基線（5f7bd04）的案例完整輪數與變異；M2 不能刪除、改階段或減少完整輪數
-// - accepted-baselines.json：已驗收的 M2 階段（M2-a 2141293、M2-s d78a094）新增的案例與變異，規則同上
+// - accepted-baselines.json：已驗收的 M2 階段（M2-a 2141293、M2-s d78a094、M2-b 27a0ca2）新增的案例與變異，規則同上
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 

@@ -38,6 +38,31 @@
         "MUT-S8",
         "MUT-S9"
       ]
+    },
+    "m2-b": {
+      "commit": "27a0ca2349c82b23be1c349e90be2ccb6fd899de",
+      "accepted": "2026-11-08",
+      "cases": {
+        "COL-01": 20,
+        "COL-02": 20,
+        "COL-03": 10,
+        "COL-04": 10,
+        "COL-06": 20,
+        "COL-07": 20,
+        "COL-09": 20,
+        "COL-10": 10,
+        "COL-11": 10
+      },
+      "mutants": [
+        "MUT-C1",
+        "MUT-C2",
+        "MUT-C3",
+        "MUT-C8",
+        "MUT-C9",
+        "MUT-C10",
+        "MUT-F09",
+        "MUT-F10"
+      ]
     }
   }
 }

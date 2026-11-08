@@ -81,7 +81,7 @@ python3 test/mutations.py --stage m2-b              # 該階段的植入缺陷�
 
 ### 分段執行（M2 起）
 
-`test/manifest.json` 列出每個案例與變異所屬的階段（m1、m2-a、m2-s、m2-b～m2-d）、群組（api、core、browser、perf）與輪數；`test/m1-baseline.json` 是 M1 封存基線（5f7bd04），`test/accepted-baselines.json` 是已驗收的 M2 階段（M2-a `2141293`、M2-s `d78a094`）；這些案例與變異不能移除、改階段或減少完整輪數，否則執行器拒絕執行。
+`test/manifest.json` 列出每個案例與變異所屬的階段（m1、m2-a、m2-s、m2-b～m2-d）、群組（api、core、browser、perf）與輪數；`test/m1-baseline.json` 是 M1 封存基線（5f7bd04），`test/accepted-baselines.json` 是已驗收的 M2 階段（M2-a `2141293`、M2-s `d78a094`、M2-b `27a0ca2`）；這些案例與變異不能移除、改階段或減少完整輪數，否則執行器拒絕執行。
 
 ```bash
 node test/run.js --stage m2-a --group browser --full    # 該階段（含之前）的全部案例；之後階段的記為 NOT_APPLICABLE_NOT_IMPLEMENTED
