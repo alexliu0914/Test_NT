@@ -9,9 +9,12 @@ git fetch origin
 git checkout -b m2b origin/m2b   # 已有 m2b 分支時改用：git checkout m2b; git pull
 cd app
 npm ci
-npm run dev                      # 網頁
+npm run build                    # 正式模式建置（約 1～2 分鐘）
+npm start                        # 網頁（正式模式），一樣是 http://localhost:3000
 npm run collab                   # 協作伺服器（另開一個終端機）
 ```
+
+請用正式模式（`npm run build` 後 `npm start`），不要用 `npm run dev`：開發模式下 Ctrl+Z／Ctrl+Shift+Z 完全沒有作用（FAILURES.md F-M2-12，只影響開發模式），自動化測試與正式部署都是正式模式。程式更新（`git pull`）後要重新執行 `npm run build`。
 
 先在 A、B、C 都是成員的共享空間建立一個頁面「游標測試」，D 開另一個頁面。
 
