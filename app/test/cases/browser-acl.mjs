@@ -13,11 +13,12 @@ const sidebarSpaces = P => P.locator('[data-testid="space-section"]').evaluateAl
 const memberSpaces = async uid => (await db.query('select space_id from space_members where user_id=$1 order by space_id', [uid])).rows.map(r => r.space_id).sort();
 const linkState = P => P.evaluate(() => [...document.querySelectorAll('a.app-page-link')].map(a => ({ unavailable: !!a.dataset.unavailable, text: a.textContent })));
 // 該頁在 IndexedDB 草稿中的快取狀態（失去權限後不得保留其他人的內容）
-const idbDoc = (P, pageId) => P.evaluate(key => new Promise(res => {
-  const q0 = indexedDB.open('notes-drafts', 1);
+// T-M2-16：M2-c 起草稿依帳號分區（鍵 draft:<帳號>:<頁面>、資料庫版本 2），改用目前版本開啟並帶帳號；讀不到時回 null（呼叫端記為失敗）
+const idbDoc = (P, pageId, userId) => P.evaluate(key => new Promise(res => {
+  const q0 = indexedDB.open('notes-drafts');
   q0.onsuccess = () => { const q = q0.result.transaction('drafts').objectStore('drafts').get(key); q.onsuccess = () => { const v = q.result || {}; res({ docUpdates: (v.docUpdates || []).length, pending: (v.pending || []).length, denied: (v.denied || []).length }); }; };
   q0.onerror = () => res(null);
-}), 'doc:' + pageId);
+}), `draft:${userId}:${pageId}`);
 
 async function timed(fn, ms = 2000, slack = 3000) {
   const t0 = Date.now();
@@ -109,7 +110,8 @@ export async function acl04(N) {
         await P.B.goto(`${env.base}/p/${priv}`);
         await waitReady(P.B);
         await waitSynced(P.B);
-        if ((await idbDoc(P.B, priv)).docUpdates === 0) fails.push('前提：開啟頁面後本機應有快取');
+        const idb0 = await idbDoc(P.B, priv, B.id);
+        if (!idb0 || idb0.docUpdates === 0) fails.push('前提：開啟頁面後本機應有快取');
         await row(P.A, secret).dragTo(section(P.A, pA).getByTestId('space-header'));
         await dlg.waitFor({ timeout: 5000 });
         const sum2 = await dlg.textContent();
@@ -117,8 +119,9 @@ export async function acl04(N) {
         if (!sum2.includes('將看不到') || !sum2.includes('使用者2') || !sum2.includes('使用者3')) fails.push('移出確認沒有列出將看不到的人：' + sum2);
         await P.A.getByRole('button', { name: '確認移動' }).click();
         check2s('B 正在開啟的頁面提示已無法存取', await timed(ms => P.B.getByTestId('access-denied').waitFor({ timeout: ms })));
-        const idb = await idbDoc(P.B, priv);
-        if (idb && idb.docUpdates) fails.push('失去權限後 IndexedDB 仍保存伺服器的文件狀態 ' + JSON.stringify(idb));
+        const idb = await idbDoc(P.B, priv, B.id);
+        if (!idb) fails.push('失去權限後讀不到 IndexedDB 草稿');
+        else if (idb.docUpdates) fails.push('失去權限後 IndexedDB 仍保存伺服器的文件狀態 ' + JSON.stringify(idb));
         if (await P.B.locator('.bn-editor').count()) fails.push('失去權限後仍顯示文件內容');
         const st = await P.B.waitForFunction(() => document.querySelector('[data-testid="save-status"]')?.dataset.state === 'denied', null, { timeout: 2000 }).then(() => true, () => false);
         if (!st) fails.push('狀態列沒有顯示已無法存取：' + await P.B.getByTestId('save-status').getAttribute('data-state'));

@@ -166,12 +166,13 @@ export async function br03(N) {
         await PN.goto(env.base + '/settings');
         await PN.getByTestId('sessions').locator('tbody tr').first().waitFor();   // 等頁面完成載入（按鈕已可操作）
         await PN.getByRole('button', { name: '登出' }).last().click();
-        const modal = await PN.getByText('還有尚未同步的修改').waitFor({ timeout: 5000 }).then(() => true, () => false);
+        // T-M2-16：M2-c（SEC-12，已核准）登出時先同步最多 10 秒，連不上才跳出確認；等待上限由 5 秒改為 20 秒，確認對話框與取消的判定不變
+        const modal = await PN.getByText('還有尚未同步的修改').waitFor({ timeout: 20000 }).then(() => true, () => false);
         if (!modal) {
-          const dump = await PN.evaluate(() => new Promise(res => { const q0 = indexedDB.open('notes-drafts', 1); q0.onsuccess = () => { const q = q0.result.transaction('drafts').objectStore('drafts').getAll(); q.onsuccess = () => res(q.result.map(v => ({ u: v.userId, p: v.pending && v.pending.length }))); }; })).catch(e => String(e));
+          const dump = await PN.evaluate(() => new Promise(res => { const q0 = indexedDB.open('notes-drafts'); q0.onsuccess = () => { const q = q0.result.transaction('drafts').objectStore('drafts').getAll(); q.onsuccess = () => res(q.result.map(v => ({ u: v.userId, p: v.pending && v.pending.length }))); }; })).catch(e => String(e));
           fails.push('有未同步修改時登出沒有跳出確認 ' + PN.url() + ' ' + JSON.stringify(dump) + ' ' + (await PN.content()).length);
         }
-        await PN.getByRole('button', { name: '取消，先回去同步' }).click();
+        await PN.getByTestId('logout-cancel').click();   // T-M2-16：按鈕文字改為「取消」
         if (/\/login$/.test(PN.url())) fails.push('取消後仍被登出');
         m.secretLen = secret.length;
       })(), 150000, 'round');
