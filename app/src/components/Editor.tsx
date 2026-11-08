@@ -28,6 +28,8 @@ import { keepEmptyLine } from '@/lib/empty-line-keeper';
 import { guardBinding } from '@/lib/binding-guard';
 import { installTypeUndo } from '@/lib/type-undo';
 import { reviveUndoManager } from '@/lib/undo-revive';
+import VersionPanel from './VersionPanel';
+import { Button, Group, Text } from '@mantine/core';
 import * as Y from 'yjs';
 
 export type SaveState = 'loading' | 'saved' | 'saving' | 'offline' | 'failed' | 'unsaved' | 'readonly' | 'blocked' | 'revoked' | 'page_closed' | 'denied' | 'error';
@@ -138,6 +140,23 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
   const [deniedDrafts, setDeniedDrafts] = useState(0);
   const [picker, setPicker] = useState(false);
   const [merging, setMerging] = useState(false);
+  // M2-c W4：版本紀錄面板、手動存版
+  const [versionsOpen, setVersionsOpen] = useState(false);
+  // 訊息帶序號：同樣的文字再出現一次也看得出是新的結果
+  const [versionMsg, setVersionMsgState] = useState<{ text: string; n: number } | null>(null);
+  const setVersionMsg = (text: string) => setVersionMsgState(v => ({ text, n: (v ? v.n : 0) + 1 }));
+  const [savingVersion, setSavingVersion] = useState(false);
+  async function saveVersion() {
+    if (!client.ready) { setVersionMsg('目前離線，連線後才能存版。'); return; }
+    setSavingVersion(true);
+    try {
+      const r = await Promise.race([
+        client.makeVersion(crypto.randomUUID(), { manual: true }),
+        new Promise<{ t: string }>(res => setTimeout(() => res({ t: 'timeout' }), 10000)),
+      ]) as { t: string };
+      setVersionMsg(r.t === 'version_ok' ? '已存一版。' : '存版失敗，請稍後再試。');
+    } finally { setSavingVersion(false); }
+  }
   const bindingErrors = useMemo<string[]>(() => [], []);
   // F-M2-01：區塊有多個內容節點時，作者立刻搬到新區塊；不是作者就暫停編輯等待，3 秒後仍未修復才自己修復
   useEffect(() => {
@@ -282,6 +301,12 @@ function Bound({ ready, onStatus, user, pageId }: Props & { ready: Ready }) {
       {banner && <div role="status" style={{ padding: '8px 54px', color: 'var(--mantine-color-orange-7)' }}>{banner}</div>}
       {deniedDrafts > 0 && <DeniedDrafts client={client} onDone={() => setDeniedDrafts(0)} />}
       {merging && !banner && <div role="status" data-testid="merging" style={{ padding: '8px 54px', color: 'var(--mantine-color-dimmed)' }}>正在合併另一位使用者同時做的修改…</div>}
+      <Group gap="xs" px={54} pb={4} justify="flex-end">
+        {versionMsg && <Text size="xs" c="dimmed" role="status" data-testid="version-message" data-n={versionMsg.n}>{versionMsg.text}</Text>}
+        <Button size="compact-xs" variant="subtle" data-testid="save-version" loading={savingVersion} disabled={readOnly || merging} onClick={saveVersion}>存一版</Button>
+        <Button size="compact-xs" variant="subtle" data-testid="open-versions" onClick={() => setVersionsOpen(true)}>版本紀錄</Button>
+      </Group>
+      <VersionPanel client={client} pageId={pageId} opened={versionsOpen} onClose={() => setVersionsOpen(false)} onMessage={setVersionMsg} />
       <Presence client={client} />
       <BlockNoteView editor={editor} editable={!readOnly && !merging} theme={scheme === 'dark' ? 'dark' : 'light'} slashMenu={false} formattingToolbar={false}>
         <SuggestionMenuController triggerCharacter="/" getItems={async q => filterSuggestionItems(slashItems as never, q)} />

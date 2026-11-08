@@ -491,3 +491,127 @@ async function migrationChecks(fails, m) {
     rmSync(backupDir, { recursive: true, force: true });
   }
 }
+
+// ---------------- VER-02：版本清單與預覽的授權、唯讀、安全轉換 ----------------
+// 未登入（401）、未設定兩步驟驗證（403）、不是空間成員（404）、版本不屬於此頁（404）、垃圾桶中的頁面（404）、
+// 寫入方法（405）、超過保留期限的版本不列出且預覽 404；預覽的區塊 JSON 沒有任何不安全的網址（javascript:、data:、vbscript: 與變體），
+// 連結文字保留為純文字、頁面連結只保留格式正確的 page_id；還原紀錄在目標版本清除後仍以歷史欄位列出。
+import { bootEnv } from '../lib/env.mjs';
+import { Agent, PASSWORD, signIn, newPage as apiNewPage } from '../lib/harness.mjs';
+import { runRound } from '../lib/recorder.mjs';
+import { importBlocks, FORMAT_VERSION } from '../../shared/export.js';
+import { isSafeHref } from '../../shared/link-policy.js';
+
+const EVIL = [
+  { type: 'paragraph', content: [
+    { type: 'text', text: '前', styles: {} },
+    { type: 'link', href: 'javascript:alert(1)', content: [{ type: 'text', text: '惡意一', styles: {} }] },
+    { type: 'link', href: ' JaVa\tScRipt:alert(2)', content: [{ type: 'text', text: '惡意二', styles: {} }] },
+    { type: 'link', href: 'data:text/html,<script>alert(3)</script>', content: [{ type: 'text', text: '惡意三', styles: {} }] },
+    { type: 'link', href: 'vbscript:msgbox(4)', content: [{ type: 'text', text: '惡意四', styles: {} }] },
+    { type: 'link', href: 'https://example.com/ok', content: [{ type: 'text', text: '正常連結', styles: {} }] },
+    { type: 'text', text: '<script>window.__pwned=1</script><img src=x onerror="window.__pwned=2">', styles: {} },
+  ] },
+  { type: 'pageLink', props: { pageId: 'javascript:alert(5)' } },
+];
+
+function unsafeUrls(x, out = []) {
+  if (Array.isArray(x)) for (const v of x) unsafeUrls(v, out);
+  else if (x && typeof x === 'object') {
+    for (const [k, v] of Object.entries(x)) {
+      if (['href', 'url', 'src', 'previewUrl'].includes(k) && typeof v === 'string' && v && !isSafeHref(v)) out.push(`${k}=${v}`);
+      else unsafeUrls(v, out);
+    }
+  }
+  return out;
+}
+const textOf = x => JSON.stringify(x);
+
+export async function ver02(n) {
+  const rec = new Recorder('VER-02', '版本清單與預覽：未登入、未設定兩步驟驗證、非成員、錯頁、垃圾桶頁一律拒絕；只讀；預覽沒有不安全的網址；過期版本不列出');
+  const env = await bootEnv({ users: 3 });
+  const [A, B, C] = env.users;   // A、B 是共享空間成員；C 不是 A 個人空間的成員
+  const personal = (await db.query(`select id from spaces where owner_id=$1 and kind='personal'`, [A.id])).rows[0].id;
+  // 未設定兩步驟驗證的帳號（第四個帳號）
+  const inv = await A.agent.post('/api/invites', { email: 'nover2fa@example.test' });
+  const token = new URL(inv.json.url).pathname.split('/').pop();
+  await new Agent(env.base).post(`/api/invites/${token}/accept`, { name: '未設定', password: PASSWORD });
+  const no2fa = new Agent(env.base);
+  await signIn(no2fa, 'nover2fa@example.test');
+  const evilState = Buffer.from(importBlocks({ formatVersion: FORMAT_VERSION, blocks: EVIL }));
+  for (let i = 0; i < n; i++) {
+    await runRound(rec, i, i, async () => {
+      const fails = [];
+      const P = await apiNewPage(A.agent, 'VER-02 ' + i);                         // 共享空間
+      const Q = await apiNewPage(A.agent, 'VER-02 另一頁 ' + i);
+      const X = await apiNewPage(A.agent, 'VER-02 私人 ' + i, { spaceId: personal });   // A 的個人空間
+      const vid = 'evil-' + randomUUID(), qid = 'q-' + randomUUID(), xid = 'x-' + randomUUID(), old = 'old-' + randomUUID();
+      await db.query(`insert into page_versions(id, page_id, state, up_to_seq, reason, created_by) values
+        ($1,$2,$3,0,'manual',$7), ($4,$5,$3,0,'auto',$7), ($6,$8,$3,0,'auto',$7)`, [vid, P, evilState, qid, Q, xid, A.id, X]);
+      await db.query(`insert into page_versions(id, page_id, state, up_to_seq, reason, created_at) values ($1,$2,$3,0,'auto', now() - interval '91 days')`, [old, P, evilState]);
+      await db.query(`insert into restore_jobs(id, page_id, target_version_id, status, seq, applied_at, target_version_reason, target_version_created_at, requested_by)
+        values ($1,$2,$3,'applied',1,now(),'auto', now() - interval '91 days', $4)`, ['rj-' + i, P, old, A.id]);
+      const cc = 'cc-' + randomUUID();
+      await db.query(`insert into conflict_copies(id, page_id, user_id, state, content_json) values ($1,$2,$3,'\\x00',$4)`, [cc, P, A.id, JSON.stringify(EVIL)]);
+      const L = `/api/pages/${P}/versions`, V = `/api/pages/${P}/versions/${vid}`, CC = `/api/pages/${P}/conflicts/${cc}`;
+      // 未登入、未設定兩步驟驗證
+      const anon = new Agent(env.base);
+      for (const p of [L, V, CC]) {
+        const r = await anon.get(p);
+        if (r.status !== 401) fails.push(`未登入 GET ${p.replace(P, 'P')} → ${r.status}`);
+        const t = await no2fa.get(p);
+        if (t.status !== 403 || t.json?.error?.code !== 'two_factor_required') fails.push(`未設定兩步驟驗證 GET ${p.replace(P, 'P')} → ${t.status}`);
+      }
+      // 非成員、錯頁
+      for (const p of [`/api/pages/${X}/versions`, `/api/pages/${X}/versions/${xid}`]) {
+        const r = await C.agent.get(p);
+        if (r.status !== 404) fails.push(`非成員 GET ${p.replace(X, 'X')} → ${r.status}`);
+        if (r.text.includes(xid) || r.text.includes('私人')) fails.push('非成員的回應洩漏版本或頁面資訊');
+      }
+      for (const p of [`/api/pages/${P}/versions/${qid}`, `/api/pages/${Q}/versions/${vid}`, `/api/pages/${Q}/conflicts/${cc}`, `/api/pages/${P}/versions/${xid}`]) {
+        const r = await B.agent.get(p);
+        if (r.status !== 404) fails.push(`版本不屬於此頁 GET ${p} → ${r.status}`);
+      }
+      // 寫入方法：只讀
+      for (const m of ['POST', 'PUT', 'PATCH', 'DELETE']) for (const p of [L, V, CC]) {
+        const r = await B.agent.req(m, p, m === 'DELETE' ? undefined : {});
+        if (r.status !== 405) fails.push(`${m} ${p.replace(P, 'P')} → ${r.status}（應為 405）`);
+      }
+      // 成員：清單、預覽、衝突副本
+      const list = await B.agent.get(L);
+      if (list.status !== 200) fails.push('成員讀取版本清單 → ' + list.status);
+      else {
+        const ids = list.json.versions.map(v => v.id);
+        if (!ids.includes(vid)) fails.push('版本清單缺少版本');
+        const vv = list.json.versions.find(v => v.id === vid);
+        if (vv && (vv.reason !== 'manual' || !vv.expiresAt)) fails.push('版本清單缺少類型或到期日');
+        if (!list.json.conflicts.some(c => c.id === cc)) fails.push('版本清單缺少衝突副本');
+      }
+      for (const p of [V, CC]) {
+        const r = await B.agent.get(p);
+        if (r.status !== 200) { fails.push(`預覽 ${p.replace(P, 'P')} → ${r.status}`); continue; }
+        if (r.json.formatVersion !== FORMAT_VERSION) fails.push('預覽缺少格式版本');
+        const bad = unsafeUrls(r.json.blocks);
+        if (bad.length) fails.push('預覽含不安全的網址：' + bad.join(' | ').slice(0, 200));
+        const t = textOf(r.json.blocks);
+        for (const w of ['惡意一', '惡意二', '惡意三', '惡意四', '正常連結', '<script>window.__pwned=1</script>']) if (!t.includes(w)) fails.push(`預覽遺失文字「${w}」（應保留為純文字）`);
+        if (!t.includes('https://example.com/ok')) fails.push('預覽移除了安全的連結');
+        const pl = (r.json.blocks || []).find(b => b.type === 'pageLink');
+        if (pl && pl.props.pageId) fails.push('預覽保留了格式錯誤的頁面連結 ' + pl.props.pageId);
+      }
+      // 過期版本：清理後不列出、預覽 404；還原紀錄仍以歷史欄位列出
+      await purgeVersions(db, 90);
+      const list2 = await B.agent.get(L);
+      if (list2.json.versions.some(v => v.id === old)) fails.push('過期版本仍在清單中');
+      const rj = list2.json.restores.find(r => r.id === 'rj-' + i);
+      if (!rj || rj.targetVersionId !== null || rj.targetReason !== 'auto' || !rj.targetCreatedAt) fails.push('還原紀錄在目標版本清除後沒有以歷史欄位列出');
+      if ((await B.agent.get(`/api/pages/${P}/versions/${old}`)).status !== 404) fails.push('過期版本的預覽沒有回 404');
+      // 垃圾桶中的頁面
+      const del = await A.agent.del(`/api/pages/${P}`);
+      if (del.status !== 200) fails.push('刪除頁面失敗 ' + del.status);
+      for (const p of [L, V, CC]) { const r = await B.agent.get(p); if (r.status !== 404) fails.push(`垃圾桶頁 GET ${p.replace(P, 'P')} → ${r.status}`); }
+      return [fails, {}];
+    });
+  }
+  return rec.save();
+}

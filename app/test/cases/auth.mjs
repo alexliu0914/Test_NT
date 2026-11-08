@@ -333,6 +333,8 @@ export async function sec05(n) {
     ['GET', '/api/spaces'], ['POST', '/api/spaces', { name: 'x' }], ['PATCH', `/api/spaces/${sp}`, { name: 'x' }], ['DELETE', `/api/spaces/${sp}`],
     ['POST', `/api/spaces/${sp}/members`, { userId: 'x' }], ['DELETE', `/api/spaces/${sp}/members/x`], ['POST', `/api/spaces/${sp}/leave`, {}],
     ['GET', '/api/users'], ['GET', `/api/pages/${pid}/move-preview?space=${sp}`],
+    // M2-c：版本紀錄（只讀）
+    ['GET', `/api/pages/${pid}/versions`], ['GET', `/api/pages/${pid}/versions/v1`], ['GET', `/api/pages/${pid}/conflicts/c1`],
   ];
   for (let i = 0; i < n; i++) {
     await runRound(rec, i, i, async () => {

@@ -134,6 +134,8 @@ MUTANTS = [
     ('MUT-V2', '還原不在交易內鎖住目標版本（M2-c B2-P0-02）', 'collab/server.mjs',
      "'select state, reason, created_at from page_versions where id=$1 and page_id=$2 for share'",
      "'select state, reason, created_at from page_versions where id=$1 and page_id=$2'", ['VER-01=1']),
+    ('MUT-C5', '版本預覽端點繞過登入（M2-c W4-C）', 'src/app/api/pages/[id]/versions/[vid]/route.ts',
+     "  const a = await requireUser(req);\n  if (a instanceof Response) return a;\n", "  const a = { user: { id: String(req.headers.get('x-user') || '') } };\n", ['VER-02=1']),
     ('MUT-F12', '開發模式（StrictMode 重複掛載）停掉的復原管理器不重新監聽文件（F-M2-12）', 'src/lib/undo-revive.ts',
      "  um.doc.on('afterTransaction', um.afterTransactionHandler);", "  void um.afterTransactionHandler;", ['DEV-01=1']),
     ('MUT-C10', '自己的空白行被別人的貼上換掉時不補回', 'src/lib/empty-line-keeper.ts',

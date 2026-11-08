@@ -58,7 +58,7 @@ export async function mig02(n) {
       await a.end();
       // M1 結構：全部套用後回滾 0002（空資料庫可直接回滾）
       let r = mig('up'); if (r.status !== 0) throw new Error('up ' + r.stderr);
-      r = mig('down', '1'); if (r.status !== 0) throw new Error('down to M1 ' + r.stderr);
+      r = mig('down', '2'); if (r.status !== 0) throw new Error('down to M1 ' + r.stderr);   // T-M2-14：回滾 0003、0002
       c = new pg.Client({ connectionString: url });
       await c.connect();
       // M1 資料：三個帳號（管理者最早）、頂層頁面各有子頁面、建立者已不存在的頁面、垃圾桶中的頁面、協作資料
@@ -85,7 +85,7 @@ export async function mig02(n) {
       }
       const PRE = JSON.stringify(await snapshot(c)), PRE_FP = fp();
       // 遷移：每頁歸建立者的個人空間（頂層決定，子頁面跟著頂層；建立者不存在→最早的管理者）
-      r = mig('up');
+      r = mig('up', '0002_spaces.sql');   // T-M2-14：只套用到 0002
       if (r.status !== 0) throw new Error('up with data ' + r.stderr);
       const backups = () => readdirSync(backupDir).filter(f => f.endsWith('.dump'));
       if (backups().length !== 1) fails.push('遷移前沒有自動產生備份 ' + backups().length);
@@ -138,7 +138,7 @@ export async function mig02(n) {
       m.kinds = {};
       for (const [label, make] of kinds) {
         const had = new Set(backups());
-        r = mig('up');
+        r = mig('up', '0002_spaces.sql');   // T-M2-14：只套用到 0002
         if (r.status !== 0) { fails.push(`${label}：重新遷移失敗 ` + r.stderr.slice(-200)); continue; }
         const bk = backups().find(f => !had.has(f));
         if (!bk) { fails.push(`${label}：重新遷移前沒有產生新的備份`); continue; }

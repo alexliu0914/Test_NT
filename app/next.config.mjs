@@ -20,7 +20,8 @@ const csp = [
 const nextConfig = {
   poweredByHeader: false,
   reactStrictMode: true,
-  serverExternalPackages: ['pg', 'jsdom', '@blocknote/server-util'],
+  // yjs、@blocknote/core 與 server-util 都由 Node 載入同一份（M2-c 版本預覽在伺服器端轉換區塊；打包一份、外部一份會有兩個 Yjs）
+  serverExternalPackages: ['pg', 'jsdom', '@blocknote/server-util', '@blocknote/core', 'yjs'],
   async headers() {
     return [{
       source: '/:path*',

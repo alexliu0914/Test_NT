@@ -1,6 +1,6 @@
 // 資料庫遷移：migrations/*.sql（drizzle-kit 產生或手寫）依序套用；每個遷移都有 migrations/down/ 的回滾檔。
 // 用法：
-//   node scripts/migrate.mjs up            套用所有尚未套用的遷移
+//   node scripts/migrate.mjs up [檔名]     套用所有尚未套用的遷移（給檔名時只套用到該遷移為止，例如 MIG-02 停在 0002）
 //   node scripts/migrate.mjs down [n]      回滾最後 n 個（預設 1）
 //   node scripts/migrate.mjs restore <檔案> 從遷移前的備份還原（清空目前資料庫後還原）
 //   node scripts/migrate.mjs fingerprint   印出目前的結構指紋（JSON；MIG-02 用）
@@ -96,9 +96,11 @@ async function applied(c) {
   return (await c.query('select name from schema_migrations order by name')).rows.map(r => r.name);
 }
 
-async function up(c) {
+async function up(c, last = null) {
+  if (last && !files.includes(last)) throw new Error('沒有這個遷移 ' + last);
   const done = new Set(await applied(c));
   for (const f of files) {
+    if (last && f > last) break;
     if (done.has(f)) continue;
     if (readFileSync(new URL(f, DIR), 'utf8').startsWith('-- requires-backup')) await backupBefore(c, f);
     await c.query('begin');
@@ -182,7 +184,7 @@ async function restore(c, file) {
 const [cmd = 'up', arg] = process.argv.slice(2);
 try {
   await withClient(async c => {
-    if (cmd === 'up') await up(c);
+    if (cmd === 'up') await up(c, arg || null);
     else if (cmd === 'down') await down(c, Number(arg || 1));
     else if (cmd === 'check') await check(c);
     else if (cmd === 'restore') await restore(c, arg);

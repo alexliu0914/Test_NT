@@ -17,7 +17,7 @@ export class Client {
   extraUndoManagers: Set<any>; awaitingOfflineCopy: string | null | undefined;
   on(ev: string, fn: Listener): void; off(ev: string, fn: Listener): void; once(ev: string, fn: Listener): void; emit(ev: string, ...a: any[]): void;
   connect(): void; disconnect(): void; saveStatus(): 'saved' | 'saving' | 'failed' | 'unsaved'; isReadOnly(): boolean; localPersisted(): boolean;
-  registerUndoManager(um: any): void; restore(versionId: string, restoreId?: string): string; makeVersion(versionId: string): Promise<any>;
+  registerUndoManager(um: any): void; restore(versionId: string, restoreId?: string): string; makeVersion(versionId: string, opts?: { manual?: boolean }): Promise<any>;
   logout(o?: { waitMs?: number }): Promise<{ status: string }>; discardAndLogout(o?: { confirm?: boolean }): Promise<{ status: string }>;
   downloadUnsynced(): any; hasUnsynced(): boolean;
   // M2-s：失去權限（4005）

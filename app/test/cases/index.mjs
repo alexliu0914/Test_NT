@@ -21,5 +21,8 @@ export const registry = {
   // M2-c
   'DEV-01': from('./dev-mode.mjs', 'dev01'),
   'VER-01': from('./versions.mjs', 'ver01'),
+  'VER-02': from('./versions.mjs', 'ver02'),
+  'COL-05': from('./versions-browser.mjs', 'col05'),
+  'COL-08': from('./versions-browser.mjs', 'col08'),
   ...Object.fromEntries(['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '17'].map(k => [`M0-${k}`, from('./m0.mjs', `m0_${k}`)])),
 };
