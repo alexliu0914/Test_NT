@@ -1,0 +1,33 @@
+m0-prototype@1.0.0 /home/runner/work/Test_NT/Test_NT/prototype
+├─┬ @blocknote/mantine@0.56.0 extraneous
+│ ├── @blocknote/react@0.56.0
+│ ├── @mantine/core@9.7.5 deduped
+│ ├── @mantine/hooks@9.7.5 deduped
+│ ├── react-dom@19.3.1
+│ └── react@19.3.1
+├─┬ @blocknote/server-util@0.56.0
+│ ├── @blocknote/react@0.56.0 deduped
+│ ├── react-dom@19.3.1 deduped
+│ └── react@19.3.1 deduped
+├─┬ @mantine/core@9.7.5 extraneous
+│ ├── @mantine/hooks@9.7.5 deduped
+│ ├── react-dom@19.3.1 deduped
+│ └── react@19.3.1 deduped
+├─┬ @mantine/hooks@9.7.5 extraneous
+│ └── react@19.3.1 deduped
+├── esbuild@0.28.2 extraneous
+├── playwright@1.63.0 extraneous
+├─┬ react-number-format@5.4.5 extraneous
+│ ├── react-dom@19.3.1 deduped
+│ └── react@19.3.1 deduped
+├─┬ react-remove-scroll-bar@2.3.8 extraneous
+│ └── react@19.3.1 deduped
+├─┬ react-remove-scroll@2.7.2 extraneous
+│ └── react@19.3.1 deduped
+├─┬ react-style-singleton@2.2.3 extraneous
+│ └── react@19.3.1 deduped
+├─┬ use-callback-ref@1.3.3 extraneous
+│ └── react@19.3.1 deduped
+└─┬ use-sidecar@1.1.3 extraneous
+  └── react@19.3.1 deduped
+
