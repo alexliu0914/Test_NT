@@ -21,6 +21,14 @@
 //  - 每條連線每秒最多 20 則、每則最多 2 KiB，超過的直接丟棄（只計數）
 //  - 連線關閉、登入撤銷、失去權限、頁面關閉時立即通知同頁其他人移除游標；沒有回應心跳超過 PRESENCE_TTL_MS 的連線視為異常斷線，移除游標並中斷
 // M2-b 儲存狀態（W3、FR-10）：寫入資料庫失敗（重試中）時通知同頁連線 {t:'db', ok:false}，恢復後 {t:'db', ok:true}；用戶端據此顯示「儲存失敗」
+// M2-c 自動存版與版本保留（附錄 B1、B2）：
+//  - 水位：pages.last_seq（已提交）與 pages.snap_seq（上次快照）；pages.dirty_since＝之後第一筆已提交變更的時間，與 last_seq 同一句 SQL 更新
+//  - 鎖定規則（B1-LOCK）：會改 doc_updates／doc_states／last_seq／snap_seq 的交易（提交與補救、壓縮、還原、存版）都先取
+//    pg_advisory_xact_lock(hashtext(page_id)) 才讀寫這些資料；鎖的順序固定為 空間列 → 成員列 → 頁面列 → advisory lock
+//  - 排程快照：每 VERSION_SWEEP_MS 掃描 dirty_since 超過 AUTO_VERSION_DELAY_MS 的頁面；房間在時走房間佇列（記憶體狀態，確認 last_seq 相符），
+//    不在時以 READ COMMITTED 在取得鎖之後才讀 last_seq、doc_states、doc_updates（檢查 seq 連續）；同水位去重只約束 source='schedule'
+//  - 還原算一次新變更：snap_seq＝還原前的 last_seq（before_restore 已涵蓋），dirty_since＝now()；目標版本在還原交易內讀取並 FOR SHARE 鎖住
+//  - 90 天清理（shared/version-retention.js）每 VERSION_PURGE_MS 執行一次
 import { WebSocketServer } from 'ws';
 import http from 'node:http';
 import pg from 'pg';
@@ -29,6 +37,8 @@ import * as Y from 'yjs';
 import { replaceFragmentsFrom, docJSON } from '../shared/doc.js';
 import { decodeAwareness, encodeAwareness } from '../shared/awareness-codec.js';
 import { createRescueDoc, cloneRescueDoc, mayNeedRescue, applyWithRescue } from '../shared/conversion-rescue.js';
+import { purgeVersions, RETENTION_DAYS } from '../shared/version-retention.js';
+import { randomUUID } from 'node:crypto';
 
 // 連接埠：--port 參數（npm run collab，Windows 也適用）＞ PORT 環境變數（測試）＞ 27000
 const portArg = process.argv.indexOf('--port');
@@ -37,6 +47,14 @@ const DATABASE_URL = process.env.DATABASE_URL;
 const FAULT_POINT = process.env.FAULT_POINT || '';
 const BATCH_MS = Number(process.env.BATCH_MS || 20);
 const COMPACT_EVERY = Number(process.env.COMPACT_EVERY || 200);
+// 自動存版（M2-c B1）：到期時間（第一筆未快照的已提交變更之後）與掃描間隔；版本清理（B2）的間隔與保留天數
+const AUTO_VERSION_DELAY_MS = Number(process.env.AUTO_VERSION_DELAY_MS || 10 * 60 * 1000);
+const VERSION_SWEEP_MS = Number(process.env.VERSION_SWEEP_MS || 30000);
+const VERSION_PURGE_MS = Number(process.env.VERSION_PURGE_MS || 60 * 60 * 1000);
+const VERSION_RETENTION_DAYS = Number(process.env.VERSION_RETENTION_DAYS || RETENTION_DAYS);
+// 測試用：在指定位置暫停 PAUSE_MS 毫秒（非同步等待，其他工作照常進行），用於固定順序的競態測試
+const PAUSE_POINT = process.env.PAUSE_POINT || '';
+const PAUSE_MS = Number(process.env.PAUSE_MS || 0);
 const SESSION_RECHECK_MS = Number(process.env.SESSION_RECHECK_MS || 60000);
 // 測試用（ACL-02「在途修改」）：延後處理權限變動通知，讓被移除者在連線中斷前繼續送出修改，驗證提交時的重新授權
 const ACCESS_NOTIFY_DELAY_MS = Number(process.env.ACCESS_NOTIFY_DELAY_MS || 0);
@@ -74,6 +92,10 @@ let faultHits = 0;
 function faultPoint(name) {
   if (FAULT_POINT === name && ++faultHits >= FAULT_AFTER) process.kill(process.pid, 'SIGKILL');
 }
+async function pausePoint(name) {
+  if (PAUSE_POINT === name && PAUSE_MS > 0) { log('pause', name); await sleep(PAUSE_MS); }
+}
+const pageLock = (c, pageId) => c.query('select pg_advisory_xact_lock(hashtext($1))', [pageId]);
 
 const b64 = u => Buffer.from(u).toString('base64');
 const fromB64 = s => new Uint8Array(Buffer.from(s, 'base64'));
@@ -251,7 +273,10 @@ async function flush(room) {
         }
         inserted.push(it);
       }
-      await c.query('update pages set last_seq=$2 where id=$1', [room.id, seq]);
+      // 只有 seq 真的增加才開始自動存版計時；已在計時中的不重設（M2-c B1）
+      await c.query(`update pages set last_seq=$2,
+          dirty_since = case when $2 > last_seq then coalesce(dirty_since, now()) else dirty_since end
+        where id=$1`, [room.id, seq]);
       faultPoint('flush:before_commit');
       await c.query('commit');
       return { seq, inserted, work };
@@ -299,6 +324,7 @@ async function compact(room) {
     let failed = false;
     try {
       await c.query('begin');
+      await pageLock(c, room.id);   // B1-LOCK：快照從資料庫讀狀態時不會讀到壓縮到一半的資料
       await c.query(`insert into doc_states(page_id, state, up_to_seq) values ($1,$2,$3)
         on conflict (page_id) do update set state=excluded.state, up_to_seq=excluded.up_to_seq, updated_at=now()`,
         [room.id, Buffer.from(Y.encodeStateAsUpdate(room.ydoc)), room.seq]);
@@ -337,31 +363,133 @@ async function authorizedWrite(room, conn, fn) {
   return ok;
 }
 
-async function makeVersion(room, conn, versionId) {
-  const ok = await authorizedWrite(room, conn, c => c.query(
-    `insert into page_versions(id, page_id, state, up_to_seq, reason) values ($1,$2,$3,$4,'auto')
-     on conflict do nothing`,
-    [versionId, room.id, Buffer.from(Y.encodeStateAsUpdate(room.ydoc)), room.seq]));
-  if (ok) send(conn, { t: 'version_ok', versionId, json: docJSON(room.ydoc) });
+// 存版（make_version）：manual=true 為介面的「存一版」（reason='manual'），否則為 M1 的按需存版（reason='auto'）；兩者 source='request'。
+// 只有確認寫入、或同一頁同一個版本 ID 的重送才回 version_ok（帶該版本的內容）；版本 ID 屬於其他頁面時回 version_error（M2-c B1-P0）。
+// 版本內容與 up_to_seq 取自房間記憶體狀態，交易內在頁面鎖之後確認 last_seq 與房間相同（B1-LOCK）。
+async function makeVersion(room, conn, versionId, manual) {
+  const r = await withRetry(async () => {
+    const c = await checkout();
+    let failed = false;
+    try {
+      await c.query('begin');
+      const auth = await authorize(c, room.id, [conn.userId]);
+      if (!auth.allowed.has(conn.userId)) { await c.query('rollback'); return { denied: true }; }
+      await pageLock(c, room.id);
+      const p = (await c.query('select last_seq from pages where id=$1', [room.id])).rows[0];
+      if (!p || Number(p.last_seq) !== room.seq) { await c.query('rollback'); return { error: 'out_of_sync' }; }
+      const state = Buffer.from(Y.encodeStateAsUpdate(room.ydoc));
+      const ins = await c.query(
+        `insert into page_versions(id, page_id, state, up_to_seq, reason, source, created_by) values ($1,$2,$3,$4,$5,'request',$6)
+         on conflict (id) do nothing returning id`,
+        [versionId, room.id, state, room.seq, manual ? 'manual' : 'auto', conn.userId]);
+      if (ins.rows.length === 0) {
+        const ex = (await c.query('select page_id, state from page_versions where id=$1', [versionId])).rows[0];
+        await c.query('commit');
+        if (ex && ex.page_id === room.id) return { ok: true, json: stateJSON(ex.state) };
+        return { error: 'version_id_conflict' };
+      }
+      await c.query(`update pages set snap_seq = greatest(snap_seq, $2),
+          dirty_since = case when last_seq = $2 then null else dirty_since end where id=$1`, [room.id, room.seq]);
+      await c.query('commit');
+      return { ok: true, json: docJSON(room.ydoc) };
+    } catch (e) {
+      failed = true;
+      try { await c.query('rollback'); } catch { /* ignore */ }
+      throw e;
+    } finally { c.release(failed); }
+  });
+  if (r.denied) { denyConn(conn, []); return; }
+  if (r.error) { send(conn, { t: 'version_error', versionId, reason: r.error }); return; }
+  send(conn, { t: 'version_ok', versionId, json: r.json });
 }
 
+function stateJSON(state) {
+  const d = new Y.Doc();
+  Y.applyUpdate(d, new Uint8Array(state));
+  return docJSON(d);
+}
+
+// ---- 排程快照（M2-c B1）----
+// 房間在時走房間佇列（記憶體狀態）；不在時直接讀資料庫。兩者都先鎖頁面列（for no key update）再取 advisory lock，
+// 鎖內重讀水位，仍是 last_seq > snap_seq 才寫入 source='schedule' 的版本，並設 snap_seq=last_seq、dirty_since=null。
+async function scheduledSnapshot(pageId, room) {
+  return withRetry(async () => {
+    const c = await checkout();
+    let failed = false;
+    try {
+      await c.query('begin');   // READ COMMITTED：每一句都看得到取鎖前已提交的資料
+      const p = (await c.query('select last_seq, snap_seq, deleted_at from pages where id=$1 for no key update', [pageId])).rows[0];
+      await pageLock(c, pageId);
+      if (!p) { await c.query('rollback'); return 'missing'; }
+      const w = (await c.query('select last_seq, snap_seq, deleted_at from pages where id=$1', [pageId])).rows[0];
+      const last = Number(w.last_seq), snap = Number(w.snap_seq);
+      if (w.deleted_at) { await c.query('rollback'); return 'trashed'; }
+      if (last <= snap) {
+        await c.query('update pages set dirty_since = null where id=$1', [pageId]);
+        await c.query('commit');
+        return 'clean';
+      }
+      let state;
+      if (room) {
+        if (room.seq !== last || !room.ydoc) { await c.query('rollback'); return 'room_out_of_sync'; }
+        state = Y.encodeStateAsUpdate(room.ydoc);
+      } else {
+        const st = (await c.query('select state, up_to_seq from doc_states where page_id=$1', [pageId])).rows[0];
+        const from = st ? Number(st.up_to_seq) : 0;
+        const ups = (await c.query('select seq, data from doc_updates where page_id=$1 and seq > $2 and seq <= $3 order by seq',
+          [pageId, from, last])).rows;
+        // 更新必須連續、不缺號（壓縮與提交都在同一個鎖下，缺號表示資料異常）
+        if (ups.length !== last - from || ups.some((u, i) => Number(u.seq) !== from + i + 1)) throw Object.assign(new Error('doc_updates not contiguous'), { code: '22000' });   // 不重試：記錄後下一輪再檢查
+        const parts = [...(st ? [new Uint8Array(st.state)] : []), ...ups.map(u => new Uint8Array(u.data))];
+        const d = createRescueDoc();
+        if (parts.length) Y.applyUpdate(d, parts.length === 1 ? parts[0] : Y.mergeUpdates(parts), REMOTE);
+        state = Y.encodeStateAsUpdate(d);
+      }
+      await pausePoint('snapshot:before_insert');
+      await c.query(`insert into page_versions(id, page_id, state, up_to_seq, reason, source) values ($1,$2,$3,$4,'auto','schedule')
+        on conflict (page_id, up_to_seq) where source = 'schedule' do nothing`, ['auto-' + randomUUID(), pageId, Buffer.from(state), last]);
+      await c.query('update pages set snap_seq=$2, dirty_since=null where id=$1', [pageId, last]);
+      faultPoint('snapshot:before_commit');
+      await c.query('commit');
+      return 'saved';
+    } catch (e) {
+      failed = true;
+      try { await c.query('rollback'); } catch { /* ignore */ }
+      throw e;
+    } finally { c.release(failed); }
+  });
+}
+
+let sweeping = false;
+async function versionSweep() {
+  if (sweeping) return;
+  sweeping = true;
+  try {
+    const due = (await pool.query(
+      `select id from pages where dirty_since <= now() - make_interval(secs => $1) and deleted_at is null
+        order by dirty_since limit 50`, [AUTO_VERSION_DELAY_MS / 1000])).rows.map(r => r.id);
+    for (const id of due) {
+      // 一頁失敗不影響其他頁（記錄後下一輪再試）
+      try {
+        const room = rooms.get(id);
+        const res = room && room.ydoc ? await room.enqueue(() => scheduledSnapshot(id, room)) : await scheduledSnapshot(id, null);
+        log('snapshot', id, res);
+      } catch (e) { log('snapshot failed', id, e.message); }
+    }
+  } catch (e) { log('version sweep failed', e.message); }
+  finally { sweeping = false; }
+}
+setTimeout(versionSweep, 1000).unref();   // 重新啟動後立即補存已到期的頁面
+setInterval(versionSweep, VERSION_SWEEP_MS).unref();
+setInterval(() => purgeVersions(pool, VERSION_RETENTION_DAYS).then(r => r.purged && log('purged versions', r.purged)).catch(e => log('purge failed', e.message)), VERSION_PURGE_MS).unref();
+
 // ---- 版本還原 ----
+// restore_id 冪等：同時核對 restore_id 與 page_id；同一個 ID 屬於其他頁面時回 restore_id_conflict、不套用。
+// 目標版本在還原交易內（頁面鎖之後）讀取並 FOR SHARE 鎖住，用鎖住的內容計算還原更新；不存在時不寫任何資料（M2-c B2-P0-02）。
 async function restore(room, conn, restoreId, versionId) {
   const done = (await withRetry(() => pool.query(
-    'select status from restore_jobs where id=$1', [restoreId]))).rows[0];
-  if (done) { send(conn, { t: 'restore_result', restoreId, status: 'already_applied' }); return; }
-  const v = (await withRetry(() => pool.query(
-    'select state from page_versions where id=$1 and page_id=$2', [versionId, room.id]))).rows[0];
-  if (!v) { send(conn, { t: 'restore_result', restoreId, status: 'no_such_version' }); return; }
-  const vdoc = new Y.Doc();
-  Y.applyUpdate(vdoc, new Uint8Array(v.state));
-  // 在複本上計算還原更新，不先改動線上文件
-  const clone = new Y.Doc();
-  Y.applyUpdate(clone, Y.encodeStateAsUpdate(room.ydoc));
-  const sv = Y.encodeStateVector(clone);
-  // 以一般 CRDT 編輯把每個根片段（簡化模型的 blocks、BlockNote 的 document-store）換成目標版本的內容
-  clone.transact(() => replaceFragmentsFrom(clone, vdoc));
-  const upd = Y.encodeStateAsUpdate(clone, sv);
+    'select page_id, status from restore_jobs where id=$1', [restoreId]))).rows[0];
+  if (done) { send(conn, { t: 'restore_result', restoreId, status: done.page_id === room.id ? 'already_applied' : 'restore_id_conflict' }); return; }
   faultPoint('restore:before_tx');
   const r = await withRetry(async () => {
     const c = await checkout();
@@ -370,27 +498,44 @@ async function restore(room, conn, restoreId, versionId) {
       await c.query('begin');
       const auth = await authorize(c, room.id, [conn.userId]);
       if (!auth.allowed.has(conn.userId)) { await c.query('rollback'); return { denied: true }; }
-      await c.query('select pg_advisory_xact_lock(hashtext($1))', [room.id]);
-      const again = (await c.query('select 1 from restore_jobs where id=$1', [restoreId])).rows[0];
-      if (again) { await c.query('rollback'); return { already: true }; }
+      await pageLock(c, room.id);
+      const again = (await c.query('select page_id from restore_jobs where id=$1', [restoreId])).rows[0];
+      if (again) { await c.query('rollback'); return { already: again.page_id === room.id ? 'already_applied' : 'restore_id_conflict' }; }
+      const v = (await c.query(
+        'select state, reason, created_at from page_versions where id=$1 and page_id=$2 for share', [versionId, room.id])).rows[0];
+      if (!v) { await c.query('rollback'); return { missing: true }; }
+      await pausePoint('restore:locked');
+      const vdoc = new Y.Doc();
+      Y.applyUpdate(vdoc, new Uint8Array(v.state));
+      // 在複本上計算還原更新，不先改動線上文件
+      const clone = new Y.Doc();
+      Y.applyUpdate(clone, Y.encodeStateAsUpdate(room.ydoc));
+      const sv = Y.encodeStateVector(clone);
+      // 以一般 CRDT 編輯把每個根片段（簡化模型的 blocks、BlockNote 的 document-store）換成目標版本的內容
+      clone.transact(() => replaceFragmentsFrom(clone, vdoc));
+      const upd = Y.encodeStateAsUpdate(clone, sv);
       const seq = room.seq + 1;
       const beforeId = 'br-' + restoreId;
-      await c.query(`insert into page_versions(id, page_id, state, up_to_seq, reason, restore_id)
-        values ($1,$2,$3,$4,'before_restore',$5)`,
-        [beforeId, room.id, Buffer.from(Y.encodeStateAsUpdate(room.ydoc)), room.seq, restoreId]);
+      await c.query(`insert into page_versions(id, page_id, state, up_to_seq, reason, restore_id, created_by)
+        values ($1,$2,$3,$4,'before_restore',$5,$6)`,
+        [beforeId, room.id, Buffer.from(Y.encodeStateAsUpdate(room.ydoc)), room.seq, restoreId, conn.userId]);
       await c.query('insert into doc_updates(page_id, seq, data, user_id, kind) values ($1,$2,$3,$4,$5)',
         [room.id, seq, Buffer.from(upd), conn.userId, 'restore']);
       await c.query('insert into doc_update_ids(page_id, update_id, seq) values ($1,$2,$3)',
         [room.id, 'restore:' + restoreId, seq]);
       faultPoint('restore:mid_tx');
-      await c.query(`insert into restore_jobs(id, page_id, target_version_id, before_version_id, status, seq, applied_at)
-        values ($1,$2,$3,$4,'applied',$5, now())`, [restoreId, room.id, versionId, beforeId, seq]);
+      await c.query(`insert into restore_jobs(id, page_id, target_version_id, before_version_id, requested_by, status, seq, applied_at,
+          target_version_reason, target_version_created_at)
+        values ($1,$2,$3,$4,$5,'applied',$6, now(), $7, $8)`,
+        [restoreId, room.id, versionId, beforeId, conn.userId, seq, v.reason, v.created_at]);
+      // 還原算一次新變更（M2-c 決議）：before_restore 已涵蓋還原前的修改
       const ep = (await c.query(
-        'update pages set restore_epoch = restore_epoch + 1, last_seq=$2 where id=$1 returning restore_epoch',
-        [room.id, seq])).rows[0].restore_epoch;
+        `update pages set restore_epoch = restore_epoch + 1, last_seq=$2, snap_seq = greatest(snap_seq, $3), dirty_since = now()
+          where id=$1 returning restore_epoch`,
+        [room.id, seq, room.seq])).rows[0].restore_epoch;
       faultPoint('restore:before_commit');
       await c.query('commit');
-      return { seq, epoch: ep };
+      return { seq, epoch: ep, upd };
     } catch (e) {
       failed = true;
       try { await c.query('rollback'); } catch { /* ignore */ }
@@ -398,8 +543,10 @@ async function restore(room, conn, restoreId, versionId) {
     } finally { c.release(failed); }
   });
   if (r.denied) { denyConn(conn, []); return; }
-  if (r.already) { send(conn, { t: 'restore_result', restoreId, status: 'already_applied' }); return; }
+  if (r.already) { send(conn, { t: 'restore_result', restoreId, status: r.already }); return; }
+  if (r.missing) { send(conn, { t: 'restore_result', restoreId, status: 'no_such_version' }); return; }
   faultPoint('restore:after_commit');
+  const upd = r.upd;
   Y.applyUpdate(room.ydoc, upd, REMOTE);
   room.seq = r.seq;
   room.epoch = r.epoch;
@@ -514,7 +661,7 @@ wss.on('connection', ws => {
         room.enqueue(() => restore(room, conn, String(m.restoreId), String(m.versionId)));
         break;
       case 'make_version':
-        room.enqueue(() => makeVersion(room, conn, String(m.versionId)));
+        room.enqueue(() => makeVersion(room, conn, String(m.versionId), m.manual === true));
         break;
       case 'conflict_copy':
         room.enqueue(() => saveConflictCopy(room, conn, m));

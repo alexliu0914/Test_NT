@@ -338,6 +338,7 @@ export class Client extends Emitter {
         return this.emit('restore_result', m);
       case 'cc_ack': return this.onCopyAck(m);
       case 'version_ok': return this.emit('version_ok', m);
+      case 'version_error': return this.emit('version_error', m);
       case 'denied': return this.markDenied(m.ids);
       case 'aw':
         try { applyAwarenessUpdate(this.awareness, fromB64(m.data), REMOTE); } catch { /* 格式錯誤的游標資料直接忽略 */ }
@@ -573,11 +574,14 @@ export class Client extends Emitter {
     return restoreId;
   }
 
-  makeVersion(versionId) {
+  // 存版：manual=true 為介面的「存一版」（reason='manual'），否則為 M1 的按需存版（reason='auto'）。
+  // 回傳伺服器的 version_ok（已建立，或同一個版本 ID 重送）或 version_error（版本 ID 與其他頁面的版本衝突，M2-c B1-P0）
+  makeVersion(versionId, { manual = false } = {}) {
     return new Promise(res => {
-      const h = m => { if (m.versionId === versionId) { this.off('version_ok', h); res(m); } };
+      const h = m => { if (m.versionId === versionId) { this.off('version_ok', h); this.off('version_error', h); res(m); } };
       this.on('version_ok', h);
-      this.raw({ t: 'make_version', versionId });
+      this.on('version_error', h);
+      this.raw({ t: 'make_version', versionId, ...(manual ? { manual: true } : {}) });
     });
   }
 
