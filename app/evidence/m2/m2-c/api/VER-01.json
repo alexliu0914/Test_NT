@@ -1,0 +1,62 @@
+{
+ "id": "VER-01",
+ "title": "自動存版與版本保留：停筆到期、重啟補存、失敗回滾、去重、既有存版相容、鎖等待、還原後存版；90 天清理、還原與清理競態、永久刪除優先；遷移 0003 的安全回滾",
+ "meta": {},
+ "startedAt": "2026-11-08T11:47:02.093Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 140000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "dueBefore": true,
+    "migration": "checked"
+   }
+  },
+  {
+   "i": 1,
+   "seed": 140001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "dueBefore": true,
+    "migration": "checked"
+   }
+  },
+  {
+   "i": 2,
+   "seed": 140002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "dueBefore": true,
+    "migration": "checked"
+   }
+  },
+  {
+   "i": 3,
+   "seed": 140003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "dueBefore": true,
+    "migration": "checked"
+   }
+  },
+  {
+   "i": 4,
+   "seed": 140004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "dueBefore": true,
+    "migration": "checked"
+   }
+  }
+ ],
+ "durationMs": 226002,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}

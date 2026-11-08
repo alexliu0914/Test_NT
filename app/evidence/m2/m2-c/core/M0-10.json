@@ -1,0 +1,912 @@
+{
+ "id": "M0-10",
+ "title": "登出、被撤銷、換帳號：未經明確捨棄，未確認的修改都不會被清除",
+ "meta": {},
+ "startedAt": "2026-11-08T12:11:16.459Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 101000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 1,
+   "seed": 101001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 2,
+   "seed": 101002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 3,
+   "seed": 101003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 4,
+   "seed": 101004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 5,
+   "seed": 101005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 6,
+   "seed": 101006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 7,
+   "seed": 101007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 8,
+   "seed": 101008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 9,
+   "seed": 101009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 10,
+   "seed": 101010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 11,
+   "seed": 101011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 12,
+   "seed": 101012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 13,
+   "seed": 101013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 14,
+   "seed": 101014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 15,
+   "seed": 101015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 16,
+   "seed": 101016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 17,
+   "seed": 101017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 18,
+   "seed": 101018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 19,
+   "seed": 101019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 20,
+   "seed": 101020,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 21,
+   "seed": 101021,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 22,
+   "seed": 101022,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 23,
+   "seed": 101023,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 24,
+   "seed": 101024,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 25,
+   "seed": 101025,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 26,
+   "seed": 101026,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 27,
+   "seed": 101027,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 28,
+   "seed": 101028,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 29,
+   "seed": 101029,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 30,
+   "seed": 101030,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 31,
+   "seed": 101031,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 32,
+   "seed": 101032,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 33,
+   "seed": 101033,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 34,
+   "seed": 101034,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 35,
+   "seed": 101035,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 36,
+   "seed": 101036,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 37,
+   "seed": 101037,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 38,
+   "seed": 101038,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 39,
+   "seed": 101039,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 40,
+   "seed": 101040,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 41,
+   "seed": 101041,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 42,
+   "seed": 101042,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 43,
+   "seed": 101043,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 44,
+   "seed": 101044,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 45,
+   "seed": 101045,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 46,
+   "seed": 101046,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 47,
+   "seed": 101047,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 48,
+   "seed": 101048,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 49,
+   "seed": 101049,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 50,
+   "seed": 101050,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 51,
+   "seed": 101051,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 52,
+   "seed": 101052,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 53,
+   "seed": 101053,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 54,
+   "seed": 101054,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 55,
+   "seed": 101055,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 56,
+   "seed": 101056,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 57,
+   "seed": 101057,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 58,
+   "seed": 101058,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 59,
+   "seed": 101059,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 60,
+   "seed": 101060,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 61,
+   "seed": 101061,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 62,
+   "seed": 101062,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 63,
+   "seed": 101063,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 64,
+   "seed": 101064,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 65,
+   "seed": 101065,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 66,
+   "seed": 101066,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 67,
+   "seed": 101067,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 68,
+   "seed": 101068,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 69,
+   "seed": 101069,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 70,
+   "seed": 101070,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 71,
+   "seed": 101071,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 72,
+   "seed": 101072,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 73,
+   "seed": 101073,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 74,
+   "seed": 101074,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 75,
+   "seed": 101075,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 76,
+   "seed": 101076,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 77,
+   "seed": 101077,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 78,
+   "seed": 101078,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 79,
+   "seed": 101079,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 80,
+   "seed": 101080,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 81,
+   "seed": 101081,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 82,
+   "seed": 101082,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 83,
+   "seed": 101083,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 84,
+   "seed": 101084,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 85,
+   "seed": 101085,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 86,
+   "seed": 101086,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 87,
+   "seed": 101087,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 88,
+   "seed": 101088,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 89,
+   "seed": 101089,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 90,
+   "seed": 101090,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 91,
+   "seed": 101091,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 92,
+   "seed": 101092,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 93,
+   "seed": 101093,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 94,
+   "seed": 101094,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 95,
+   "seed": 101095,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  },
+  {
+   "i": 96,
+   "seed": 101096,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "a-clean"
+   }
+  },
+  {
+   "i": 97,
+   "seed": 101097,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "b-offline"
+   }
+  },
+  {
+   "i": 98,
+   "seed": 101098,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "c-revoked"
+   }
+  },
+  {
+   "i": 99,
+   "seed": 101099,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "scenario": "d-other-user"
+   }
+  }
+ ],
+ "durationMs": 46966,
+ "total": 100,
+ "passed": 100,
+ "failed": 0
+}

@@ -1,0 +1,238 @@
+{
+ "id": "RUNNER-SELFTEST",
+ "total": 21,
+ "passed": 21,
+ "failed": 0,
+ "checks": [
+  {
+   "name": "全部通過 → 退出碼 0",
+   "args": [
+    "SELFTEST-PASS=3"
+   ],
+   "expected": 0,
+   "actual": 0,
+   "pass": true
+  },
+  {
+   "name": "有一輪失敗 → 退出碼 1",
+   "args": [
+    "SELFTEST-FAIL=3"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "通過與失敗混合 → 退出碼 1",
+   "args": [
+    "SELFTEST-PASS=2",
+    "SELFTEST-FAIL=2"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "案例拋出例外 → 退出碼 1",
+   "args": [
+    "SELFTEST-THROW=1"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "回報成功但沒有結果檔 → 退出碼 1",
+   "args": [
+    "SELFTEST-NORESULT=1"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "案例卡住不結束 → 逾時記為 aborted、退出碼 1",
+   "args": [
+    "SELFTEST-HANG=1"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "少跑一輪（回傳與結果檔一致）→ incomplete、退出碼 1",
+   "args": [
+    "SELFTEST-SHORT=5"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "total 與逐輪紀錄不一致 → incomplete、退出碼 1",
+   "args": [
+    "SELFTEST-MISCOUNT=5"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "有情境倍數的案例跑足輪數 → 退出碼 0",
+   "args": [
+    "SELFTEST-PER2=3"
+   ],
+   "expected": 0,
+   "actual": 0,
+   "pass": true
+  },
+  {
+   "name": "未知案例名稱 → 退出碼 1",
+   "args": [
+    "M0-99=1"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "輪數無效 → 退出碼 1",
+   "args": [
+    "SELFTEST-PASS=0"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "後段階段的案例記為 NOT_APPLICABLE、不算通過 → 退出碼 0",
+   "args": [
+    "--stage",
+    "m2-a",
+    "--group",
+    "selftest",
+    "--quick",
+    "--manifest",
+    "results/manifest-selftest.json"
+   ],
+   "expected": 0,
+   "actual": 0,
+   "pass": true
+  },
+  {
+   "name": "最終階段仍有未實作的案例 → 退出碼 1",
+   "args": [
+    "--stage",
+    "m2-d",
+    "--group",
+    "selftest",
+    "--quick",
+    "--manifest",
+    "results/manifest-selftest.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "M1 基線案例被減少輪數 → 拒絕執行、退出碼 1",
+   "args": [
+    "--stage",
+    "m2-a",
+    "--group",
+    "api",
+    "--quick",
+    "--manifest",
+    "results/manifest-weakened.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "已驗收階段（M2-s）的案例被減少輪數、變異被移除 → 拒絕執行、退出碼 1",
+   "args": [
+    "--stage",
+    "m2-s",
+    "--group",
+    "api",
+    "--quick",
+    "--manifest",
+    "results/manifest-weakened-m2s.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "manifest 的變異編號重複 → 拒絕執行、退出碼 1",
+   "args": [
+    "--stage",
+    "m2-b",
+    "--group",
+    "api",
+    "--quick",
+    "--manifest",
+    "results/manifest-dup-mutant.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "變異清單檢查：正式 manifest → 通過、退出碼 0",
+   "args": [
+    "mutations.py",
+    "--check"
+   ],
+   "expected": 0,
+   "actual": 0,
+   "pass": true
+  },
+  {
+   "name": "變異清單檢查：已定義的變異沒有登記在 manifest → 拒絕、退出碼 1",
+   "args": [
+    "mutations.py",
+    "--check",
+    "--manifest",
+    "results/manifest-unregistered.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "變異清單檢查：變異編號重複 → 拒絕、退出碼 1",
+   "args": [
+    "mutations.py",
+    "--check",
+    "--manifest",
+    "results/manifest-dup-mutant.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "變異清單檢查：已驗收階段（M2-s）的變異被移除 → 拒絕、退出碼 1",
+   "args": [
+    "mutations.py",
+    "--check",
+    "--manifest",
+    "results/manifest-weakened-m2s.json"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  },
+  {
+   "name": "連到非測試資料庫 → 拒絕執行、退出碼 1",
+   "args": [
+    "SELFTEST-PASS=1"
+   ],
+   "expected": 1,
+   "actual": 1,
+   "pass": true
+  }
+ ]
+}

@@ -1,0 +1,152 @@
+{
+ "id": "COL-11",
+ "title": "資料庫不可寫期間繼續編輯：顯示儲存失敗、背壓與本機暫存生效；恢復後無遺失、無重複",
+ "meta": {},
+ "startedAt": "2026-11-08T12:55:05.791Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 11000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1418,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  },
+  {
+   "i": 1,
+   "seed": 11001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1433,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  },
+  {
+   "i": 2,
+   "seed": 11002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1404,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 13
+   }
+  },
+  {
+   "i": 3,
+   "seed": 11003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1416,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 6
+   }
+  },
+  {
+   "i": 4,
+   "seed": 11004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1418,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 8
+   }
+  },
+  {
+   "i": 5,
+   "seed": 11005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1450,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 10
+   }
+  },
+  {
+   "i": 6,
+   "seed": 11006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1412,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  },
+  {
+   "i": 7,
+   "seed": 11007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1436,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  },
+  {
+   "i": 8,
+   "seed": 11008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 1430,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  },
+  {
+   "i": 9,
+   "seed": 11009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "failedAfterMs": 406,
+    "samples": [
+     "unsaved",
+     "failed"
+    ],
+    "busy": 7
+   }
+  }
+ ],
+ "durationMs": 70941,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

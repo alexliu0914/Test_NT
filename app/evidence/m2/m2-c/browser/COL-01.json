@@ -1,0 +1,618 @@
+{
+ "id": "COL-01",
+ "title": "同段落並發輸入：無字元遺失或重複、兩端與資料庫一致、對方 1 秒內可見（記錄延遲）；兩人先後貼到同一空白行，各自結構完整（F-M2-08）；一人改區塊類型時另一人同時輸入的字不遺失（F-M2-09）",
+ "meta": {},
+ "startedAt": "2026-11-08T12:26:21.018Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 1000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 30,
+     "p95": 59,
+     "max": 59
+    },
+    "same": true,
+    "pasteArriveMs": 24,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 32,
+     "p95": 47,
+     "max": 47
+    },
+    "same": false,
+    "pasteArriveMs": 10,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 2,
+   "seed": 1002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 30,
+     "p95": 68,
+     "max": 68
+    },
+    "same": true,
+    "pasteArriveMs": 24,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 3,
+   "seed": 1003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 39,
+     "p95": 77,
+     "max": 77
+    },
+    "same": false,
+    "pasteArriveMs": 17,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 4,
+   "seed": 1004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 32,
+     "p95": 71,
+     "max": 71
+    },
+    "same": true,
+    "pasteArriveMs": 24,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 5,
+   "seed": 1005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 39,
+     "p95": 88,
+     "max": 88
+    },
+    "same": false,
+    "pasteArriveMs": 11,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 13
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 6,
+   "seed": 1006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 48,
+     "p95": 70,
+     "max": 70
+    },
+    "same": true,
+    "pasteArriveMs": 24,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 13
+     },
+     "dash": {
+      "releasedMsgs": 6
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 13
+     }
+    }
+   }
+  },
+  {
+   "i": 7,
+   "seed": 1007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 50,
+     "p95": 121,
+     "max": 121
+    },
+    "same": false,
+    "pasteArriveMs": 13,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 3
+     },
+     "dash": {
+      "releasedMsgs": 14
+     },
+     "closed": {
+      "releasedMsgs": 4
+     },
+     "undo": {
+      "releasedMsgs": 3
+     }
+    }
+   }
+  },
+  {
+   "i": 8,
+   "seed": 1008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 32,
+     "p95": 58,
+     "max": 58
+    },
+    "same": true,
+    "pasteArriveMs": 12,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 3
+     },
+     "dash": {
+      "releasedMsgs": 15
+     },
+     "closed": {
+      "releasedMsgs": 12
+     },
+     "undo": {
+      "releasedMsgs": 12
+     }
+    }
+   }
+  },
+  {
+   "i": 9,
+   "seed": 1009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 62,
+     "p95": 116,
+     "max": 116
+    },
+    "same": false,
+    "pasteArriveMs": 16,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 6
+     },
+     "closed": {
+      "releasedMsgs": 13
+     },
+     "undo": {
+      "releasedMsgs": 8
+     }
+    }
+   }
+  },
+  {
+   "i": 10,
+   "seed": 1010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 43,
+     "p95": 548,
+     "max": 548
+    },
+    "same": true,
+    "pasteArriveMs": 12,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 14
+     },
+     "dash": {
+      "releasedMsgs": 7
+     },
+     "closed": {
+      "releasedMsgs": 15
+     },
+     "undo": {
+      "releasedMsgs": 4
+     }
+    }
+   }
+  },
+  {
+   "i": 11,
+   "seed": 1011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 37,
+     "p95": 128,
+     "max": 128
+    },
+    "same": false,
+    "pasteArriveMs": 117,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 4
+     },
+     "dash": {
+      "releasedMsgs": 8
+     },
+     "closed": {
+      "releasedMsgs": 7
+     },
+     "undo": {
+      "releasedMsgs": 4
+     }
+    }
+   }
+  },
+  {
+   "i": 12,
+   "seed": 1012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 34,
+     "p95": 145,
+     "max": 145
+    },
+    "same": true,
+    "pasteArriveMs": 7,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 14
+     },
+     "dash": {
+      "releasedMsgs": 17
+     },
+     "closed": {
+      "releasedMsgs": 6
+     },
+     "undo": {
+      "releasedMsgs": 4
+     }
+    }
+   }
+  },
+  {
+   "i": 13,
+   "seed": 1013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 50,
+     "p95": 196,
+     "max": 196
+    },
+    "same": false,
+    "pasteArriveMs": 107,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 4
+     },
+     "dash": {
+      "releasedMsgs": 16
+     },
+     "closed": {
+      "releasedMsgs": 4
+     },
+     "undo": {
+      "releasedMsgs": 5
+     }
+    }
+   }
+  },
+  {
+   "i": 14,
+   "seed": 1014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 99,
+     "p95": 317,
+     "max": 317
+    },
+    "same": true,
+    "pasteArriveMs": 15,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 15
+     },
+     "dash": {
+      "releasedMsgs": 6
+     },
+     "closed": {
+      "releasedMsgs": 14
+     },
+     "undo": {
+      "releasedMsgs": 3
+     }
+    }
+   }
+  },
+  {
+   "i": 15,
+   "seed": 1015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 34,
+     "p95": 197,
+     "max": 197
+    },
+    "same": false,
+    "pasteArriveMs": 20,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 3
+     },
+     "dash": {
+      "releasedMsgs": 6
+     },
+     "closed": {
+      "releasedMsgs": 15
+     },
+     "undo": {
+      "releasedMsgs": 15
+     }
+    }
+   }
+  },
+  {
+   "i": 16,
+   "seed": 1016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 64,
+     "p95": 227,
+     "max": 227
+    },
+    "same": true,
+    "pasteArriveMs": 1,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 13
+     },
+     "dash": {
+      "releasedMsgs": 17
+     },
+     "closed": {
+      "releasedMsgs": 14
+     },
+     "undo": {
+      "releasedMsgs": 13
+     }
+    }
+   }
+  },
+  {
+   "i": 17,
+   "seed": 1017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 47,
+     "p95": 285,
+     "max": 285
+    },
+    "same": false,
+    "pasteArriveMs": 7,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 4
+     },
+     "dash": {
+      "releasedMsgs": 15
+     },
+     "closed": {
+      "releasedMsgs": 6
+     },
+     "undo": {
+      "releasedMsgs": 6
+     }
+    }
+   }
+  },
+  {
+   "i": 18,
+   "seed": 1018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 97,
+     "p95": 272,
+     "max": 272
+    },
+    "same": true,
+    "pasteArriveMs": 4,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 13
+     },
+     "dash": {
+      "releasedMsgs": 7
+     },
+     "closed": {
+      "releasedMsgs": 14
+     },
+     "undo": {
+      "releasedMsgs": 4
+     }
+    }
+   }
+  },
+  {
+   "i": 19,
+   "seed": 1019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "latency": {
+     "n": 12,
+     "p50": 163,
+     "p95": 336,
+     "max": 336
+    },
+    "same": false,
+    "pasteArriveMs": 12,
+    "convert": {
+     "heading": {
+      "releasedMsgs": 12
+     },
+     "dash": {
+      "releasedMsgs": 17
+     },
+     "closed": {
+      "releasedMsgs": 15
+     },
+     "undo": {
+      "releasedMsgs": 14
+     }
+    }
+   }
+  }
+ ],
+ "latency": {
+  "n": 240,
+  "p50": 39,
+  "p95": 218,
+  "max": 548
+ },
+ "durationMs": 780325,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

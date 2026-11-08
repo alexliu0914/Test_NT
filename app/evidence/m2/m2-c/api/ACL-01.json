@@ -1,0 +1,137 @@
+{
+ "id": "ACL-01",
+ "title": "四人各自在個人空間建頁；其他人從頁面樹、垃圾桶、改名、移動、刪除、還原、協作憑證、別人的憑證、即時推送都存取不到",
+ "meta": {},
+ "startedAt": "2026-11-08T11:43:36.510Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2967,
+    "routes": 23
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2893,
+    "routes": 23
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2563,
+    "routes": 23
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2725,
+    "routes": 23
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2642,
+    "routes": 23
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2453,
+    "routes": 23
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2795,
+    "routes": 23
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2352,
+    "routes": 23
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2429,
+    "routes": 23
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "ms": 2404,
+    "routes": 23
+   }
+  }
+ ],
+ "routeRegistry": {
+  "auth/[...all]": "認證（Better Auth），不含頁面資料",
+  "health": "健康檢查，不含資料（SEC-05）",
+  "invites": "建立邀請（管理者），不含頁面資料",
+  "invites/[token]/accept": "兌換邀請，不含頁面資料",
+  "pages": "ACL-01：頁面樹讀取、在別人的空間／頁面下建立",
+  "pages/[id]": "ACL-01：改名、移動（來源與目的）、刪除",
+  "pages/[id]/collab-token": "ACL-01：協作憑證",
+  "pages/[id]/conflicts/[cid]": "VER-02（M2-c）：衝突副本預覽（非成員、錯頁、垃圾桶頁 404；只讀）",
+  "pages/[id]/move-preview": "ACL-01：搬移預覽",
+  "pages/[id]/restore": "ACL-01：還原",
+  "pages/[id]/versions": "VER-02（M2-c）：版本清單（非成員、垃圾桶頁 404；只讀）",
+  "pages/[id]/versions/[vid]": "VER-02（M2-c）：版本預覽（非成員、錯頁、垃圾桶頁 404；只讀、安全轉換）",
+  "pages/events": "ACL-01：即時推送",
+  "pages/trash": "ACL-01：垃圾桶",
+  "sessions": "自己的登入裝置，不含頁面資料",
+  "sessions/[id]": "撤銷自己的登入裝置",
+  "sessions/revoke-others": "登出其他裝置",
+  "spaces": "ACL-01：空間清單只含自己所屬的",
+  "spaces/[id]": "ACL-01／02：改名、刪除（非成員 404、非建立者 403）",
+  "spaces/[id]/leave": "ACL-02：退出",
+  "spaces/[id]/members": "ACL-01／02：加入成員",
+  "spaces/[id]/members/[userId]": "ACL-02：移除成員",
+  "users": "帳號名字與信箱清單（審核確認：所有登入者可見），不含頁面資料"
+ },
+ "durationMs": 29554,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

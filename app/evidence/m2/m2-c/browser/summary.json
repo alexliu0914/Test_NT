@@ -1,0 +1,280 @@
+{
+ "startedAt": "2026-11-08T12:14:45.732Z",
+ "command": "node test/run.js --stage m2-c --group browser --full",
+ "stage": "m2-c",
+ "group": "browser",
+ "mode": "full",
+ "commit": "96ade848fbd40d35b2c74a8aab2ed660952bb425",
+ "tested_sha": "96ade848fbd40d35b2c74a8aab2ed660952bb425",
+ "dirty": false,
+ "env": {
+  "node": "v22.23.4",
+  "platform": "linux x64",
+  "database": "notes_test",
+  "postgres": "16.15 (Ubuntu 16.15-0ubuntu0.24.04.1)",
+  "packages": {
+   "next": "16.4.2",
+   "better-auth": "1.7.10",
+   "drizzle-orm": "0.45.4",
+   "yjs": "13.6.33",
+   "ws": "8.22.0",
+   "pg": "8.23.1",
+   "@blocknote/core": "0.56.0",
+   "@blocknote/mantine": "0.56.0",
+   "playwright": "1.63.0"
+  },
+  "chromium": "153.0.8010.12"
+ },
+ "cases": [
+  {
+   "id": "BR-01",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 121705
+  },
+  {
+   "id": "BR-02",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 319378
+  },
+  {
+   "id": "BR-03",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 90663
+  },
+  {
+   "id": "BR-04",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 19027
+  },
+  {
+   "id": "EDIT-01",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 20289
+  },
+  {
+   "id": "EDIT-02",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 56494
+  },
+  {
+   "id": "BR-05",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 20121
+  },
+  {
+   "id": "SEC-04",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 11876
+  },
+  {
+   "id": "ACL-04",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 34319
+  },
+  {
+   "id": "COL-01",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 780325
+  },
+  {
+   "id": "COL-02",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 34132
+  },
+  {
+   "id": "COL-03",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 467607
+  },
+  {
+   "id": "COL-04",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 79840
+  },
+  {
+   "id": "COL-06",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 100627
+  },
+  {
+   "id": "COL-07",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 62050
+  },
+  {
+   "id": "COL-09",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 86594
+  },
+  {
+   "id": "COL-10",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 113313
+  },
+  {
+   "id": "COL-11",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 70941
+  },
+  {
+   "id": "DEV-01",
+   "requested": 5,
+   "status": "pass",
+   "expected": 5,
+   "total": 5,
+   "passed": 5,
+   "failed": 0,
+   "iterations": 5,
+   "durationMs": 37068
+  },
+  {
+   "id": "COL-05",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 79540
+  },
+  {
+   "id": "COL-08",
+   "requested": 20,
+   "status": "pass",
+   "expected": 20,
+   "total": 20,
+   "passed": 20,
+   "failed": 0,
+   "iterations": 20,
+   "durationMs": 62596
+  },
+  {
+   "id": "SEC-12",
+   "requested": 10,
+   "status": "pass",
+   "expected": 10,
+   "total": 10,
+   "passed": 10,
+   "failed": 0,
+   "iterations": 10,
+   "durationMs": 702974
+  }
+ ],
+ "notApplicable": [],
+ "counts": {
+  "executed": 22,
+  "passed": 22,
+  "notApplicable": 0
+ },
+ "finishedAt": "2026-11-08T13:10:59.058Z",
+ "exitCode": 0
+}

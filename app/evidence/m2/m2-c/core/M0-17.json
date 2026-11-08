@@ -1,0 +1,402 @@
+{
+ "id": "M0-17",
+ "title": "資料庫失效 1～3 秒＋小佇列上限：佇列有界、回覆 busy、可監控、恢復後零遺失",
+ "meta": {},
+ "startedAt": "2026-11-08T12:12:36.924Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 117000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2773,
+    "typed": 2146,
+    "busy": 26,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 1,
+   "seed": 117001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2466,
+    "typed": 2145,
+    "busy": 24,
+    "maxInbox": 25,
+    "retries": 10
+   }
+  },
+  {
+   "i": 2,
+   "seed": 117002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2752,
+    "typed": 2361,
+    "busy": 27,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 3,
+   "seed": 117003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2841,
+    "typed": 2266,
+    "busy": 29,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 4,
+   "seed": 117004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2470,
+    "typed": 2155,
+    "busy": 26,
+    "maxInbox": 25,
+    "retries": 10
+   }
+  },
+  {
+   "i": 5,
+   "seed": 117005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1273,
+    "typed": 1341,
+    "busy": 12,
+    "maxInbox": 25,
+    "retries": 7
+   }
+  },
+  {
+   "i": 6,
+   "seed": 117006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1068,
+    "typed": 1093,
+    "busy": 10,
+    "maxInbox": 25,
+    "retries": 7
+   }
+  },
+  {
+   "i": 7,
+   "seed": 117007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2468,
+    "typed": 1969,
+    "busy": 20,
+    "maxInbox": 25,
+    "retries": 10
+   }
+  },
+  {
+   "i": 8,
+   "seed": 117008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2762,
+    "typed": 2237,
+    "busy": 24,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 9,
+   "seed": 117009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2953,
+    "typed": 2357,
+    "busy": 25,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 10,
+   "seed": 117010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2347,
+    "typed": 1989,
+    "busy": 22,
+    "maxInbox": 25,
+    "retries": 10
+   }
+  },
+  {
+   "i": 11,
+   "seed": 117011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1815,
+    "typed": 1684,
+    "busy": 15,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 12,
+   "seed": 117012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1402,
+    "typed": 1327,
+    "busy": 10,
+    "maxInbox": 25,
+    "retries": 7
+   }
+  },
+  {
+   "i": 13,
+   "seed": 117013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2059,
+    "typed": 1757,
+    "busy": 16,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 14,
+   "seed": 117014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2564,
+    "typed": 2189,
+    "busy": 27,
+    "maxInbox": 25,
+    "retries": 10
+   }
+  },
+  {
+   "i": 15,
+   "seed": 117015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1493,
+    "typed": 1483,
+    "busy": 19,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 16,
+   "seed": 117016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1625,
+    "typed": 1530,
+    "busy": 14,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 17,
+   "seed": 117017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1800,
+    "typed": 1765,
+    "busy": 15,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 18,
+   "seed": 117018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2331,
+    "typed": 1983,
+    "busy": 21,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 19,
+   "seed": 117019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2234,
+    "typed": 1870,
+    "busy": 20,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 20,
+   "seed": 117020,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1040,
+    "typed": 1097,
+    "busy": 11,
+    "maxInbox": 25,
+    "retries": 6
+   }
+  },
+  {
+   "i": 21,
+   "seed": 117021,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2220,
+    "typed": 1892,
+    "busy": 19,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 22,
+   "seed": 117022,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1681,
+    "typed": 1398,
+    "busy": 13,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 23,
+   "seed": 117023,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1542,
+    "typed": 1421,
+    "busy": 16,
+    "maxInbox": 25,
+    "retries": 8
+   }
+  },
+  {
+   "i": 24,
+   "seed": 117024,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2263,
+    "typed": 1940,
+    "busy": 17,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 25,
+   "seed": 117025,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1026,
+    "typed": 1041,
+    "busy": 8,
+    "maxInbox": 25,
+    "retries": 6
+   }
+  },
+  {
+   "i": 26,
+   "seed": 117026,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2721,
+    "typed": 2193,
+    "busy": 24,
+    "maxInbox": 25,
+    "retries": 11
+   }
+  },
+  {
+   "i": 27,
+   "seed": 117027,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1124,
+    "typed": 1285,
+    "busy": 10,
+    "maxInbox": 25,
+    "retries": 6
+   }
+  },
+  {
+   "i": 28,
+   "seed": 117028,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 2236,
+    "typed": 1932,
+    "busy": 25,
+    "maxInbox": 25,
+    "retries": 9
+   }
+  },
+  {
+   "i": 29,
+   "seed": 117029,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "outMs": 1206,
+    "typed": 1280,
+    "busy": 12,
+    "maxInbox": 25,
+    "retries": 7
+   }
+  }
+ ],
+ "durationMs": 97899,
+ "total": 30,
+ "passed": 30,
+ "failed": 0
+}

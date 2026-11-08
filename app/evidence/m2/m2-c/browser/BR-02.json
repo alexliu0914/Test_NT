@@ -1,0 +1,518 @@
+{
+ "id": "BR-02",
+ "title": "IndexedDB（正式網頁）：關閉分頁／強制終止瀏覽器／離線重開／登入撤銷／不同帳號／慢速寫入",
+ "meta": {
+  "s1LastLost": 7,
+  "s2Kills": 20,
+  "s2MustSurvive": 442,
+  "s6Unsaved": 20,
+  "s6LostWhileUnsaved": 20
+ },
+ "startedAt": "2026-11-08T12:16:48.547Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 3,
+     "must": 1,
+     "survived": 3
+    },
+    "s2": {
+     "killAt": 150,
+     "typed": 4,
+     "must": 3,
+     "survived": 4,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 11859
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 4,
+     "must": 3,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 547,
+     "typed": 24,
+     "must": 21,
+     "survived": 24,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 12568
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 5,
+     "must": 4,
+     "survived": 5
+    },
+    "s2": {
+     "killAt": 944,
+     "typed": 37,
+     "must": 36,
+     "survived": 37,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 13091
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 6,
+     "must": 5,
+     "survived": 5
+    },
+    "s2": {
+     "killAt": 441,
+     "typed": 17,
+     "must": 16,
+     "survived": 17,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 13147
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 3,
+     "must": 2,
+     "survived": 3
+    },
+    "s2": {
+     "killAt": 838,
+     "typed": 33,
+     "must": 32,
+     "survived": 33,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 14436
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 4,
+     "must": 4,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 335,
+     "typed": 14,
+     "must": 13,
+     "survived": 14,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 13173
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 5,
+     "must": 4,
+     "survived": 5
+    },
+    "s2": {
+     "killAt": 732,
+     "typed": 44,
+     "must": 42,
+     "survived": 43,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 14965
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 6,
+     "must": 5,
+     "survived": 6
+    },
+    "s2": {
+     "killAt": 229,
+     "typed": 7,
+     "must": 6,
+     "survived": 7,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 14187
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 3,
+     "must": 2,
+     "survived": 3
+    },
+    "s2": {
+     "killAt": 626,
+     "typed": 33,
+     "must": 32,
+     "survived": 33,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 14256
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 4,
+     "must": 3,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 1023,
+     "typed": 34,
+     "must": 32,
+     "survived": 34,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 15647
+   }
+  },
+  {
+   "i": 10,
+   "seed": 10,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 5,
+     "must": 4,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 520,
+     "typed": 31,
+     "must": 29,
+     "survived": 31,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 15880
+   }
+  },
+  {
+   "i": 11,
+   "seed": 11,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 6,
+     "must": 5,
+     "survived": 5
+    },
+    "s2": {
+     "killAt": 917,
+     "typed": 31,
+     "must": 29,
+     "survived": 30,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 16437
+   }
+  },
+  {
+   "i": 12,
+   "seed": 12,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 3,
+     "must": 2,
+     "survived": 3
+    },
+    "s2": {
+     "killAt": 414,
+     "typed": 14,
+     "must": 13,
+     "survived": 14,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 16364
+   }
+  },
+  {
+   "i": 13,
+   "seed": 13,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 4,
+     "must": 3,
+     "survived": 3
+    },
+    "s2": {
+     "killAt": 811,
+     "typed": 39,
+     "must": 37,
+     "survived": 38,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 17448
+   }
+  },
+  {
+   "i": 14,
+   "seed": 14,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 5,
+     "must": 4,
+     "survived": 5
+    },
+    "s2": {
+     "killAt": 308,
+     "typed": 17,
+     "must": 16,
+     "survived": 17,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 17396
+   }
+  },
+  {
+   "i": 15,
+   "seed": 15,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 6,
+     "must": 3,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 705,
+     "typed": 16,
+     "must": 14,
+     "survived": 16,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 19789
+   }
+  },
+  {
+   "i": 16,
+   "seed": 16,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 3,
+     "must": 2,
+     "survived": 2
+    },
+    "s2": {
+     "killAt": 202,
+     "typed": 10,
+     "must": 9,
+     "survived": 10,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 17894
+   }
+  },
+  {
+   "i": 17,
+   "seed": 17,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 4,
+     "must": 4,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 599,
+     "typed": 18,
+     "must": 17,
+     "survived": 18,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 19452
+   }
+  },
+  {
+   "i": 18,
+   "seed": 18,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 5,
+     "must": 4,
+     "survived": 4
+    },
+    "s2": {
+     "killAt": 996,
+     "typed": 35,
+     "must": 34,
+     "survived": 35,
+     "offline": true
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 19294
+   }
+  },
+  {
+   "i": 19,
+   "seed": 19,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "s1": {
+     "typed": 6,
+     "must": 5,
+     "survived": 6
+    },
+    "s2": {
+     "killAt": 493,
+     "typed": 12,
+     "must": 11,
+     "survived": 12,
+     "offline": false
+    },
+    "s6": {
+     "statusAtClose": "unsaved",
+     "survived": false
+    },
+    "ms": 19534
+   }
+  }
+ ],
+ "durationMs": 319378,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

@@ -1,0 +1,57 @@
+{
+ "id": "DEV-01",
+ "title": "開發模式（React StrictMode）下復原／重做有作用：打字與改類型的 Ctrl+Z、Ctrl+Shift+Z，兩端與資料庫一致",
+ "meta": {},
+ "startedAt": "2026-11-08T12:56:16.764Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 12000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typingUndoDepth": 2
+   }
+  },
+  {
+   "i": 1,
+   "seed": 12001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typingUndoDepth": 2
+   }
+  },
+  {
+   "i": 2,
+   "seed": 12002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typingUndoDepth": 2
+   }
+  },
+  {
+   "i": 3,
+   "seed": 12003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typingUndoDepth": 2
+   }
+  },
+  {
+   "i": 4,
+   "seed": 12004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "typingUndoDepth": 2
+   }
+  }
+ ],
+ "durationMs": 37068,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}

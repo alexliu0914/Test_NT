@@ -1,0 +1,193 @@
+{
+ "id": "COL-08",
+ "title": "A 持續輸入、B 還原：還原前已提交只在還原前版本、未確認的進衝突副本、還原後新輸入保留、不復活、兩端與資料庫一致、restore_id 冪等",
+ "meta": {},
+ "startedAt": "2026-11-08T12:58:13.415Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 160000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 1,
+   "seed": 160001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 2,
+   "seed": 160002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 3,
+   "seed": 160003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 4,
+   "seed": 160004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 5,
+   "seed": 160005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 6,
+   "seed": 160006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 7,
+   "seed": 160007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 8,
+   "seed": 160008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 9,
+   "seed": 160009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 10,
+   "seed": 160010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 11,
+   "seed": 160011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 12,
+   "seed": 160012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 13,
+   "seed": 160013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 14,
+   "seed": 160014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 15,
+   "seed": 160015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 16,
+   "seed": 160016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 17,
+   "seed": 160017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 18,
+   "seed": 160018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  },
+  {
+   "i": 19,
+   "seed": 160019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "copies": 1
+   }
+  }
+ ],
+ "roundsWithCopies": 20,
+ "durationMs": 62596,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

@@ -1,0 +1,258 @@
+{
+ "id": "COL-09",
+ "title": "協作中撤銷登入：2 秒內中斷、游標移除、不再推送內容、多連線只移除被撤銷的、未重新驗證不補送",
+ "meta": {},
+ "startedAt": "2026-11-08T12:51:45.825Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 9000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 28,
+    "cursorGoneMs": 49,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 1,
+   "seed": 9001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 27,
+    "cursorGoneMs": 60,
+    "rowsAfterRevoke": 4,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 2,
+   "seed": 9002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 47,
+    "cursorGoneMs": 63,
+    "rowsAfterRevoke": 5,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 3,
+   "seed": 9003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 21,
+    "cursorGoneMs": 33,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 20
+   }
+  },
+  {
+   "i": 4,
+   "seed": 9004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 22,
+    "cursorGoneMs": 34,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 5,
+   "seed": 9005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 16,
+    "cursorGoneMs": 35,
+    "rowsAfterRevoke": 5,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 6,
+   "seed": 9006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 20,
+    "cursorGoneMs": 30,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 7,
+   "seed": 9007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 14,
+    "cursorGoneMs": 31,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 8,
+   "seed": 9008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 24,
+    "cursorGoneMs": 44,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 53,
+    "cursorGoneMs": 91,
+    "rowsAfterRevoke": 5,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 10,
+   "seed": 9010,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 52,
+    "cursorGoneMs": 101,
+    "rowsAfterRevoke": 5,
+    "typedAfter": 14
+   }
+  },
+  {
+   "i": 11,
+   "seed": 9011,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 31,
+    "cursorGoneMs": 54,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 15
+   }
+  },
+  {
+   "i": 12,
+   "seed": 9012,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 25,
+    "cursorGoneMs": 48,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 13,
+   "seed": 9013,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 15,
+    "cursorGoneMs": 29,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 14,
+   "seed": 9014,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 29,
+    "cursorGoneMs": 47,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 15,
+   "seed": 9015,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 45,
+    "cursorGoneMs": 72,
+    "rowsAfterRevoke": 3,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 16,
+   "seed": 9016,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 26,
+    "cursorGoneMs": 37,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 17,
+   "seed": 9017,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 19,
+    "cursorGoneMs": 29,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 17
+   }
+  },
+  {
+   "i": 18,
+   "seed": 9018,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 18,
+    "cursorGoneMs": 42,
+    "rowsAfterRevoke": 6,
+    "typedAfter": 18
+   }
+  },
+  {
+   "i": 19,
+   "seed": 9019,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "revokeMs": 25,
+    "cursorGoneMs": 45,
+    "rowsAfterRevoke": 0,
+    "typedAfter": 16
+   }
+  }
+ ],
+ "latency": {
+  "n": 20,
+  "p50": 25,
+  "p95": 53,
+  "max": 53
+ },
+ "durationMs": 86594,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

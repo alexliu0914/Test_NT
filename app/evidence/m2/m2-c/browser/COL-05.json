@@ -1,0 +1,107 @@
+{
+ "id": "COL-05",
+ "title": "版本面板：存一版、預覽、還原、另一人 2 秒內看到、還原後 Undo 不覆蓋、從還原前版本再還原；手動／自動標示；過期版本；惡意內容預覽",
+ "meta": {},
+ "startedAt": "2026-11-08T12:56:53.844Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 150000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 349
+   }
+  },
+  {
+   "i": 1,
+   "seed": 150001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 335
+   }
+  },
+  {
+   "i": 2,
+   "seed": 150002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 358
+   }
+  },
+  {
+   "i": 3,
+   "seed": 150003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 336
+   }
+  },
+  {
+   "i": 4,
+   "seed": 150004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 340
+   }
+  },
+  {
+   "i": 5,
+   "seed": 150005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 348
+   }
+  },
+  {
+   "i": 6,
+   "seed": 150006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 108
+   }
+  },
+  {
+   "i": 7,
+   "seed": 150007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 346
+   }
+  },
+  {
+   "i": 8,
+   "seed": 150008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 100
+   }
+  },
+  {
+   "i": 9,
+   "seed": 150009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "visibleMs": 125
+   }
+  }
+ ],
+ "restoreVisibleMs": {
+  "n": 10,
+  "p50": 340,
+  "max": 358
+ },
+ "durationMs": 79540,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

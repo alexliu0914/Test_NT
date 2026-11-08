@@ -1,0 +1,102 @@
+{
+ "id": "SEC-12",
+ "title": "登出：無待送正常登出、10 秒同步、逾時的等待／下載／保留／捨棄／取消；草稿依帳號分區（換帳號、撤銷、失去權限）；舊草稿遷移與無所有者隔離",
+ "meta": {},
+ "startedAt": "2026-11-08T12:59:16.060Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 170000,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10400
+   }
+  },
+  {
+   "i": 1,
+   "seed": 170001,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10368
+   }
+  },
+  {
+   "i": 2,
+   "seed": 170002,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10385
+   }
+  },
+  {
+   "i": 3,
+   "seed": 170003,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10374
+   }
+  },
+  {
+   "i": 4,
+   "seed": 170004,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10407
+   }
+  },
+  {
+   "i": 5,
+   "seed": 170005,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10397
+   }
+  },
+  {
+   "i": 6,
+   "seed": 170006,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10368
+   }
+  },
+  {
+   "i": 7,
+   "seed": 170007,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10385
+   }
+  },
+  {
+   "i": 8,
+   "seed": 170008,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10419
+   }
+  },
+  {
+   "i": 9,
+   "seed": 170009,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "waitMs": 10396
+   }
+  }
+ ],
+ "durationMs": 702974,
+ "total": 10,
+ "passed": 10,
+ "failed": 0
+}

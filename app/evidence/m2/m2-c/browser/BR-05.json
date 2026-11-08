@@ -1,0 +1,256 @@
+{
+ "id": "BR-05",
+ "title": "兩人同一位置同時建立表格、巢狀清單、貼上多區塊（含同步前、離線、同時改同一區塊類型）：兩邊與資料庫一致、兩人內容都在且不重複、只有一個頂層骨架",
+ "meta": {},
+ "startedAt": "2026-11-08T12:25:14.592Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "table",
+    "b": "table",
+    "how": "sync",
+    "text": "\n甲0格||/||\n乙0格||/||"
+   }
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "nested",
+    "how": "sync",
+    "text": "\n乙1上\n乙1下\n甲1上\n甲1下"
+   }
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "paste",
+    "b": "paste",
+    "how": "same",
+    "text": "乙2題\n乙2一\n乙2二\n乙2尾\n甲2題\n甲2一\n甲2二\n甲2尾"
+   }
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "heading",
+    "how": "unsynced",
+    "text": "\n乙3題\n甲3上\n甲3下"
+   }
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "offline",
+    "text": "# 乙4項\n甲4題"
+   }
+  },
+  {
+   "i": 5,
+   "seed": 5,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "convert",
+    "text": "共同5\n共同5"
+   }
+  },
+  {
+   "i": 6,
+   "seed": 6,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "paste",
+    "b": "table",
+    "how": "sync",
+    "text": "\n甲6題\n甲6一\n甲6二\n甲6尾\n乙6格||/||"
+   }
+  },
+  {
+   "i": 7,
+   "seed": 7,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "nested",
+    "how": "ctrlend",
+    "text": "\n乙7上\n乙7下\n甲7上\n甲7下"
+   }
+  },
+  {
+   "i": 8,
+   "seed": 8,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "held",
+    "text": "共同8\n共同8"
+   }
+  },
+  {
+   "i": 9,
+   "seed": 9,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "table",
+    "b": "table",
+    "how": "sync",
+    "text": "\n甲9格||/||\n乙9格||/||"
+   }
+  },
+  {
+   "i": 10,
+   "seed": 10,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "nested",
+    "how": "sync",
+    "text": "\n乙10上\n乙10下\n甲10上\n甲10下"
+   }
+  },
+  {
+   "i": 11,
+   "seed": 11,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "paste",
+    "b": "paste",
+    "how": "same",
+    "text": "甲11題\n甲11一\n甲11二\n甲11尾\n乙11題\n乙11一\n乙11二\n乙11尾"
+   }
+  },
+  {
+   "i": 12,
+   "seed": 12,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "heading",
+    "how": "unsynced",
+    "text": "\n乙12題\n甲12上\n甲12下"
+   }
+  },
+  {
+   "i": 13,
+   "seed": 13,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "offline",
+    "text": "甲13題\n# 乙13項"
+   }
+  },
+  {
+   "i": 14,
+   "seed": 14,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "convert",
+    "text": "共同14\n共同14"
+   }
+  },
+  {
+   "i": 15,
+   "seed": 15,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "paste",
+    "b": "table",
+    "how": "sync",
+    "text": "\n甲15題\n甲15一\n甲15二\n甲15尾\n乙15格||/||"
+   }
+  },
+  {
+   "i": 16,
+   "seed": 16,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "nested",
+    "how": "ctrlend",
+    "text": "\n甲16上\n甲16下\n乙16上\n乙16下"
+   }
+  },
+  {
+   "i": 17,
+   "seed": 17,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "heading",
+    "b": "bullet",
+    "how": "held",
+    "text": "共同17\n共同17"
+   }
+  },
+  {
+   "i": 18,
+   "seed": 18,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "table",
+    "b": "table",
+    "how": "sync",
+    "text": "\n甲18格||/||\n乙18格||/||"
+   }
+  },
+  {
+   "i": 19,
+   "seed": 19,
+   "pass": true,
+   "fails": [],
+   "metrics": {
+    "a": "nested",
+    "b": "nested",
+    "how": "sync",
+    "text": "\n乙19上\n乙19下\n甲19上\n甲19下"
+   }
+  }
+ ],
+ "converge": {
+  "p50": 69,
+  "max": 522
+ },
+ "durationMs": 20121,
+ "total": 20,
+ "passed": 20,
+ "failed": 0
+}

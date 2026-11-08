@@ -1,0 +1,47 @@
+{
+ "id": "VER-02",
+ "title": "版本清單與預覽：未登入、未設定兩步驟驗證、非成員、錯頁、垃圾桶頁一律拒絕；只讀；預覽沒有不安全的網址；過期版本不列出",
+ "meta": {},
+ "startedAt": "2026-11-08T11:50:48.096Z",
+ "iterations": [
+  {
+   "i": 0,
+   "seed": 0,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 1,
+   "seed": 1,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 2,
+   "seed": 2,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 3,
+   "seed": 3,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  },
+  {
+   "i": 4,
+   "seed": 4,
+   "pass": true,
+   "fails": [],
+   "metrics": {}
+  }
+ ],
+ "durationMs": 4285,
+ "total": 5,
+ "passed": 5,
+ "failed": 0
+}
