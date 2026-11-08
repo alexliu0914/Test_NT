@@ -303,4 +303,5 @@ M2 計畫 v0.5 W3 要求五種儲存狀態。M1 的 `failed` 狀態顯示的文�
   - MUT-F12（m2-c）：不重新註冊 afterTransaction 監聽，必須被 DEV-01 抓到。
   - 測試工具：harness 新增 `DevAppProc`（`next dev`，整個行程群組一起結束，避免子行程佔用連接埠）；`bootEnv({ dev: true })`。既有 `AppProc` 行為不變。
 - 結果：DEV-01 2/2 通過；MUT-F12 被 DEV-01 第 1 輪抓到（「typing：Ctrl+Z 之後「甲0二」仍在（復原沒有作用）」「type：Ctrl+Z 之後第一個區塊是 heading（應為 paragraph）」）。
+- 回歸（b3ecf0f，本機縮減輪數，`--stage m2-b --group browser --quick`）：18 個瀏覽器案例全部通過。第一次執行全部失敗，原因是建置時漏設 `COLLAB_PUBLIC_URL=ws://127.0.0.1:27601`，CSP 擋掉協作連線（每個案例都在等連線時逾時，與修正無關）；依 README 的指令重新建置後重跑通過。推送時的 CI（run 42456066512，m2-b 階段）成功。
 - 案例與變異總數：M2-c 由原定 58 個案例、49 個變異改為 59／50。DEV-01、MUT-F12 屬 m2-c 階段，manifest 的 current 仍是 m2-b，推送時的 CI 尚不執行；M2-c 階段退出時與其他 M2-c 案例一起跑完整輪數。
