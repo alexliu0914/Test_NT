@@ -1,7 +1,7 @@
 // 資料表定義（計畫書第 6 節）。認證資料表由 Better Auth CLI 產生於 auth-schema.ts。
 import { sql } from 'drizzle-orm';
 import {
-  type AnyPgColumn, pgTable, text, uuid, timestamp, integer, bigint, boolean, bigserial, customType, primaryKey, index,
+  type AnyPgColumn, pgTable, text, uuid, timestamp, integer, bigint, boolean, bigserial, customType, primaryKey, index, uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import { user } from './auth-schema';
 
@@ -62,6 +62,9 @@ export const pages = pgTable('pages', {
   position: text('position').notNull(),
   restoreEpoch: integer('restore_epoch').notNull().default(0),
   lastSeq: bigint('last_seq', { mode: 'number' }).notNull().default(0),
+  // 自動存版（M2-c B1，遷移 0003）：上次快照的已提交水位、之後第一筆已提交變更的時間
+  snapSeq: bigint('snap_seq', { mode: 'number' }).notNull().default(0),
+  dirtySince: timestamp('dirty_since', { withTimezone: true }),
   createdBy: text('created_by').references(() => user.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
@@ -71,6 +74,7 @@ export const pages = pgTable('pages', {
   index('pages_parent_idx').on(t.workspaceId, t.parentId).where(sql`deleted_at is null`),
   index('pages_trash_idx').on(t.trashBatch).where(sql`trash_batch is not null`),
   index('pages_space_idx').on(t.spaceId).where(sql`deleted_at is null`),
+  index('pages_dirty_idx').on(t.dirtySince).where(sql`dirty_since is not null`),
 ]);
 
 // ---- 協作（沿用 M0 已驗證的資料表；page_id 改為參照 pages） ----
@@ -103,16 +107,25 @@ export const pageVersions = pgTable('page_versions', {
   state: bytea('state').notNull(),
   upToSeq: bigint('up_to_seq', { mode: 'number' }).notNull(),
   reason: text('reason').notNull(),
+  // request：make_version（M1 的按需存版、介面的「存一版」）；schedule：排程快照（M2-c B1-P0）
+  source: text('source').notNull().default('request'),
   restoreId: text('restore_id'),
   createdBy: text('created_by'),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-}, t => [index('page_versions_page_idx').on(t.pageId, t.createdAt)]);
+}, t => [
+  index('page_versions_page_idx').on(t.pageId, t.createdAt),
+  uniqueIndex('page_versions_schedule_unique').on(t.pageId, t.upToSeq).where(sql`source = 'schedule'`),
+  index('page_versions_created_idx').on(t.createdAt),
+]);
 
 export const restoreJobs = pgTable('restore_jobs', {
   id: text('id').primaryKey(),
   pageId: uuid('page_id').notNull().references(() => pages.id, { onDelete: 'cascade' }),
-  targetVersionId: text('target_version_id').notNull(),
-  beforeVersionId: text('before_version_id'),
+  // 版本清除時設為空值（M2-c B2-P0-01）；目標版本的類型與建立時間另存，清除後仍可顯示紀錄
+  targetVersionId: text('target_version_id').references(() => pageVersions.id, { onDelete: 'set null' }),
+  beforeVersionId: text('before_version_id').references(() => pageVersions.id, { onDelete: 'set null' }),
+  targetVersionReason: text('target_version_reason'),
+  targetVersionCreatedAt: timestamp('target_version_created_at', { withTimezone: true }),
   requestedBy: text('requested_by'),
   status: text('status').notNull(),
   seq: bigint('seq', { mode: 'number' }),
@@ -148,3 +161,9 @@ export const auditLog = pgTable('audit_log', {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
 
+// 90 天版本清理實際刪除資料時的紀錄（M2-c B2-ROLLBACK）：有紀錄時遷移 0003 不能無損回滾
+export const versionPurges = pgTable('version_purges', {
+  id: bigserial('id', { mode: 'number' }).primaryKey(),
+  deleted: integer('deleted').notNull(),
+  purgedAt: timestamp('purged_at', { withTimezone: true }).notNull().defaultNow(),
+});
